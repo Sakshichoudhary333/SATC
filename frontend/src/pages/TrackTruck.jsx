@@ -1,0 +1,306 @@
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { io } from 'socket.io-client';
+import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
+import L from 'leaflet';
+import { useAuth } from '../context/AuthContext';
+import { getMyOrders, getTrucks } from '../services/api';
+import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorMessage from '../components/ErrorMessage';
+import 'leaflet/dist/leaflet.css';
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+
+const SOCKET_URL = 'http://localhost:5001';
+const DEFAULT_CENTER = [20.5937, 78.9629];
+
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
+
+const parseCoordinate = (value) => {
+  const parsed = typeof value === 'string' ? Number.parseFloat(value) : Number(value);
+  return Number.isFinite(parsed) ? parsed : null;
+};
+
+const normalizeLivePayload = (payload) => {
+  if (!payload) return null;
+
+  const source = payload.location || payload;
+  const lat = parseCoordinate(source.lat);
+  const lng = parseCoordinate(source.lng ?? source.lon ?? source.longitude);
+
+  if (lat === null || lng === null) return null;
+  if (Math.abs(lat) > 90 || Math.abs(lng) > 180) return null;
+
+  return {
+    truckId: payload.truckId || payload._id || payload.id || null,
+    lat,
+    lng,
+  };
+};
+
+const normalizeLocation = (location) => {
+  if (!location) return null;
+
+  const lat = parseCoordinate(location.lat);
+  const lng = parseCoordinate(location.lng ?? location.lon ?? location.longitude);
+
+  if (lat === null || lng === null) return null;
+  if (Math.abs(lat) > 90 || Math.abs(lng) > 180) return null;
+
+  return { lat, lng };
+};
+
+const uniqueTrucks = (truckList) => {
+  const map = new Map();
+  truckList.forEach((truck) => {
+    if (truck?._id && !map.has(truck._id)) {
+      map.set(truck._id, truck);
+    }
+  });
+  return Array.from(map.values());
+};
+
+const FlyToLocation = ({ location }) => {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!location) return;
+    map.setView([location.lat, location.lng], map.getZoom(), { animate: true });
+  }, [map, location]);
+
+  return null;
+};
+
+const TruckMap = ({ location, truckNumber, waiting = false }) => {
+  const center = location ? [location.lat, location.lng] : DEFAULT_CENTER;
+  const mapKey = location
+    ? `${truckNumber}-${location.lat.toFixed(5)}-${location.lng.toFixed(5)}`
+    : `${truckNumber}-waiting`;
+
+  return (
+    <div className="truck-map-shell">
+      <MapContainer
+        key={mapKey}
+        center={center}
+        zoom={14}
+        scrollWheelZoom={false}
+        style={{ height: '260px', width: '100%' }}
+      >
+        {location ? <FlyToLocation location={location} /> : null}
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        {location ? (
+          <Marker position={[location.lat, location.lng]}>
+            <Popup>
+              Truck {truckNumber}
+              <br />
+              {location.lat.toFixed(5)}, {location.lng.toFixed(5)}
+            </Popup>
+          </Marker>
+        ) : null}
+      </MapContainer>
+      {waiting ? (
+        <div className="truck-map-overlay">
+          <span>Waiting for signal...</span>
+          <small>Map is ready and will update when truck GPS arrives.</small>
+        </div>
+      ) : null}
+    </div>
+  );
+};
+
+const TrackTruck = () => {
+  const { user } = useAuth();
+  const [trucks, setTrucks] = useState([]);
+  const [locations, setLocations] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const socketRef = useRef(null);
+
+  useEffect(() => {
+    let active = true;
+
+    const load = async () => {
+      try {
+        if (user?.role === 'customer') {
+          const orders = await getMyOrders();
+          const mappedTrucks = uniqueTrucks((Array.isArray(orders) ? orders : [])
+            .map((order) => order.truck)
+            .filter(Boolean));
+          const initial = {};
+
+          mappedTrucks.forEach((truck) => {
+            const normalized = normalizeLocation(truck?.location);
+            if (normalized) {
+              initial[truck._id] = normalized;
+            }
+          });
+
+          if (active) {
+            setTrucks(mappedTrucks);
+            setLocations(initial);
+          }
+          return;
+        }
+
+        const data = await getTrucks();
+        const trucksData = Array.isArray(data) ? data : [];
+        const filtered =
+          user?.role === 'driver'
+            ? trucksData.filter((truck) => truck.driver?._id === user?.id || truck.driver === user?.id)
+            : trucksData;
+
+        const initial = {};
+        filtered.forEach((truck) => {
+          const normalized = normalizeLocation(truck?.location);
+          if (normalized) {
+            initial[truck._id] = normalized;
+          }
+        });
+
+        if (active) {
+          setTrucks(filtered);
+          setLocations(initial);
+        }
+      } catch (err) {
+        if (active) setError(err.message);
+      } finally {
+        if (active) setLoading(false);
+      }
+    };
+
+    load();
+
+    return () => {
+      active = false;
+    };
+  }, [user?.id, user?.role]);
+
+  useEffect(() => {
+    const socket = io(SOCKET_URL);
+    socketRef.current = socket;
+
+    const handleLocation = (payload) => {
+      const normalized = normalizeLivePayload(payload);
+      if (!normalized?.truckId) return;
+
+      setLocations((prev) => ({
+        ...prev,
+        [normalized.truckId]: { lat: normalized.lat, lng: normalized.lng },
+      }));
+    };
+
+    socket.on('locationUpdated', handleLocation);
+    socket.on('truckLocationUpdated', handleLocation);
+
+    socket.on('connect_error', (err) => {
+      console.error('Socket connection error:', err.message);
+    });
+
+    return () => {
+      socket.off('locationUpdated', handleLocation);
+      socket.off('truckLocationUpdated', handleLocation);
+      socket.disconnect();
+      socketRef.current = null;
+    };
+  }, []);
+
+  const trucksWithLocations = useMemo(
+    () =>
+      trucks.map((truck) => ({
+        ...truck,
+        liveLocation: locations[truck._id] || normalizeLocation(truck.location),
+      })),
+    [locations, trucks]
+  );
+
+  const headline =
+    user?.role === 'admin'
+      ? 'All trucks in real time'
+      : user?.role === 'driver'
+        ? 'Your assigned truck'
+        : 'Your delivery truck';
+
+  const subline =
+    user?.role === 'admin'
+      ? 'Watch live fleet movement and switch between active trucks.'
+      : user?.role === 'driver'
+        ? 'Share your truck location and keep the assigned trip visible.'
+        : 'Follow the truck assigned to your current order.';
+
+  if (loading) return <LoadingSpinner />;
+
+  return (
+    <div className="dash-page">
+      <div className="dash-section-label">TRACKING</div>
+      <h2 className="dash-title">Live Truck Tracking</h2>
+      <div className="track-summary">
+        <div>
+          <div className="track-summary-title">{headline}</div>
+          <div className="track-summary-sub">{subline}</div>
+        </div>
+        <div className="track-summary-count">{trucksWithLocations.length} truck(s)</div>
+      </div>
+      {error && <ErrorMessage message={error} />}
+
+      <div className="track-grid">
+        {trucksWithLocations.map((truck) => {
+          const loc = truck.liveLocation;
+
+          return (
+            <div key={truck._id} className="dark-card">
+              <div className="dark-card-label">🚛 {truck.truckNumber}</div>
+              <div className="dark-info-row">
+                <span>Driver</span>
+                <span>{truck.driver?.name || 'Unassigned'}</span>
+              </div>
+              <div className="dark-info-row">
+                <span>Status</span>
+                <span style={{ color: truck.isAvailable ? '#10b981' : '#f59e0b' }}>
+                  {truck.isAvailable ? 'Available' : 'On Trip'}
+                </span>
+              </div>
+
+              {loc ? (
+                <>
+                  <div className="dark-info-row">
+                    <span>Lat</span>
+                    <span style={{ color: '#06b6d4' }}>{loc.lat.toFixed(5)}</span>
+                  </div>
+                  <div className="dark-info-row">
+                    <span>Lng</span>
+                    <span style={{ color: '#06b6d4' }}>{loc.lng.toFixed(5)}</span>
+                  </div>
+                  <TruckMap location={loc} truckNumber={truck.truckNumber} />
+                </>
+              ) : (
+                <TruckMap truckNumber={truck.truckNumber} waiting />
+              )}
+            </div>
+          );
+        })}
+
+        {trucks.length === 0 && (
+          <div className="dark-card">
+            <div className="customer-tracker-empty">
+              <p>No trucks available for this view yet.</p>
+              <span>
+                {user?.role === 'admin'
+                  ? 'Register or assign trucks to see live movement here.'
+                  : user?.role === 'driver'
+                    ? 'You need an assigned truck before live tracking can start.'
+                    : 'Your assigned truck will appear here after an order is allocated.'}
+              </span>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default TrackTruck;
