@@ -3,7 +3,7 @@ import { getUsers, addDriver, updateDriverApi, deleteDriver } from '../services/
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 
-const EMPTY = { name: '', email: '', mobile: '', licenseNumber: '', experience: '', driverStatus: 'active' };
+const EMPTY = { name: '', email: '', password: '', mobile: '', licenseNumber: '', experience: '', driverStatus: 'active' };
 
 const AdminDrivers = () => {
   const [drivers, setDrivers] = useState([]);
@@ -55,6 +55,7 @@ const AdminDrivers = () => {
     setForm({
       name: d.name || '',
       email: d.email || '',
+      password: '',
       mobile: d.mobile || '',
       licenseNumber: d.licenseNumber || '',
       experience: d.experience ?? '',
@@ -99,6 +100,20 @@ const AdminDrivers = () => {
               <div className="dark-form-group">
                 <label>Email</label>
                 <input className="dark-input" name="email" type="email" value={form.email} onChange={handleChange} required placeholder="driver@example.com" />
+              </div>
+            )}
+            {!editId && (
+              <div className="dark-form-group">
+                <label>Password</label>
+                <input
+                  className="dark-input"
+                  name="password"
+                  type="password"
+                  value={form.password}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter password"
+                />
               </div>
             )}
             <div className="dark-form-group">
@@ -160,12 +175,12 @@ const AdminDrivers = () => {
                   </span>
                 </td>
                 <td>
-                  <button className="approve-btn" style={{ padding: '0.3rem 0.75rem' }} onClick={() => handleEdit(d)}>
+                  <button type="button" className="approve-btn" style={{ padding: '0.3rem 0.75rem' }} onClick={() => handleEdit(d)}>
                     Edit
                   </button>
                 </td>
                 <td>
-                  <button className="reject-btn" style={{ padding: '0.3rem 0.75rem' }} disabled={deletingId === d._id} onClick={() => handleDelete(d._id)}>
+                  <button type="button" className="reject-btn" style={{ padding: '0.3rem 0.75rem' }} disabled={deletingId === d._id} onClick={() => handleDelete(d._id)}>
                     {deletingId === d._id ? '...' : 'Delete'}
                   </button>
                 </td>

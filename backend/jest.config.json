@@ -1,0 +1,13 @@
+{
+  "testEnvironment": "node",
+  "moduleNameMapper": {
+    "^(\\.{1,2}/.*)\\.js$": "$1",
+    "^\\.\\./sockets/socket$": "<rootDir>/tests/__mocks__/sockets/socket.js",
+    "^\\.\\./\\.\\./sockets/socket$": "<rootDir>/tests/__mocks__/sockets/socket.js"
+  },
+  "transform": {},
+  "testMatch": ["**/tests/**/*.test.js"],
+  "testTimeout": 30000,
+  "forceExit": true,
+  "detectOpenHandles": true
+}

@@ -101,6 +101,22 @@ const ExpenseForm = () => {
       return;
     }
 
+    const costs = ['fuelCost', 'tollCost', 'foodCost', 'maintenanceCost'];
+    for (const key of costs) {
+      const val = Number(form[key]);
+      if (form[key] !== '' && (isNaN(val) || val < 0 || val > 1_000_000)) {
+        setError(`${key.replace('Cost', ' cost')} must be a number between 0 and 1,000,000.`);
+        setSubmitting(false);
+        return;
+      }
+    }
+
+    if (form.notes && form.notes.length > 500) {
+      setError('Notes must be at most 500 characters.');
+      setSubmitting(false);
+      return;
+    }
+
     try {
       const newExp = await addExpense({
         trip: form.trip,

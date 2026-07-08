@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ErrorMessage from '../components/ErrorMessage';
 import { forgotPasswordUser, resetPasswordUser } from '../services/api';
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
-  const [step, setStep] = useState('request');
+  const location = useLocation();
+  const [step, setStep] = useState(location.pathname === '/reset-password' ? 'reset' : 'request');
   const [form, setForm] = useState({
-    email: '',
+    email: location.state?.email || '',
     otp: '',
     newPassword: '',
     confirmPassword: '',
@@ -23,12 +24,16 @@ const ForgotPassword = () => {
     e.preventDefault();
     setError('');
     setSuccess('');
-    setLoading(true);
 
+    const email = form.email.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setError('Invalid email format.');
+
+    setLoading(true);
     try {
-      await forgotPasswordUser({ email: form.email });
+      await forgotPasswordUser({ email });
       setSuccess('A reset OTP has been sent to your email.');
       setStep('reset');
+      navigate('/reset-password', { replace: true, state: { email } });
     } catch (err) {
       setError(err.message);
     } finally {
@@ -41,16 +46,19 @@ const ForgotPassword = () => {
     setError('');
     setSuccess('');
 
-    if (form.newPassword !== form.confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
+    const otp = form.otp.trim();
+    if (!/^\d{6}$/.test(otp)) return setError('OTP must be exactly 6 digits.');
+    if (form.newPassword.length < 8) return setError('Password must be at least 8 characters.');
+    if (!/[A-Z]/.test(form.newPassword)) return setError('Password must contain an uppercase letter.');
+    if (!/[a-z]/.test(form.newPassword)) return setError('Password must contain a lowercase letter.');
+    if (!/[0-9]/.test(form.newPassword)) return setError('Password must contain a number.');
+    if (form.newPassword !== form.confirmPassword) return setError('Passwords do not match.');
 
     setLoading(true);
     try {
       await resetPasswordUser({
-        email: form.email,
-        otp: form.otp,
+        email: form.email.trim(),
+        otp,
         newPassword: form.newPassword,
       });
       setSuccess('Password reset successfully. Redirecting to login...');
@@ -150,8 +158,8 @@ const ForgotPassword = () => {
               style={{ width: '100%', marginTop: '0.5rem', padding: '0.75rem' }}
             >
               {loading
-                ? (step === 'request' ? 'Sending OTP...' : 'Resetting...')
-                : (step === 'request' ? 'Send Reset OTP' : 'Reset Password')}
+                ? (step === 'request' ? 'Sending code...' : 'Resetting...')
+                : (step === 'request' ? 'Send Reset Code' : 'Reset Password')}
             </button>
           </form>
 
@@ -163,9 +171,10 @@ const ForgotPassword = () => {
                 setStep('request');
                 setError('');
                 setSuccess('');
+                navigate('/forgot-password', { replace: true });
               }}
             >
-              Change email
+              Start over
             </button>
           )}
 

@@ -23,5 +23,8 @@ const tripSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// ⭐ IMPORTANT FIX
+tripSchema.index({ order: 1 }, { unique: true });
+tripSchema.index({ driver: 1, status: 1 });
+tripSchema.index({ truck: 1 });
+
 export default mongoose.model('Trip', tripSchema);

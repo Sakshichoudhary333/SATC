@@ -20,9 +20,11 @@ const ReviewForm = () => {
     e.preventDefault();
     if (rating === 0) return setError('Please select a rating.');
     if (!isValidMongoId(orderId)) return setError('Invalid order id.');
+    const trimmedFeedback = feedback.trim();
+    if (trimmedFeedback.length > 1000) return setError('Feedback must be at most 1000 characters.');
     setError(''); setLoading(true);
     try {
-      await addReview({ order: orderId, rating, feedback });
+      await addReview({ order: orderId, rating, feedback: trimmedFeedback });
       setSubmitted(true);
     } catch (err) {
       setError(err.message);

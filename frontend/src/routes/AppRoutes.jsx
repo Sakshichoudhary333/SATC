@@ -22,6 +22,8 @@ import AdminTrips from '../pages/AdminTrips';
 import AdminReports from '../pages/AdminReports';
 import Unauthorized from '../pages/Unauthorized';
 import TestMap from '../pages/TestMap';
+import Billing from "../pages/Billing";
+
 
 const A = ({ children }) => <ProtectedRoute roles={['admin']}>{children}</ProtectedRoute>;
 const D = ({ children }) => <ProtectedRoute roles={['driver']}>{children}</ProtectedRoute>;
@@ -35,6 +37,7 @@ const AppRoutes = () => (
     <Route path="/register" element={<Register />} />
     <Route path="/verify-otp" element={<VerifyOtp />} />
     <Route path="/forgot-password" element={<ForgotPassword />} />
+    <Route path="/reset-password" element={<ForgotPassword />} />
     <Route path="/unauthorized" element={<Unauthorized />} />
 
     {/* Customer */}
@@ -51,6 +54,8 @@ const AppRoutes = () => (
     <Route path="/expenses" element={<D><ExpenseForm /></D>} />
 
     {/* Admin */}
+
+<Route path="/admin/billing" element={<A><Billing /></A>} />
     <Route path="/admin" element={<A><AdminDashboard /></A>} />
     <Route path="/admin/users" element={<A><AdminUsers /></A>} />
     <Route path="/admin/orders" element={<A><AdminOrders /></A>} />

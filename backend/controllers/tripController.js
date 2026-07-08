@@ -2,8 +2,10 @@ import mongoose from 'mongoose';
 import Trip from '../models/Trip.js';
 import Order from '../models/Order.js';
 import User from '../models/User.js';
+import Billing from '../models/Billing.js';
 import Truck from '../models/Truck.js';
 import { emitTripStatusUpdated } from '../sockets/socket.js';
+import { logger } from '../utils/logger.js';
 
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 const ORDER_STATUS_BY_TRIP = {
@@ -56,6 +58,14 @@ export const createTrip = async (req, res) => {
     return res.status(400).json({ message: 'Driver is inactive' });
   }
 
+  // Block if driver has an active (non-completed) trip
+  const activeTrip = await Trip.findOne({ driver, status: { $in: ['started', 'in-transit'] } });
+  if (activeTrip) {
+    return res.status(400).json({
+      message: 'Driver has an active trip in progress. Complete it before assigning a new one.',
+    });
+  }
+
   const driverTruck = await Truck.findOne({ driver });
   if (driverTruck && driverTruck._id.toString() !== truckDoc._id.toString()) {
     return res.status(400).json({ message: 'Driver is already assigned to another truck' });
@@ -81,6 +91,44 @@ export const createTrip = async (req, res) => {
     status: 'started',
   });
 
+  const tripWithRelations = await Trip.findById(trip._id)
+    .populate({
+      path: 'order',
+      populate: { path: 'customer', select: 'name' },
+    })
+    .populate('truck')
+    .populate('driver', 'name');
+
+  const customerName = tripWithRelations?.order?.customer?.name || tripWithRelations?.order?.customerName || 'Customer';
+
+  const existingBill = await Billing.findOne({
+    tripId: trip._id.toString(),
+    billType: 'customer_advance',
+  });
+
+  if (!existingBill) {
+    const newBill = await Billing.create({
+      billType: 'customer_advance',
+      partyRole: 'customer',
+      partyName: customerName,
+      customerName,
+      tripId: trip._id.toString(),
+      orderId: tripWithRelations?.order?._id?.toString(),
+      amount: 5000,
+      paymentStatus: 'Pending',
+      notes: `Advance payment for trip ${trip._id.toString().slice(-6)}`,
+    });
+
+    logger.info('Advance bill created for trip', {
+      billId: newBill._id.toString(),
+      tripId: trip._id.toString(),
+    });
+  } else {
+    logger.info('Advance bill already exists for trip', {
+      tripId: trip._id.toString(),
+    });
+  }
+
   emitTripStatusUpdated({
     tripId: trip._id.toString(),
     orderId: orderDoc._id.toString(),
@@ -95,7 +143,6 @@ export const createTrip = async (req, res) => {
   res.status(201).json(populatedTrip);
 };
 
-// ➤ Update Trip Status
 export const updateTripStatus = async (req, res) => {
   const { status } = req.body;
   const { id } = req.params;
@@ -109,7 +156,7 @@ export const updateTripStatus = async (req, res) => {
     return res.status(400).json({ message: 'Invalid trip status' });
   }
 
-  const trip = await Trip.findById(id);
+  const trip = await Trip.findById(id).populate('order');
   if (!trip) {
     return res.status(404).json({ message: 'Trip not found' });
   }
@@ -118,21 +165,27 @@ export const updateTripStatus = async (req, res) => {
   await trip.save();
 
   if (trip.order) {
-    await Order.findByIdAndUpdate(trip.order, {
+    await Order.findByIdAndUpdate(trip.order._id, {
       status: ORDER_STATUS_BY_TRIP[status] || 'assigned',
     });
   }
 
+  if (status === 'completed') {
+    logger.info('Trip completed', { tripId: trip._id.toString() });
+
+    // Free up the truck when trip is done
+    await Truck.findByIdAndUpdate(trip.truck, { driver: null, isAvailable: true });
+  }
+
   emitTripStatusUpdated({
     tripId: trip._id.toString(),
-    orderId: trip.order?.toString?.() || trip.order,
+    orderId: trip.order?._id?.toString() || trip.order,
     status,
   });
 
   res.json(trip);
 };
 
-// ➤ Get Trips
 export const getTrips = async (req, res) => {
   const query = req.user?.role === 'driver'
     ? { driver: req.user.id }

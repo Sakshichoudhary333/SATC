@@ -1,4 +1,5 @@
 import express from 'express';
+import rateLimit from 'express-rate-limit';
 import {
   register,
   verifyOtp,
@@ -8,15 +9,40 @@ import {
   forgotPassword,
   resetPassword,
 } from '../controllers/authController.js';
+import {
+  validateRegister,
+  validateLogin,
+  validateForgotPassword,
+  validateResetPassword,
+  validateVerifyOtp,
+  validateResendOtp,
+} from '../validators/userValidator.js';
 
 const router = express.Router();
 
-router.post('/register', register);
-router.post('/verify-otp', verifyOtp);
-router.post('/resend-otp', resendOtp);
-router.post('/login', login);
+// Strict rate limit for auth endpoints
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 20,
+  message: { message: 'Too many requests, please try again later.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const otpLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  max: 5,
+  message: { message: 'Too many OTP requests, please wait before trying again.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+router.post('/register', authLimiter, validateRegister, register);
+router.post('/verify-otp', authLimiter, validateVerifyOtp, verifyOtp);
+router.post('/resend-otp', otpLimiter, validateResendOtp, resendOtp);
+router.post('/login', authLimiter, validateLogin, login);
 router.post('/logout', logout);
-router.post('/forgot-password', forgotPassword);
-router.post('/reset-password', resetPassword);
+router.post('/forgot-password', otpLimiter, validateForgotPassword, forgotPassword);
+router.post('/reset-password', authLimiter, validateResetPassword, resetPassword);
 
 export default router;

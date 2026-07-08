@@ -1,38 +1,70 @@
-// services/otpService.js
 import OTP from "../models/otpModel.js";
-import transporter from "../utils/sendEmail.js";
+import User from "../models/User.js";
+import sendEmail from "../utils/sendEmail.js";
 
-import bcrypt from "bcryptjs";
-import generateOTP from "../utils/generateOTP.js"; // 👈 you forgot this too
+import generateOTP from "../utils/generateOTP.js";
 
 export const sendOTP = async (email) => {
-
-
-  console.log("🔥 sendOTP CALLED for:", email); // 👈 ADD THIS
-
-  console.log("Generated OTP:", otp); // 👈 ADD THIS
+  const normalizedEmail = email.trim().toLowerCase();
   const otp = generateOTP();
+  const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
 
-  const hashedOtp = await bcrypt.hash(otp, 10);
+  const user = await User.findOne({ email: normalizedEmail });
+  if (!user) {
+    throw new Error("User not found");
+  }
 
-  await OTP.deleteMany({ email });
+  const savedOtp = await OTP.findOneAndUpdate(
+    { email: normalizedEmail },
+    {
+      email: normalizedEmail,
+      otp,
+      createdAt: new Date(),
+    },
+    {
+      upsert: true,
+      new: true,
+      runValidators: true,
+      setDefaultsOnInsert: true,
+    }
+  );
 
-  await OTP.create({ email, otp: hashedOtp });
+  if (!savedOtp?._id) {
+    throw new Error("Failed to persist OTP");
+  }
 
-  await transporter.sendMail({
-    from: process.env.EMAIL_USER,
-    to: email,
-    subject: "OTP Verification",
-    text: `Your OTP is ${otp}`,
+  await User.findByIdAndUpdate(user._id, {
+    $set: {
+      otp,
+      otpExpiry,
+    },
   });
+
+  await sendEmail(
+    normalizedEmail,
+    "OTP Verification",
+    `Your OTP is ${otp}`
+  );
+
+  // Always log OTP to terminal in dev — instant access without opening email
+  if (process.env.NODE_ENV !== "production") {
+    console.log(`\n🔑 OTP for ${normalizedEmail}: ${otp}\n`);
+  }
+
+  return savedOtp;
 };
 
 export const verifyOTP = async (email, userOtp) => {
-  const record = await OTP.findOne({ email });
+  const normalizedEmail = email.trim().toLowerCase();
+  const record = await OTP.findOne({ email: normalizedEmail });
 
   if (!record) return false;
 
-  const isMatch = await bcrypt.compare(userOtp, record.otp);
+  const isMatch = record.otp === userOtp;
+
+  if (isMatch) {
+    await OTP.deleteOne({ _id: record._id });
+  }
 
   return isMatch;
 };

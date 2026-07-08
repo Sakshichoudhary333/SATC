@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { logger } from '../utils/logger.js';
 
 /* ─────────────────────────────────────────
    CREATE TRANSPORTER
@@ -25,9 +26,9 @@ export const sendEmail = async (to, subject, text) => {
 
     const info = await transporter.sendMail(mailOptions);
 
-    console.log("✅ Email sent:", info.response);
+    logger.info('Email sent', { response: info.response, to, subject });
   } catch (error) {
-    console.error("❌ Email error:", error.message);
+    logger.error('Email failed', error);
     throw new Error("Email could not be sent");
   }
 };

@@ -3,7 +3,7 @@ import { io } from 'socket.io-client';
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { useAuth } from '../context/AuthContext';
-import { getMyOrders, getTrucks } from '../services/api';
+import { getMyOrders, getTrucks, getTrips } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import 'leaflet/dist/leaflet.css';
@@ -127,35 +127,66 @@ const TrackTruck = () => {
     const load = async () => {
       try {
         if (user?.role === 'customer') {
-          const orders = await getMyOrders();
-          const mappedTrucks = uniqueTrucks((Array.isArray(orders) ? orders : [])
-            .map((order) => order.truck)
-            .filter(Boolean));
-          const initial = {};
+          const [orders, trips] = await Promise.all([getMyOrders(), getTrips()]);
 
-          mappedTrucks.forEach((truck) => {
+          // Build a map of truckId → trip so we can get the driver from the trip
+          const tripByTruckId = {};
+          (Array.isArray(trips) ? trips : []).forEach((trip) => {
+            const truckId = trip.truck?._id || trip.truck;
+            if (truckId) tripByTruckId[String(truckId)] = trip;
+          });
+
+          const rawTrucks = (Array.isArray(orders) ? orders : [])
+            .map((order) => order.truck)
+            .filter(Boolean);
+
+          const merged = uniqueTrucks(rawTrucks).map((truck) => {
+            const trip = tripByTruckId[String(truck._id)];
+            return {
+              ...truck,
+              // Prefer driver from the trip (fully populated) over the truck field
+              driver: trip?.driver || truck.driver || null,
+            };
+          });
+
+          const initial = {};
+          merged.forEach((truck) => {
             const normalized = normalizeLocation(truck?.location);
-            if (normalized) {
-              initial[truck._id] = normalized;
-            }
+            if (normalized) initial[truck._id] = normalized;
           });
 
           if (active) {
-            setTrucks(mappedTrucks);
+            setTrucks(merged);
             setLocations(initial);
           }
           return;
         }
 
-        const data = await getTrucks();
+        const [data, trips] = await Promise.all([getTrucks(), getTrips()]);
         const trucksData = Array.isArray(data) ? data : [];
+
+        // Build trip lookup by truckId to fill in driver if missing on truck doc
+        const tripByTruckId = {};
+        (Array.isArray(trips) ? trips : []).forEach((trip) => {
+          const truckId = trip.truck?._id || trip.truck;
+          if (truckId) tripByTruckId[String(truckId)] = trip;
+        });
+
         const filtered =
           user?.role === 'driver'
             ? trucksData.filter((truck) => truck.driver?._id === user?.id || truck.driver === user?.id)
             : trucksData;
 
+        const merged = filtered.map((truck) => {
+          const trip = tripByTruckId[String(truck._id)];
+          return {
+            ...truck,
+            driver: truck.driver || trip?.driver || null,
+          };
+        });
+
         const initial = {};
-        filtered.forEach((truck) => {
+        merged.forEach((truck) => {
           const normalized = normalizeLocation(truck?.location);
           if (normalized) {
             initial[truck._id] = normalized;
@@ -163,7 +194,7 @@ const TrackTruck = () => {
         });
 
         if (active) {
-          setTrucks(filtered);
+          setTrucks(merged);
           setLocations(initial);
         }
       } catch (err) {

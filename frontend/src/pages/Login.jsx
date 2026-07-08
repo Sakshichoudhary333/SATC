@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import ErrorMessage from '../components/ErrorMessage';
 
 const Login = () => {
-  const { login } = useAuth();
+  const { login, setSession } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
@@ -14,11 +14,26 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); setLoading(true);
+    setError('');
+
+    const email = form.email.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setError('Invalid email format.');
+    if (!form.password) return setError('Password is required.');
+
+    setLoading(true);
     try {
-      const data = await login(form);
-      const map = { admin: '/admin', driver: '/driver', customer: '/dashboard' };
-      navigate(map[data.role] || '/dashboard');
+      const data = await login({ email, password: form.password });
+      const session = setSession({
+        token: data.token,
+        role: data.role,
+        name: data.name || '',
+      });
+      const routeMap = {
+        admin: '/admin',
+        driver: '/driver',
+        customer: '/dashboard',
+      };
+      navigate(routeMap[session.role] || '/dashboard', { replace: true });
     } catch (err) {
       setError(err.message);
     } finally {

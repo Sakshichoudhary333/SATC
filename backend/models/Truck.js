@@ -26,6 +26,8 @@ const truckSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+truckSchema.index({ driver: 1 });
+truckSchema.index({ status: 1, isAvailable: 1 });
 
 
 export default mongoose.model('Truck', truckSchema);

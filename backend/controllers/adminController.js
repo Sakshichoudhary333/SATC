@@ -2,10 +2,14 @@ import mongoose from 'mongoose';
 import User from "../models/User.js";
 import Truck from "../models/Truck.js";
 import Order from "../models/Order.js";
+import Trip from "../models/Trip.js";
 import bcrypt from "bcryptjs";
+import { getPerformanceMetrics } from '../utils/performanceMetrics.js';
 
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
+// Escape special regex characters to prevent ReDoS
+const escapeRegex = (str) => str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, (c) => `\\${c}`);
 
 // ➤ Dashboard Stats
 export const getDashboard = async (req, res) => {
@@ -22,19 +26,29 @@ export const getDashboard = async (req, res) => {
   }
 };
 
+// ➤ Performance Metrics
+export const getPerformance = async (_req, res) => {
+  try {
+    res.json(getPerformanceMetrics());
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching performance metrics', error: error.message });
+  }
+};
 
 // ➤ Get Users (Search + Pagination)
 export const getUsers = async (req, res) => {
   try {
     const { page = 1, limit = 50, search = "", role = "" } = req.query;
     const pageNum = Math.max(Number.parseInt(page, 10) || 1, 1);
-    const limitNum = Math.max(Number.parseInt(limit, 10) || 50, 1);
+    const limitNum = Math.min(Math.max(Number.parseInt(limit, 10) || 50, 1), 200);
 
-    const query = search
+    const safeSearch = escapeRegex(search);
+
+    const query = safeSearch
       ? {
           $or: [
-            { name: { $regex: search, $options: "i" } },
-            { email: { $regex: search, $options: "i" } },
+            { name: { $regex: safeSearch, $options: "i" } },
+            { email: { $regex: safeSearch, $options: "i" } },
           ],
         }
       : {};
@@ -57,38 +71,24 @@ export const getUsers = async (req, res) => {
   }
 };
 
-
 // ➤ Update User
 export const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const {
-      name,
-      fullName,
-      email,
-      role,
-      mobile,
-      licenseNumber,
-      experience,
-      driverStatus,
-    } = req.body;
+    const { name, fullName, email, role, mobile, licenseNumber, experience, driverStatus } = req.body;
 
     if (!id || !isValidObjectId(id)) {
       return res.status(400).json({ message: "Invalid user id" });
     }
 
     const user = await User.findById(id);
-
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Prevent admin from removing their own role
     const nextRole = typeof role === "string" ? role.toLowerCase() : role;
     if (req.user.id === id && nextRole && nextRole !== "admin") {
-      return res.status(400).json({
-        message: "You cannot remove your own admin role",
-      });
+      return res.status(400).json({ message: "You cannot remove your own admin role" });
     }
 
     const nextName = name ?? fullName;
@@ -101,19 +101,11 @@ export const updateUser = async (req, res) => {
     user.driverStatus = driverStatus ?? user.driverStatus;
 
     const updatedUser = await user.save();
-
-    res.json({
-      message: "User updated successfully",
-      user: updatedUser,
-    });
+    res.json({ message: "User updated successfully", user: updatedUser });
   } catch (error) {
-    res.status(500).json({
-      message: "Error updating user",
-      error: error.message,
-    });
+    res.status(500).json({ message: "Error updating user", error: error.message });
   }
 };
-
 
 // ➤ Update Truck
 export const updateTruck = async (req, res) => {
@@ -125,27 +117,25 @@ export const updateTruck = async (req, res) => {
     }
 
     const truck = await Truck.findById(id);
-
     if (!truck) {
       return res.status(404).json({ message: "Truck not found" });
     }
 
-    Object.assign(truck, req.body);
+    // Only allow known fields to prevent mass assignment
+    const { truckNumber, model, capacity, status, isAvailable, location } = req.body;
+    if (truckNumber !== undefined) truck.truckNumber = String(truckNumber).trim().slice(0, 20);
+    if (model !== undefined) truck.model = String(model).trim().slice(0, 60);
+    if (capacity !== undefined) truck.capacity = String(capacity).trim().slice(0, 30);
+    if (status !== undefined && ['available', 'maintenance'].includes(status)) truck.status = status;
+    if (typeof isAvailable === 'boolean') truck.isAvailable = isAvailable;
+    if (location && typeof location === 'object') truck.location = location;
 
     const updatedTruck = await truck.save();
-
-    res.json({
-      message: "Truck updated successfully",
-      truck: updatedTruck,
-    });
+    res.json({ message: "Truck updated successfully", truck: updatedTruck });
   } catch (error) {
-    res.status(500).json({
-      message: "Error updating truck",
-      error: error.message,
-    });
+    res.status(500).json({ message: "Error updating truck", error: error.message });
   }
 };
-
 
 // ➤ Update Order
 export const updateOrder = async (req, res) => {
@@ -158,7 +148,6 @@ export const updateOrder = async (req, res) => {
     }
 
     const order = await Order.findById(id);
-
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
@@ -168,19 +157,11 @@ export const updateOrder = async (req, res) => {
     if (goodsDetails !== undefined) order.goodsDetails = goodsDetails;
 
     const updatedOrder = await order.save();
-
-    res.json({
-      message: "Order updated successfully",
-      order: updatedOrder,
-    });
+    res.json({ message: "Order updated successfully", order: updatedOrder });
   } catch (error) {
-    res.status(500).json({
-      message: "Error updating order",
-      error: error.message,
-    });
+    res.status(500).json({ message: "Error updating order", error: error.message });
   }
 };
-
 
 // ➤ Delete User
 export const deleteUser = async (req, res) => {
@@ -191,30 +172,21 @@ export const deleteUser = async (req, res) => {
       return res.status(400).json({ message: "Invalid user id" });
     }
 
-    // Prevent admin from deleting themselves
     if (req.user.id === id) {
-      return res.status(400).json({
-        message: "You cannot delete your own account",
-      });
+      return res.status(400).json({ message: "You cannot delete your own account" });
     }
 
     const user = await User.findById(id);
-
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
     await user.deleteOne();
-
     res.json({ message: "User deleted successfully" });
   } catch (error) {
-    res.status(500).json({
-      message: "Error deleting user",
-      error: error.message,
-    });
+    res.status(500).json({ message: "Error deleting user", error: error.message });
   }
 };
-
 
 // ➤ Delete Truck
 export const deleteTruck = async (req, res) => {
@@ -226,22 +198,16 @@ export const deleteTruck = async (req, res) => {
     }
 
     const truck = await Truck.findById(id);
-
     if (!truck) {
       return res.status(404).json({ message: "Truck not found" });
     }
 
     await truck.deleteOne();
-
     res.json({ message: "Truck deleted successfully" });
   } catch (error) {
-    res.status(500).json({
-      message: "Error deleting truck",
-      error: error.message,
-    });
+    res.status(500).json({ message: "Error deleting truck", error: error.message });
   }
 };
-
 
 // ➤ Delete Order
 export const deleteOrder = async (req, res) => {
@@ -253,19 +219,14 @@ export const deleteOrder = async (req, res) => {
     }
 
     const order = await Order.findById(id);
-
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
 
     await order.deleteOne();
-
     res.json({ message: "Order deleted successfully" });
   } catch (error) {
-    res.status(500).json({
-      message: "Error deleting order",
-      error: error.message,
-    });
+    res.status(500).json({ message: "Error deleting order", error: error.message });
   }
 };
 
@@ -285,6 +246,7 @@ export const approveOrder = async (req, res) => {
     await order.save();
 
     const populated = await order.populate([
+      { path: 'customer', select: 'name email role' },
       { path: 'driver', select: 'name mobile email licenseNumber' },
       { path: 'truck', select: 'truckNumber model capacity location lastUpdated isAvailable' },
     ]);
@@ -310,7 +272,11 @@ export const rejectOrder = async (req, res) => {
     order.status = 'rejected';
     await order.save();
 
-    res.json({ message: 'Order rejected', order });
+    const populated = await order.populate([
+      { path: 'customer', select: 'name email role' },
+    ]);
+
+    res.json({ message: 'Order rejected', order: populated });
   } catch (error) {
     res.status(500).json({ message: 'Error rejecting order', error: error.message });
   }
@@ -332,6 +298,14 @@ export const assignTruck = async (req, res) => {
     const driver = await User.findById(driverId);
     if (!driver || driver.role !== "driver") {
       return res.status(404).json({ message: "Driver not found" });
+    }
+
+    // Block if driver has an active (non-completed) trip
+    const activeTrip = await Trip.findOne({ driver: driverId, status: { $in: ['started', 'in-transit'] } });
+    if (activeTrip) {
+      return res.status(400).json({
+        message: "Driver has an active trip in progress. Complete it before assigning a new truck.",
+      });
     }
 
     const existingTruck = await Truck.findOne({ driver: driverId });
@@ -367,30 +341,24 @@ export const assignTruck = async (req, res) => {
   }
 };
 
-// ➤ Add Driver (Admin creates a driver account directly)
+// ➤ Add Driver
 export const addDriver = async (req, res) => {
   try {
-    const { name, email, mobile, licenseNumber, experience, driverStatus } = req.body;
-
-    if (!name || !email || !mobile) {
-      return res.status(400).json({ message: "Name, email and mobile are required" });
-    }
-
+    const { name, email, password, mobile, licenseNumber, experience, driverStatus } = req.body;
     const existing = await User.findOne({ email });
     if (existing) {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    const defaultPassword = `Driver@${mobile}`;
-    const hashedPassword = await bcrypt.hash(defaultPassword, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const driver = await User.create({
-      name,
-      email: email.toLowerCase(),
+      name: name.trim(),
+      email: email.toLowerCase().trim(),
       password: hashedPassword,
-      mobile,
-      licenseNumber,
-      experience: experience ? Number(experience) : undefined,
+      mobile: mobile ? mobile.trim() : undefined,
+      licenseNumber: licenseNumber ? licenseNumber.trim() : undefined,
+      experience: experience !== undefined ? Number(experience) : undefined,
       driverStatus: driverStatus || 'active',
       role: "driver",
       isVerified: true,
@@ -434,17 +402,12 @@ export const createAdmin = async (req, res) => {
     const { fullName, email, password } = req.body;
 
     if (!fullName || !email || !password) {
-      return res.status(400).json({
-        message: "All fields are required",
-      });
+      return res.status(400).json({ message: "All fields are required" });
     }
 
     const existing = await User.findOne({ email });
-
     if (existing) {
-      return res.status(400).json({
-        message: "User already exists",
-      });
+      return res.status(400).json({ message: "User already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -457,14 +420,8 @@ export const createAdmin = async (req, res) => {
       isVerified: true,
     });
 
-    res.status(201).json({
-      message: "Admin created successfully",
-      admin,
-    });
+    res.status(201).json({ message: "Admin created successfully", admin });
   } catch (error) {
-    res.status(500).json({
-      message: "Error creating admin",
-      error: error.message,
-    });
+    res.status(500).json({ message: "Error creating admin", error: error.message });
   }
 };

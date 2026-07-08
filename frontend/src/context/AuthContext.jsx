@@ -33,20 +33,23 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (credentials) => {
-    const data = await loginUser(credentials);
-    const decoded = decodeToken(data.token);
-    localStorage.setItem('token', data.token);
-    const role = (data.role || decoded?.role || '').toLowerCase();
-    localStorage.setItem('role', role);
-    if (data.name) localStorage.setItem('name', data.name);
+    return loginUser(credentials);
+  };
+
+  const setSession = ({ token, role, name = '' }) => {
+    const decoded = decodeToken(token);
+    const normalizedRole = (role || decoded?.role || '').toLowerCase();
+    localStorage.setItem('token', token);
+    localStorage.setItem('role', normalizedRole);
+    if (name) localStorage.setItem('name', name);
     const userData = {
-      token: data.token,
+      token,
       id: decoded?.id,
-      role,
-      name: data.name || '',
+      role: normalizedRole,
+      name,
     };
     setUser(userData);
-    return { ...data, role };
+    return userData;
   };
 
   const register = async (credentials) => registerUser(credentials);
@@ -57,7 +60,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, register, logout, loading, setSession }}>
       {children}
     </AuthContext.Provider>
   );

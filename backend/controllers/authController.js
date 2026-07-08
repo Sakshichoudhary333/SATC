@@ -2,12 +2,12 @@
 
 import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 
 import generateOTP from '../utils/generateOTP.js';
+import { generateToken } from '../utils/generateToken.js';
 import sendEmail from '../utils/sendEmail.js'; // or correct path
-
-
+import { sendOTP, verifyOTP } from '../services/otpService.js';
+import { logger } from '../utils/logger.js';
 
 // REGISTER
 export const register = async (req, res) => {
@@ -35,28 +35,18 @@ export const register = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const otp = generateOTP();
-    const otpExpiry = Date.now() + 5 * 60 * 1000; // 5 minutes
-
     await User.create({
       name,
       email,
       password: hashedPassword,
       role: allowedRoles.includes(role) ? role : 'customer',
       isVerified: false,
-      otp,
-      otpExpiry,
     });
 
-    // Send OTP email
     try {
-      await sendEmail(
-        email,
-        'Email Verification OTP - TMS',
-        `Hello ${name},\n\nYour verification OTP is: ${otp}\n\nIt is valid for 5 minutes.\n\n- Truck Management System`
-      );
+      await sendOTP(email);
     } catch (emailErr) {
-      console.error('❌ Email failed:', emailErr.message);
+      logger.error('OTP email failed during registration', emailErr);
       // Still return success — user can use Resend OTP
       return res.status(201).json({
         message: 'Registered! OTP email failed to send — use Resend OTP on the verify page.',
@@ -80,18 +70,7 @@ export const resendOtp = async (req, res) => {
     if (user.isVerified)
       return res.status(400).json({ message: 'Email already verified' });
 
-    const otp = generateOTP();
-    const otpExpiry = Date.now() + 5 * 60 * 1000;
-
-    user.otp = otp;
-    user.otpExpiry = otpExpiry;
-    await user.save();
-
-    await sendEmail(
-      email,
-      'Resend Email Verification OTP',
-      `Your new verification OTP is: ${otp}. It is valid for 5 minutes.`
-    );
+    await sendOTP(email);
 
     res.status(200).json({ message: 'OTP resent successfully' });
   } catch (err) {
@@ -107,14 +86,10 @@ export const verifyOtp = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: 'User not found' });
 
-    if (!user.otp || !user.otpExpiry)
-      return res.status(400).json({ message: 'No OTP requested' });
-
-    if (user.otp !== otp)
-      return res.status(400).json({ message: 'Invalid OTP' });
-
-    if (user.otpExpiry < Date.now())
-      return res.status(400).json({ message: 'OTP expired' });
+    const valid = await verifyOTP(email, otp);
+    if (!valid) {
+      return res.status(400).json({ message: 'Invalid or Expired OTP' });
+    }
 
     user.isVerified = true;
     user.otp = null;
@@ -143,14 +118,15 @@ export const login = async (req, res) => {
     if (!match)
       return res.status(401).json({ message: 'Invalid credentials' });
 
-    const token = jwt.sign(
-      { id: user._id, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: '7d' }
-    );
+    const token = generateToken(user);
 
-    // You can also set as httpOnly cookie if you prefer
-    res.json({ token, role: user.role });
+    res.status(200).json({
+      message: 'Login successful',
+      token,
+      role: user.role,
+      name: user.name || '',
+      email,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

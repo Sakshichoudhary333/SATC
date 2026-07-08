@@ -26,6 +26,20 @@ export const loginUser = (body) =>
 export const registerUser = (body) =>
   fetch(`${BASE_URL}/auth/register`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }).then(handleResponse);
 
+export const verifyRegisterOtp = (body) =>
+  fetch(`${BASE_URL}/auth/verify-otp`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  }).then(handleResponse);
+
+export const resendRegisterOtp = (body) =>
+  fetch(`${BASE_URL}/auth/resend-otp`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  }).then(handleResponse);
+
 export const forgotPasswordUser = (body) =>
   fetch(`${BASE_URL}/auth/forgot-password`, {
     method: 'POST',
@@ -292,7 +306,10 @@ export const approveOrder = (id) =>
     return Promise.reject(error);
   }
 
-  return fetch(`${BASE_URL}/admin/orders/${orderId}/approve`, { method: 'PUT', headers: getHeaders() }).then(handleResponse);
+  return fetch(`${BASE_URL}/admin/orders/${orderId}/approve`, {
+    method: 'PUT',
+    headers: getHeaders(),
+  }).then(handleResponse);
 }
 
 export const rejectOrder = (id) =>
@@ -304,7 +321,10 @@ export const rejectOrder = (id) =>
     return Promise.reject(error);
   }
 
-  return fetch(`${BASE_URL}/admin/orders/${orderId}/reject`, { method: 'PUT', headers: getHeaders() }).then(handleResponse);
+  return fetch(`${BASE_URL}/admin/orders/${orderId}/reject`, {
+    method: 'PUT',
+    headers: getHeaders(),
+  }).then(handleResponse);
 }
 
 export const updateOrderApi = (id, body) =>
@@ -340,3 +360,29 @@ export const updateOrderStatus = (id, status) =>
     body: JSON.stringify({ status }),
   }).then(handleResponse);
 }
+
+// ── Billing ───────────────────────────────────────────
+export const getBills = () =>
+  fetch(`${BASE_URL}/billing/all`, { headers: getHeaders() }).then(handleResponse);
+
+export const createBill = (body) =>
+  fetch(`${BASE_URL}/billing/create`, { method: 'POST', headers: getHeaders(), body: JSON.stringify(body) }).then(handleResponse);
+
+export const payBill = (id) => {
+  const billId = typeof id === 'string' ? id.trim() : '';
+  if (!isValidMongoId(billId)) return Promise.reject(new Error('Invalid bill id'));
+  return fetch(`${BASE_URL}/billing/pay/${billId}`, { method: 'PUT', headers: getHeaders() }).then(handleResponse);
+};
+
+export const generateMonthEndDriverPayouts = (body = {}) =>
+  fetch(`${BASE_URL}/billing/driver-payouts/month-end`, {
+    method: 'POST',
+    headers: getHeaders(),
+    body: JSON.stringify(body),
+  }).then(handleResponse);
+
+export const deleteBill = (id) => {
+  const billId = typeof id === 'string' ? id.trim() : '';
+  if (!isValidMongoId(billId)) return Promise.reject(new Error('Invalid bill id'));
+  return fetch(`${BASE_URL}/billing/delete/${billId}`, { method: 'DELETE', headers: getHeaders() }).then(handleResponse);
+};

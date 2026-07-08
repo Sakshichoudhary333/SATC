@@ -25,21 +25,25 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-  
-    // ✅ Add this validation HERE (before loading starts)
-    if (form.password !== form.confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-  
+
+    const name = form.name.trim();
+    const email = form.email.trim();
+
+    if (name.length < 2 || name.length > 60) return setError('Name must be 2–60 characters.');
+    if (!/^[A-Za-z\s'-]+$/.test(name)) return setError('Name contains invalid characters.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setError('Invalid email format.');
+    if (form.password.length < 6) return setError('Password must be at least 6 characters.');
+    if (!/[A-Z]/.test(form.password)) return setError('Password must contain an uppercase letter.');
+    if (!/[a-z]/.test(form.password)) return setError('Password must contain a lowercase letter.');
+    if (!/[0-9]/.test(form.password)) return setError('Password must contain a number.');
+    if (form.password !== form.confirmPassword) return setError('Passwords do not match.');
+
     setLoading(true);
-  
     try {
-      const { confirmPassword, ...userData } = form; // optional best practice
-      const data = await register(userData);
-  
+      const { confirmPassword, ...userData } = form;
+      const data = await register({ ...userData, name, email });
       navigate('/verify-otp', {
-        state: { email: form.email, emailFailed: data?.emailFailed }
+        state: { email, emailFailed: data?.emailFailed }
       });
     } catch (err) {
       setError(err.message);

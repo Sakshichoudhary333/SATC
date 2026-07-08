@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import ErrorMessage from '../components/ErrorMessage';
+import { verifyRegisterOtp, resendRegisterOtp } from '../services/api';
 
 const VerifyOtp = () => {
   const navigate = useNavigate();
@@ -16,15 +17,14 @@ const VerifyOtp = () => {
 
   const handleVerify = async (e) => {
     e.preventDefault();
-    setError(''); setLoading(true);
+    setError('');
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return setError('Invalid email format.');
+    if (!/^\d{6}$/.test(otp.trim())) return setError('OTP must be exactly 6 digits.');
+
+    setLoading(true);
     try {
-      const res = await fetch('http://localhost:5001/api/auth/verify-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, otp }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
+      await verifyRegisterOtp({ email, otp });
       setSuccess('Email verified! Redirecting to login...');
       setTimeout(() => navigate('/login'), 1500);
     } catch (err) {
@@ -37,14 +37,8 @@ const VerifyOtp = () => {
   const handleResend = async () => {
     setError(''); setSuccess(''); setResending(true);
     try {
-      const res = await fetch('http://localhost:5001/api/auth/resend-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
-      setSuccess('OTP resent! Check your inbox.');
+      const data = await resendRegisterOtp({ email });
+      setSuccess(data.message || 'OTP resent! Check your inbox.');
     } catch (err) {
       setError(err.message);
     } finally {
@@ -57,12 +51,16 @@ const VerifyOtp = () => {
       <div className="auth-left">
         <div className="auth-brand">TMS</div>
         <h1 className="auth-headline">Verify your email</h1>
-        <p className="auth-sub">We sent a 6-digit OTP to your email. Enter it below to activate your account.</p>
+        <p className="auth-sub">
+          We sent a 6-digit OTP to your email. Enter it below to activate your account.
+        </p>
       </div>
       <div className="auth-right">
         <div className="auth-box">
           <h2 className="auth-box-title">Enter OTP</h2>
-          <p className="auth-box-sub">Check your inbox at <strong>{email || 'your email'}</strong></p>
+          <p className="auth-box-sub">
+            Check your inbox at <strong>{email || 'your email'}</strong>
+          </p>
           {error && <ErrorMessage message={error} />}
           {success && <div className="dark-success">✅ {success}</div>}
           {emailFailed && (
@@ -108,6 +106,7 @@ const VerifyOtp = () => {
           <p className="auth-switch" style={{ marginTop: '1rem' }}>
             Didn't receive it?{' '}
             <button
+              type="button"
               onClick={handleResend}
               disabled={resending}
               style={{ background: 'none', border: 'none', color: '#06b6d4', cursor: 'pointer', fontWeight: 500, fontSize: '0.875rem' }}

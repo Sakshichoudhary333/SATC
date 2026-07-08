@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import { getDistance } from '../utils/distanceCalculator.js';
 import { calculateETA } from '../utils/etaCalculator.js';
 import { emitLocationUpdated } from '../sockets/socket.js';
+import { logger } from '../utils/logger.js';
 
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
@@ -56,7 +57,7 @@ export const updateTruckLocation = async (req, res) => {
     });
     return res.json(truck);
   } catch (error) {
-    console.error('[updateTruckLocation] error:', error);
+    logger.error('Failed to update truck location', error);
     return res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
@@ -67,7 +68,7 @@ export const getTruckETA = async (req, res) => {
     const { id } = req.params;
 
     if (!id || !isValidObjectId(id)) {
-      console.warn('[getTruckETA] invalid truck id:', id);
+      logger.warn('Invalid truck id for ETA request', { truckId: id });
       return res.status(400).json({ message: 'Invalid truck id' });
     }
 
@@ -79,7 +80,7 @@ export const getTruckETA = async (req, res) => {
     const destLat = parseNumber(req.query.destLat);
     const destLng = parseNumber(req.query.destLng);
     if (destLat === null || destLng === null) {
-      console.warn('[getTruckETA] invalid destination coords:', req.query);
+      logger.warn('Invalid destination coordinates for ETA request', { query: req.query });
       return res.status(400).json({ message: 'destLat and destLng must be valid numbers' });
     }
 
@@ -92,7 +93,7 @@ export const getTruckETA = async (req, res) => {
     const distance = getDistance(truckLat, truckLng, destLat, destLng);
     const eta = calculateETA(distance);
 
-    console.log('[getTruckETA] success:', {
+    logger.info('Calculated truck ETA', {
       truckId: id,
       truckLocation: truck.location,
       destination: { lat: destLat, lng: destLng },
@@ -106,7 +107,7 @@ export const getTruckETA = async (req, res) => {
       truckLocation: truck.location,
     });
   } catch (error) {
-    console.error('[getTruckETA] error:', error);
+    logger.error('Failed to calculate truck ETA', error);
     return res.status(500).json({ message: 'Server error', error: error.message });
   }
 };

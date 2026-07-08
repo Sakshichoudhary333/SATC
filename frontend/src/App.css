@@ -245,6 +245,10 @@ a { text-decoration: none; color: inherit; }
   font-size: 0.875rem;
 }
 
+.admin-orders-table {
+  table-layout: fixed;
+}
+
 .dark-table thead tr {
   border-bottom: 1px solid var(--border);
 }
@@ -262,6 +266,42 @@ a { text-decoration: none; color: inherit; }
   padding: 0.85rem 1.25rem;
   color: var(--text);
   border-top: 1px solid var(--border);
+}
+
+.admin-orders-table th:nth-child(1),
+.admin-orders-table td:nth-child(1) {
+  width: 14%;
+}
+
+.admin-orders-table th:nth-child(2),
+.admin-orders-table td:nth-child(2) {
+  width: 15%;
+}
+
+.admin-orders-table th:nth-child(3),
+.admin-orders-table td:nth-child(3) {
+  width: 15%;
+}
+
+.admin-orders-table th:nth-child(4),
+.admin-orders-table td:nth-child(4) {
+  width: 34%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.admin-orders-table th:nth-child(5),
+.admin-orders-table td:nth-child(5) {
+  width: 10%;
+}
+
+.admin-orders-table th:nth-child(6),
+.admin-orders-table td:nth-child(6) {
+  width: 12%;
+}
+
+.admin-orders-actions {
+  white-space: nowrap;
 }
 
 .dark-table tbody tr:hover td { background: var(--surface2); }

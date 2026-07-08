@@ -15,9 +15,21 @@ const PlaceOrder = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    const pickup = form.pickupLocation.trim();
+    const dest = form.destination.trim();
+    const goods = form.goodsDetails.trim();
+
+    if (pickup.length < 2) return setError('Pickup location must be at least 2 characters.');
+    if (pickup.length > 200) return setError('Pickup location is too long (max 200 characters).');
+    if (dest.length < 2) return setError('Destination must be at least 2 characters.');
+    if (dest.length > 200) return setError('Destination is too long (max 200 characters).');
+    if (goods.length < 3) return setError('Goods details must be at least 3 characters.');
+    // if (goods.length > 50) return setError('Goods details are too long (max 50 characters).');
+
     setLoading(true);
     try {
-      const order = await createOrder(form);
+      const order = await createOrder({ pickupLocation: pickup, destination: dest, goodsDetails: goods });
       setSuccess(order);
     } catch (err) {
       setError(err.message);

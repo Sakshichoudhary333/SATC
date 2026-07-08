@@ -1,4 +1,5 @@
 import { Server } from 'socket.io';
+import { logger } from '../utils/logger.js';
 
 let io;
 
@@ -10,7 +11,7 @@ export const initSocket = (server) => {
   });
 
   io.on('connection', (socket) => {
-    console.log('Socket connected:', socket.id);
+    logger.info('Socket connected', { socketId: socket.id });
 
     // 📍 Driver sends live location
     socket.on('updateLocation', (data) => {
@@ -25,7 +26,7 @@ export const initSocket = (server) => {
     });
 
     socket.on('disconnect', () => {
-      console.log('Socket disconnected');
+      logger.info('Socket disconnected', { socketId: socket.id });
     });
   });
 };

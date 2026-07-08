@@ -15,6 +15,7 @@ const CARDS = [
 
 const QUICK_ACTIONS = [
   { to: '/track', label: 'Live Truck Monitoring', icon: '📍', color: '#06b6d4' },
+  { to: '/admin/billing', label: 'Billing', icon: '💳', color: '#22c55e' },
   { to: '/admin/users', label: 'Users', icon: '🧑‍💼', color: '#10b981' },
   { to: '/admin/orders', label: 'Orders', icon: '📦', color: '#3b82f6' },
   { to: '/admin/trucks', label: 'Trucks', icon: '🚛', color: '#10b981' },

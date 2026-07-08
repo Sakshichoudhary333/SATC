@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
 import User from "./models/User.js";
+import { logger } from './utils/logger.js';
 
 mongoose.connect("mongodb://127.0.0.1:27017/truckDB")
   .then(async () => {
-    console.log("✅ MongoDB Connected");
+    logger.info('MongoDB connected for seed script');
 
     try {
       // Clear old data
@@ -51,14 +52,14 @@ mongoose.connect("mongodb://127.0.0.1:27017/truckDB")
         }
       ]);
 
-      console.log("✅ Data Seeded Successfully");
+      logger.info('Data seeded successfully');
       process.exit();
 
     } catch (error) {
-      console.error("❌ Error seeding data:", error);
+      logger.error('Error seeding data', error);
       process.exit(1);
     }
   })
   .catch((err) => {
-    console.error("❌ Connection Error:", err);
+    logger.error('Seed database connection failed', err);
   });

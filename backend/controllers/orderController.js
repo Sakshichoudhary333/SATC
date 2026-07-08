@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import Order from '../models/Order.js';
 import Trip from '../models/Trip.js';
+import { logger } from '../utils/logger.js';
 
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 const ORDER_STATUS_BY_TRIP = {
@@ -78,7 +79,7 @@ export const getOrderById = async (req, res) => {
 
     res.json(await attachTracking(order));
   } catch (error) {
-    console.error('[getOrderById] error:', error);
+    logger.error('Failed to fetch order by id', error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -108,7 +109,12 @@ export const updateOrderStatus = async (req, res) => {
       return res.status(400).json({ message: 'Invalid order status' });
     }
 
-    const order = await Order.findOne({ _id: id, customer: req.user.id });
+    const isAdminRequest = req.user?.role === 'admin';
+    const orderQuery = isAdminRequest
+      ? { _id: id }
+      : { _id: id, customer: req.user.id };
+
+    const order = await Order.findOne(orderQuery);
     if (!order) {
       return res.status(404).json({ message: 'Order not found' });
     }
@@ -125,13 +131,14 @@ export const updateOrderStatus = async (req, res) => {
     }
 
     const populated = await updated.populate([
+      { path: 'customer', select: 'name email role' },
       { path: 'driver', select: 'name mobile email licenseNumber experience' },
       { path: 'truck', select: 'truckNumber model capacity location lastUpdated isAvailable' },
     ]);
 
     return res.json(await attachTracking(populated));
   } catch (error) {
-    console.error('[updateOrderStatus] error:', error);
+    logger.error('Failed to update order status', error);
     return res.status(500).json({ message: error.message });
   }
 };

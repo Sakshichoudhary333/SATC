@@ -1,7 +1,12 @@
 import mongoose from 'mongoose';
+import { logger } from '../utils/logger.js';
 
 export const errorMiddleware = (err, req, res, next) => {
-  console.error('[errorMiddleware]', err);
+  logger.error('Unhandled application error', {
+    method: req?.method,
+    path: req?.originalUrl,
+    error: err,
+  });
 
   if (err instanceof mongoose.Error.CastError) {
     return res.status(400).json({
