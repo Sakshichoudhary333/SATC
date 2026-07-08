@@ -1934,3 +1934,5 @@
 {"timestamp":"2026-07-08T08:07:24.639Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":195}}
 {"timestamp":"2026-07-08T08:07:24.741Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.882871197492243,"lng":75.7992408395283},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.12,"eta":{"hours":0,"minutes":6}}}
 {"timestamp":"2026-07-08T08:07:24.742Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":40}}
+{"timestamp":"2026-07-08T12:10:10.055Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-08T12:10:10.643Z","level":"info","message":"MongoDB connected"}

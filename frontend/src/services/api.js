@@ -1,4 +1,5 @@
-const BASE_URL = 'http://localhost:5001/api';
+
+const BASE_URL = 'https://satc-backend.onrender.com/api';
 
 const getHeaders = () => ({
   'Content-Type': 'application/json',
