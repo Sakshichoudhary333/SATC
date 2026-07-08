@@ -7,7 +7,8 @@ import ErrorMessage from '../components/ErrorMessage';
 import LiveDeliveryTracker from '../components/LiveDeliveryTracker';
 import { getOrderById } from '../services/api';
 
-const SOCKET_URL = 'http://localhost:5001';
+
+const SOCKET_URL = 'https://satc-backend.onrender.com';
 
 const isValidMongoId = (value) =>
   typeof value === 'string' && /^[a-fA-F0-9]{24}$/.test(value.trim());

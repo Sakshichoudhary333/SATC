@@ -7,7 +7,8 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import { formatDate } from '../utils/helpers';
 
-const SOCKET_URL = 'http://localhost:5001';
+
+const SOCKET_URL = 'https://satc-backend.onrender.com';
 const STATUS_COLOR = { started: '#3b82f6', 'in-transit': '#8b5cf6', completed: '#10b981' };
 const AUTO_COMPLETE_DISTANCE_KM = 0.5;
 const getNextTripStatus = (status) => {

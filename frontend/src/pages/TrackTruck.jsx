@@ -11,7 +11,8 @@ import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
-const SOCKET_URL = 'http://localhost:5001';
+
+const SOCKET_URL = 'https://satc-backend.onrender.com';
 const DEFAULT_CENTER = [20.5937, 78.9629];
 
 delete L.Icon.Default.prototype._getIconUrl;

@@ -7,7 +7,8 @@ import ErrorMessage from '../components/ErrorMessage';
 import LiveDeliveryTracker from '../components/LiveDeliveryTracker';
 import { formatDate } from '../utils/helpers';
 
-const SOCKET_URL = 'http://localhost:5001';
+
+const SOCKET_URL = 'https://satc-backend.onrender.com';
 
 const STATUS_COLOR = {
   pending: '#f59e0b',
