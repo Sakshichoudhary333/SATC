@@ -2021,3 +2021,47 @@
 {"timestamp":"2026-07-09T10:13:34.066Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":170}}
 {"timestamp":"2026-07-09T10:13:34.322Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":47}}
 {"timestamp":"2026-07-09T10:13:34.327Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":46}}
+{"timestamp":"2026-07-09T10:15:11.599Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T10:15:12.234Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T10:15:14.469Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T10:15:14.929Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T10:15:21.116Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T10:15:21.579Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T10:15:24.405Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T10:15:24.908Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T10:16:02.071Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T10:16:02.525Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T10:16:05.482Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T10:16:05.988Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T10:18:23.668Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T10:18:24.209Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T10:19:01.357Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":179}}
+{"timestamp":"2026-07-09T10:19:01.592Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":36}}
+{"timestamp":"2026-07-09T10:19:01.594Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":44}}
+{"timestamp":"2026-07-09T10:19:10.286Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/forgot-password","statusCode":200,"durationMs":100}}
+{"timestamp":"2026-07-09T10:19:43.193Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T10:19:43.704Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T10:30:19.695Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T10:30:20.398Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T10:30:46.881Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":401,"durationMs":180}}
+{"timestamp":"2026-07-09T10:30:52.719Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":162}}
+{"timestamp":"2026-07-09T10:30:52.970Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":99}}
+{"timestamp":"2026-07-09T10:30:52.986Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/reviews/","statusCode":200,"durationMs":117}}
+{"timestamp":"2026-07-09T10:30:53.021Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/","statusCode":200,"durationMs":149}}
+{"timestamp":"2026-07-09T10:30:53.064Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":92}}
+{"timestamp":"2026-07-09T10:30:53.102Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/reviews/","statusCode":200,"durationMs":113}}
+{"timestamp":"2026-07-09T10:30:53.137Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/dashboard","statusCode":304,"durationMs":270}}
+{"timestamp":"2026-07-09T10:30:53.195Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/","statusCode":200,"durationMs":321}}
+{"timestamp":"2026-07-09T10:30:53.257Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/dashboard","statusCode":304,"durationMs":381}}
+{"timestamp":"2026-07-09T10:30:55.760Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/billing/all","statusCode":200,"durationMs":159}}
+{"timestamp":"2026-07-09T10:30:55.781Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/billing/all","statusCode":200,"durationMs":176}}
+{"timestamp":"2026-07-09T10:30:57.203Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/billing/driver-payouts/month-end","statusCode":201,"durationMs":196}}
+{"timestamp":"2026-07-09T10:34:03.315Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/billing/driver-payouts/month-end","statusCode":201,"durationMs":198}}
+{"timestamp":"2026-07-09T10:35:01.987Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T10:35:02.596Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T10:42:43.986Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T10:42:44.610Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T10:45:54.791Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T10:45:55.416Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T10:53:49.791Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T10:53:50.492Z","level":"info","message":"MongoDB connected"}

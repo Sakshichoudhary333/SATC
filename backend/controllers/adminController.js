@@ -8,10 +8,10 @@ import { getPerformanceMetrics } from '../utils/performanceMetrics.js';
 
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
-// Escape special regex characters to prevent ReDoS
+
 const escapeRegex = (str) => str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, (c) => `\\${c}`);
 
-// ➤ Dashboard Stats
+// ➤ Dashboard Status
 export const getDashboard = async (req, res) => {
   try {
     const totalTrucks = await Truck.countDocuments();

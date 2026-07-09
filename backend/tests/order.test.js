@@ -119,9 +119,6 @@ describe('POST /api/orders', () => {
   });
 
   test('TC-15 | rejects goods details exceeding 500 characters', async () => {
-    // NOTE: This test documents a known bug — the backend validator
-    // currently does not reject oversized goodsDetails (BUG-02 from test doc).
-    // Expected: 400, Actual: 201 — validation not enforced server-side.
     const res = await request(app)
       .post('/api/orders')
       .set('Authorization', `Bearer ${customerToken}`)
@@ -131,8 +128,8 @@ describe('POST /api/orders', () => {
         goodsDetails: 'A'.repeat(510),
       });
 
-    // Bug confirmed: server accepts oversized input — should be 400
-    expect(res.status).toBe(201); // BUG: should be 400
+    expect(res.status).toBe(400);
+    expect(res.body.message).toMatch(/goods/i);
   });
 });
 
