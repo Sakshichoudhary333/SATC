@@ -2065,3 +2065,13 @@
 {"timestamp":"2026-07-09T10:45:55.416Z","level":"info","message":"MongoDB connected"}
 {"timestamp":"2026-07-09T10:53:49.791Z","level":"info","message":"Server running","meta":{"port":"5001"}}
 {"timestamp":"2026-07-09T10:53:50.492Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T11:04:17.415Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T11:04:17.996Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T11:04:25.050Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/otp/send-otp","statusCode":200,"durationMs":154}}
+{"timestamp":"2026-07-09T11:05:25.377Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T11:05:25.832Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T11:05:50.804Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/forgot-password","statusCode":200,"durationMs":106}}
+{"timestamp":"2026-07-09T11:06:23.185Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/reset-password","statusCode":200,"durationMs":218}}
+{"timestamp":"2026-07-09T11:06:30.978Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":166}}
+{"timestamp":"2026-07-09T11:06:31.086Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":41}}
+{"timestamp":"2026-07-09T11:06:31.087Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":39}}
