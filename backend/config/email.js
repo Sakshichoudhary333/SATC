@@ -31,6 +31,12 @@ export const getTransporter = async () => {
         pass: process.env.EMAIL_PASS,
       },
     });
+    try {
+      await _transporter.verify();
+      console.log("✅ SMTP Connected Successfully");
+    } catch (err) {
+      console.error("❌ SMTP Connection Failed:", err);
+    }
   }
 
   return _transporter;
