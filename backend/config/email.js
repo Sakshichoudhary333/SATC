@@ -26,7 +26,7 @@ export const initTransporter = async () => {
       const account = await nodemailer.createTestAccount();
       _transporter = nodemailer.createTransport({
         host: "smtp.ethereal.email",
-        port: 587,
+        port: 465,
         secure: false,
         auth: { user: account.user, pass: account.pass },
       });
