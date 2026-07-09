@@ -2006,3 +2006,18 @@
 {"timestamp":"2026-07-09T09:38:07.632Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":174}}
 {"timestamp":"2026-07-09T09:38:07.722Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":200,"durationMs":38}}
 {"timestamp":"2026-07-09T09:38:07.728Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":200,"durationMs":48}}
+{"timestamp":"2026-07-09T10:09:48.422Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T10:09:49.054Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T10:09:58.978Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T10:09:59.417Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T10:10:11.751Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/otp/send-otp","statusCode":200,"durationMs":193}}
+{"timestamp":"2026-07-09T10:10:27.548Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T10:10:28.044Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T10:10:33.405Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/otp/send-otp","statusCode":200,"durationMs":176}}
+{"timestamp":"2026-07-09T10:12:17.664Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T10:12:18.310Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T10:12:44.471Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/forgot-password","statusCode":200,"durationMs":120}}
+{"timestamp":"2026-07-09T10:13:27.086Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/reset-password","statusCode":200,"durationMs":237}}
+{"timestamp":"2026-07-09T10:13:34.066Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":170}}
+{"timestamp":"2026-07-09T10:13:34.322Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":47}}
+{"timestamp":"2026-07-09T10:13:34.327Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":46}}

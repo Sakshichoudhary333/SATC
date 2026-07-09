@@ -8,7 +8,6 @@ const connectDB = async () => {
       minPoolSize: Number(process.env.MONGO_MIN_POOL_SIZE || 2),
       serverSelectionTimeoutMS: 10000,
       heartbeatFrequencyMS: 10000,
-      // Node 22 + OpenSSL 3.6 compatibility fix for MongoDB Atlas TLS
       tls: true,
       tlsAllowInvalidCertificates: false,
       tlsAllowInvalidHostnames: false,

@@ -12,14 +12,21 @@ const sendEmail = async (to, subject, text) => {
     || process.env.EMAIL_USER
     || "noreply@tms.dev";
 
-  const info = await transporter.sendMail({ from, to, subject, text });
+  try {
+    const info = await transporter.sendMail({ from, to, subject, text });
+    console.log(`✅ Email sent successfully to ${to}`);
+    console.log(`   Message ID: ${info.messageId}`);
 
-  const preview = nodemailer.getTestMessageUrl(info);
-  if (preview) {
-    console.log(`📧 Preview: ${preview}`);
+    const preview = nodemailer.getTestMessageUrl(info);
+    if (preview) {
+      console.log(`📧 Preview: ${preview}`);
+    }
+
+    return info;
+  } catch (error) {
+    console.error(`❌ Failed to send email to ${to}:`, error.message);
+    throw error;
   }
-
-  return info;
 };
 
 export default sendEmail;
