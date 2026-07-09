@@ -24,19 +24,30 @@ export const getTransporter = async () => {
       auth: { user: account.user, pass: account.pass },
     });
   } else {
+    // _transporter = nodemailer.createTransport({
+    //   service: "gmail",
+    //   auth: {
+    //     user: process.env.EMAIL_USER,
+    //     pass: process.env.EMAIL_PASS,
+    //   },
+    // });
+    // try {
+    //   await _transporter.verify();
+    //   console.log("✅ SMTP Connected Successfully");
+    // } catch (err) {
+    //   console.error("❌ SMTP Connection Failed:", err);
+    // }
+
     _transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
+      family: 4, // Force IPv4
     });
-    try {
-      await _transporter.verify();
-      console.log("✅ SMTP Connected Successfully");
-    } catch (err) {
-      console.error("❌ SMTP Connection Failed:", err);
-    }
   }
 
   return _transporter;
