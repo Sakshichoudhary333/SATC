@@ -21,8 +21,8 @@ export const validateRegister = [
     .trim()
     .notEmpty().withMessage('Email is required')
     .isEmail().withMessage('Invalid email format')
-    .isLength({ max: 254 }).withMessage('Email too long')
-    .normalizeEmail(),
+    .isLength({ max: 254 }).withMessage('Email too long'),
+    // NOTE: .normalizeEmail() removed — it corrupts non-Gmail domains (e.g. .ac.in)
 
   body('password')
     .notEmpty().withMessage('Password is required')
@@ -44,8 +44,7 @@ export const validateLogin = [
   body('email')
     .trim()
     .notEmpty().withMessage('Email is required')
-    .isEmail().withMessage('Invalid email format')
-    .normalizeEmail(),
+    .isEmail().withMessage('Invalid email format'),
 
   body('password')
     .notEmpty().withMessage('Password is required')
@@ -59,8 +58,7 @@ export const validateForgotPassword = [
   body('email')
     .trim()
     .notEmpty().withMessage('Email is required')
-    .isEmail().withMessage('Invalid email format')
-    .normalizeEmail(),
+    .isEmail().withMessage('Invalid email format'),
 
   handleValidation,
 ];
@@ -69,8 +67,7 @@ export const validateResetPassword = [
   body('email')
     .trim()
     .notEmpty().withMessage('Email is required')
-    .isEmail().withMessage('Invalid email format')
-    .normalizeEmail(),
+    .isEmail().withMessage('Invalid email format'),
 
   body('otp')
     .trim()
@@ -93,9 +90,7 @@ export const validateVerifyOtp = [
   body('email')
     .trim()
     .notEmpty().withMessage('Email is required')
-    .isEmail().withMessage('Invalid email format')
-    .normalizeEmail(),
-    
+    .isEmail().withMessage('Invalid email format'),
 
   body('otp')
     .trim()
@@ -110,8 +105,7 @@ export const validateResendOtp = [
   body('email')
     .trim()
     .notEmpty().withMessage('Email is required')
-    .isEmail().withMessage('Invalid email format')
-    .normalizeEmail(),
+    .isEmail().withMessage('Invalid email format'),
 
   handleValidation,
 ];

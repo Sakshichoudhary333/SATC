@@ -6,77 +6,45 @@ import generateOTP from "../utils/generateOTP.js";
 export const sendOTP = async (email) => {
   const normalizedEmail = email.trim().toLowerCase();
 
-  const otp = generateOTP();
-  const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
-
-  // Check user exists
   const user = await User.findOne({ email: normalizedEmail });
+  if (!user) throw new Error("User not found");
 
-  if (!user) {
-    throw new Error("User not found");
-  }
+  const otp = generateOTP();
+  const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
 
-  // Save OTP
-  const savedOtp = await OTP.findOneAndUpdate(
+  // Persist OTP
+  await OTP.findOneAndUpdate(
     { email: normalizedEmail },
-    {
-      email: normalizedEmail,
-      otp,
-      createdAt: new Date(),
-    },
-    {
-      upsert: true,
-      returnDocument: "after",
-      runValidators: true,
-      setDefaultsOnInsert: true,
-    }
+    { email: normalizedEmail, otp, createdAt: new Date() },
+    { upsert: true, new: true }
   );
 
-  if (!savedOtp?._id) {
-    throw new Error("Failed to save OTP");
-  }
-
-  // Save OTP in user document
   await User.findByIdAndUpdate(user._id, {
-    $set: {
-      otp,
-      otpExpiry,
-    },
+    $set: { otp, otpExpiry },
   });
 
-  // Send OTP Email
-  await sendEmail(
+  // Always print to terminal — instant, no network dependency
+  console.log(`\n${"─".repeat(48)}`);
+  console.log(`  🔑  OTP  : ${otp}`);
+  console.log(`  📧  For  : ${normalizedEmail}`);
+  console.log(`${"─".repeat(48)}\n`);
+
+  // Send email in background — never blocks the API response
+  sendEmail(
     normalizedEmail,
-    "OTP Verification",
-    `Your OTP is ${otp}. It is valid for 5 minutes.`
-  );
-
-  // Show OTP only in development
-  if (process.env.NODE_ENV !== "production") {
-    console.log(`🔑 OTP for ${normalizedEmail}: ${otp}`);
-  }
-
-  return savedOtp;
+    "OTP Verification — TMS",
+    `Your OTP is: ${otp}\n\nValid for 10 minutes.\n\n— TMS`
+  ).catch((err) => console.warn("⚠️  Email failed (non-fatal):", err.message));
 };
 
 export const verifyOTP = async (email, userOtp) => {
   const normalizedEmail = email.trim().toLowerCase();
 
-  const record = await OTP.findOne({
-    email: normalizedEmail,
-  });
+  const record = await OTP.findOne({ email: normalizedEmail });
+  if (!record) return false;
 
-  if (!record) {
-    return false;
-  }
-
-  const isMatch = record.otp === userOtp;
-
-  if (isMatch) {
-    await OTP.deleteOne({
-      _id: record._id,
-    });
-  }
+  const isMatch = record.otp === String(userOtp).trim();
+  if (isMatch) await OTP.deleteOne({ _id: record._id });
 
   return isMatch;
 };

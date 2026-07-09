@@ -1936,3 +1936,73 @@
 {"timestamp":"2026-07-08T08:07:24.742Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":40}}
 {"timestamp":"2026-07-08T12:10:10.055Z","level":"info","message":"Server running","meta":{"port":"5001"}}
 {"timestamp":"2026-07-08T12:10:10.643Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T07:04:05.316Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T07:04:05.869Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T07:11:40.944Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T07:11:41.482Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T07:14:52.936Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T07:14:53.558Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T07:15:21.086Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T07:15:21.638Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T07:15:32.613Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T07:15:33.105Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T07:15:58.330Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T07:15:59.073Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T07:17:58.643Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T07:17:59.407Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T07:18:15.632Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T07:18:16.062Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T07:18:34.259Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T07:18:34.793Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T07:19:22.025Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T07:19:22.656Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T07:23:30.517Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T07:23:31.396Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T07:23:47.436Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T07:23:47.999Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T07:23:57.571Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T07:23:58.227Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T07:24:10.896Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T07:24:11.376Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T07:24:33.522Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T07:24:34.226Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T07:24:59.009Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T07:24:59.486Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T07:25:34.648Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T07:25:35.100Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T07:30:26.322Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T07:30:26.931Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T09:19:22.943Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T09:19:23.648Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T09:20:13.120Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T09:20:13.602Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T09:23:59.533Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T09:23:59.992Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T09:24:23.109Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/forgot-password","statusCode":200,"durationMs":104}}
+{"timestamp":"2026-07-09T09:26:04.943Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/reset-password","statusCode":200,"durationMs":240}}
+{"timestamp":"2026-07-09T09:26:13.752Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":401,"durationMs":38}}
+{"timestamp":"2026-07-09T09:26:22.532Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":401,"durationMs":39}}
+{"timestamp":"2026-07-09T09:26:31.090Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":401,"durationMs":34}}
+{"timestamp":"2026-07-09T09:26:40.414Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/forgot-password","statusCode":200,"durationMs":89}}
+{"timestamp":"2026-07-09T09:27:07.921Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/reset-password","statusCode":200,"durationMs":219}}
+{"timestamp":"2026-07-09T09:27:15.125Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":401,"durationMs":36}}
+{"timestamp":"2026-07-09T09:27:22.623Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":401,"durationMs":47}}
+{"timestamp":"2026-07-09T09:34:57.300Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-09T09:34:57.869Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-09T09:36:12.412Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":401,"durationMs":183}}
+{"timestamp":"2026-07-09T09:36:19.932Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":180}}
+{"timestamp":"2026-07-09T09:36:20.163Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/reviews/","statusCode":200,"durationMs":80}}
+{"timestamp":"2026-07-09T09:36:20.173Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/","statusCode":200,"durationMs":92}}
+{"timestamp":"2026-07-09T09:36:20.272Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":106}}
+{"timestamp":"2026-07-09T09:36:20.282Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/reviews/","statusCode":200,"durationMs":108}}
+{"timestamp":"2026-07-09T09:36:20.312Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/dashboard","statusCode":200,"durationMs":233}}
+{"timestamp":"2026-07-09T09:36:20.349Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/dashboard","statusCode":200,"durationMs":264}}
+{"timestamp":"2026-07-09T09:36:20.479Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":392}}
+{"timestamp":"2026-07-09T09:36:20.513Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/","statusCode":200,"durationMs":425}}
+{"timestamp":"2026-07-09T09:36:44.342Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":401,"durationMs":43}}
+{"timestamp":"2026-07-09T09:36:58.501Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":401,"durationMs":44}}
+{"timestamp":"2026-07-09T09:37:48.006Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/register","statusCode":201,"durationMs":400}}
+{"timestamp":"2026-07-09T09:38:02.891Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/verify-otp","statusCode":200,"durationMs":210}}
+{"timestamp":"2026-07-09T09:38:07.632Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":174}}
+{"timestamp":"2026-07-09T09:38:07.722Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":200,"durationMs":38}}
+{"timestamp":"2026-07-09T09:38:07.728Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":200,"durationMs":48}}

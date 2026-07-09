@@ -10,7 +10,7 @@ const router = express.Router();
 
 const otpLimiter = rateLimit({
   windowMs: 10 * 60 * 1000,
-  max: 5,
+  max: process.env.NODE_ENV !== 'production' ? 100 : 5,
   message: { message: 'Too many OTP requests, please wait before trying again.' },
 });
 

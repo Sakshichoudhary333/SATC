@@ -18,15 +18,20 @@ import userRoutes from './routes/userRoutes.js';
 import locationRoutes from './routes/locationRoutes.js';
 import billingRoutes from './routes/billingRoutes.js';
 
-import transporter from './config/email.js';
 import { initSocket } from './sockets/socket.js';
 import { errorMiddleware } from './middleware/errorMiddleware.js';
 import { requestLogger } from './middleware/requestLogger.js';
 import { logger } from './utils/logger.js';
+import { initTransporter } from './config/email.js';
 
 dotenv.config();
 
 connectDB();
+
+// Initialize email transporter once at startup (non-blocking)
+initTransporter().catch((err) =>
+  logger.error('Email transporter init failed', { message: err.message })
+);
 
 const app = express();
 const server = http.createServer(app);
@@ -80,22 +85,6 @@ app.use('/api/billing', billingRoutes);
 // ========================
 app.get('/', (_req, res) => {
   res.send('🚚 Truck Management System API Running');
-});
-
-app.get('/test-email', async (_req, res) => {
-  try {
-    const info = await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
-      subject: 'Test Email',
-      text: 'This is a test email',
-    });
-    logger.info('Test email sent', { response: info.response });
-    res.send('Email sent successfully');
-  } catch (err) {
-    logger.error('Test email failed', err);
-    res.send('Email failed');
-  }
 });
 
 // ========================
