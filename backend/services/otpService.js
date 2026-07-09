@@ -1,9 +1,3 @@
-import OTP from "../models/otpModel.js";
-import User from "../models/User.js";
-import sendEmail from "../utils/sendEmail.js";
-
-import generateOTP from "../utils/generateOTP.js";
-
 export const sendOTP = async (email) => {
   const normalizedEmail = email.trim().toLowerCase();
   const otp = generateOTP();
@@ -23,7 +17,7 @@ export const sendOTP = async (email) => {
     },
     {
       upsert: true,
-      new: true,
+      returnDocument: "after",
       runValidators: true,
       setDefaultsOnInsert: true,
     }
@@ -46,25 +40,9 @@ export const sendOTP = async (email) => {
     `Your OTP is ${otp}`
   );
 
-  // Always log OTP to terminal in dev — instant access without opening email
   if (process.env.NODE_ENV !== "production") {
     console.log(`\n🔑 OTP for ${normalizedEmail}: ${otp}\n`);
   }
 
   return savedOtp;
-};
-
-export const verifyOTP = async (email, userOtp) => {
-  const normalizedEmail = email.trim().toLowerCase();
-  const record = await OTP.findOne({ email: normalizedEmail });
-
-  if (!record) return false;
-
-  const isMatch = record.otp === userOtp;
-
-  if (isMatch) {
-    await OTP.deleteOne({ _id: record._id });
-  }
-
-  return isMatch;
 };
