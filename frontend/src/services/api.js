@@ -81,6 +81,12 @@ export const getAllOrders = () =>
 export const getTrucks = () =>
   fetch(`${BASE_URL}/trucks`, { headers: getHeaders() }).then(handleResponse);
 
+export const getTruckById = (id) => {
+  const truckId = typeof id === 'string' ? id.trim() : '';
+  if (!isValidMongoId(truckId)) return Promise.reject(new Error('Invalid truck id'));
+  return fetch(`${BASE_URL}/trucks/${truckId}`).then(handleResponse); // public — no auth header
+};
+
 export const addTruck = (body) =>
   fetch(`${BASE_URL}/trucks`, { method: 'POST', headers: getHeaders(), body: JSON.stringify(body) }).then(handleResponse);
 
@@ -158,8 +164,6 @@ export const getTruckETA = (id, destLat, destLng) => {
 
   return fetch(`${BASE_URL}/trucks/${truckId}/eta?${params.toString()}`, { headers: getHeaders() }).then(handleResponse);
 };
-
-// ── Trips ─────────────────────────────────────────────
 export const getTrips = () =>
   fetch(`${BASE_URL}/trips`, { headers: getHeaders() }).then(handleResponse);
 
@@ -177,6 +181,25 @@ export const updateTripStatus = (id, status) =>
 
   return fetch(`${BASE_URL}/trips/${tripId}/status`, { method: 'PUT', headers: getHeaders(), body: JSON.stringify({ status }) }).then(handleResponse);
 }
+
+export const updateTripDetails = (id, body) => {
+  const tripId = typeof id === 'string' ? id.trim() : '';
+  if (!isValidMongoId(tripId)) return Promise.reject(new Error('Invalid trip id'));
+  return fetch(`${BASE_URL}/trips/${tripId}`, {
+    method: 'PUT',
+    headers: getHeaders(),
+    body: JSON.stringify(body),
+  }).then(handleResponse);
+};
+
+export const cancelTrip = (id) => {
+  const tripId = typeof id === 'string' ? id.trim() : '';
+  if (!isValidMongoId(tripId)) return Promise.reject(new Error('Invalid trip id'));
+  return fetch(`${BASE_URL}/trips/${tripId}`, {
+    method: 'DELETE',
+    headers: getHeaders(),
+  }).then(handleResponse);
+};
 
 // ── Expenses ──────────────────────────────────────────
 export const addExpense = (body) =>
@@ -196,6 +219,35 @@ export const getMyExpenses = () =>
 
 export const getAllExpenses = () =>
   fetch(`${BASE_URL}/expenses`, { headers: getHeaders() }).then(handleResponse);
+
+export const updateExpenseStatus = (id, status) => {
+  const expenseId = typeof id === 'string' ? id.trim() : '';
+  if (!isValidMongoId(expenseId)) return Promise.reject(new Error('Invalid expense id'));
+  return fetch(`${BASE_URL}/expenses/${expenseId}/status`, {
+    method: 'PUT',
+    headers: getHeaders(),
+    body: JSON.stringify({ status }),
+  }).then(handleResponse);
+};
+
+export const updateExpense = (id, body) => {
+  const expenseId = typeof id === 'string' ? id.trim() : '';
+  if (!isValidMongoId(expenseId)) return Promise.reject(new Error('Invalid expense id'));
+  return fetch(`${BASE_URL}/expenses/${expenseId}`, {
+    method: 'PUT',
+    headers: getHeaders(),
+    body: JSON.stringify(body),
+  }).then(handleResponse);
+};
+
+export const deleteExpense = (id) => {
+  const expenseId = typeof id === 'string' ? id.trim() : '';
+  if (!isValidMongoId(expenseId)) return Promise.reject(new Error('Invalid expense id'));
+  return fetch(`${BASE_URL}/expenses/${expenseId}`, {
+    method: 'DELETE',
+    headers: getHeaders(),
+  }).then(handleResponse);
+};
 
 // ── Reviews ───────────────────────────────────────────
 export const addReview = (body) =>

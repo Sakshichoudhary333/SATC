@@ -25,7 +25,45 @@ export const getTrucks = async (req, res) => {
   res.json(trucks);
 };
 
-// ➤ Update Truck Location
+// ➤ Get Single Truck (public — used for shareable live-track links)
+export const getTruckById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id || !isValidObjectId(id)) {
+      return res.status(400).json({ message: 'Invalid truck id' });
+    }
+    const truck = await Truck.findById(id).populate('driver', 'name');
+    if (!truck) return res.status(404).json({ message: 'Truck not found' });
+    res.json(truck);
+  } catch (error) {
+    return res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+// ➤ Get Active Trip for a truck (public — used by shareable live-track page)
+export const getTruckActiveTrip = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id || !isValidObjectId(id)) {
+      return res.status(400).json({ message: 'Invalid truck id' });
+    }
+
+    // Find the most recent non-completed trip for this truck
+    const Trip = (await import('../models/Trip.js')).default;
+    const trip = await Trip.findOne({ truck: id })
+      .sort({ createdAt: -1 })
+      .populate({
+        path: 'order',
+        select: 'pickupLocation destination status goodsDetails',
+      })
+      .populate('driver', 'name');
+
+    if (!trip) return res.json(null);
+    res.json(trip);
+  } catch (error) {
+    return res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
 export const updateTruckLocation = async (req, res) => {
   try {
     const { id } = req.params;

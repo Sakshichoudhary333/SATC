@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getBills, payBill, deleteBill, generateMonthEndDriverPayouts } from '../services/api';
+import { getBills, payBill, deleteBill } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 
@@ -7,7 +7,6 @@ const Billing = () => {
   const [bills, setBills] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [generatingPayouts, setGeneratingPayouts] = useState(false);
 
   useEffect(() => {
     getBills()
@@ -43,20 +42,6 @@ const Billing = () => {
     }
   };
 
-  const handleGenerateDriverPayouts = async () => {
-    try {
-      setGeneratingPayouts(true);
-      setError('');
-      const result = await generateMonthEndDriverPayouts({ date: new Date().toISOString() });
-      if (Array.isArray(result?.bills) && result.bills.length > 0) {
-        await refreshBills();
-      }
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setGeneratingPayouts(false);
-    }
-  };
 
   const getPartyName = (bill) => bill.partyName || bill.customerName || bill.driverName || '—';
   const getBillTypeLabel = (bill) => {
@@ -78,16 +63,6 @@ const Billing = () => {
     <div className="dash-page">
       <div className="dash-section-label">ADMIN</div>
       <h2 className="dash-title">Billing</h2>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem' }}>
-        <button
-          className="approve-btn"
-          onClick={handleGenerateDriverPayouts}
-          disabled={generatingPayouts}
-          style={{ padding: '0.55rem 1rem' }}
-        >
-          {generatingPayouts ? 'Generating...' : 'Generate Month-End Driver Payouts'}
-        </button>
-      </div>
 
       {error && <ErrorMessage message={error} />}
 

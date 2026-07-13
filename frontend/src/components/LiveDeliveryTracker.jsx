@@ -103,6 +103,7 @@ const fetchRoutePolyline = async (start, end) => {
 };
 
 const LiveDeliveryTracker = ({ order }) => {
+  const [pickupCoords, setPickupCoords] = useState(null);
   const [destinationCoords, setDestinationCoords] = useState(null);
   const [routeCoords, setRouteCoords] = useState(null);
   const [eta, setEta] = useState(null);
@@ -115,32 +116,50 @@ const LiveDeliveryTracker = ({ order }) => {
   const trackingStatus = useMemo(() => getTrackingStatus(order, etaMinutes), [order, etaMinutes]);
   const trackingTone = getStatusTone(trackingStatus);
   const liveLastUpdated = order?.truck?.lastUpdated ? new Date(order.truck.lastUpdated).toLocaleString() : 'Waiting for GPS feed';
-  const showRoute = truckCoords && destinationCoords && routeCoords && routeCoords.length > 1;
-  const pointsForSvg = showRoute
-    ? fitPointsToViewBox(routeCoords)
-    : truckCoords && destinationCoords
-      ? fitPointsToViewBox([truckCoords, destinationCoords])
-      : [];
-  const routePath = showRoute ? buildRoutePath(pointsForSvg) : pointsForSvg.length > 1 ? buildRoutePath(pointsForSvg) : '';
-  const mapLabel = showRoute ? 'Route visualized from live GPS to destination' : 'Live GPS and destination markers';
 
+  // Build the full route: pickup → destination (the static road path)
+  // Truck dot is overlaid separately on top
+  const showRoute = pickupCoords && destinationCoords && routeCoords && routeCoords.length > 1;
+  const routePointsForSvg = showRoute
+    ? fitPointsToViewBox(routeCoords)
+    : pickupCoords && destinationCoords
+      ? fitPointsToViewBox([pickupCoords, destinationCoords])
+      : [];
+
+  // Project the truck's live position onto the same coordinate space as the route
+  const allCoordsForViewBox = showRoute
+    ? routeCoords
+    : pickupCoords && destinationCoords
+      ? [pickupCoords, destinationCoords]
+      : [];
+
+  const truckSvgPoint = useMemo(() => {
+    if (!truckCoords || allCoordsForViewBox.length === 0) return null;
+    const allWithTruck = [...allCoordsForViewBox, truckCoords];
+    const projected = fitPointsToViewBox(allWithTruck);
+    // The truck is the last point we added
+    return projected[projected.length - 1];
+  }, [truckCoords?.lat, truckCoords?.lng, showRoute, pickupCoords, destinationCoords]);
+
+  const routePath = routePointsForSvg.length > 1 ? buildRoutePath(routePointsForSvg) : '';
+  const pickupSvgPoint = routePointsForSvg[0] || null;
+  const destSvgPoint = routePointsForSvg[routePointsForSvg.length - 1] || null;
+  const mapLabel = showRoute ? 'Route: Pickup → Destination (live truck position shown)' : 'Pickup and destination markers';
+
+  // Geocode pickup
   useEffect(() => {
     let active = true;
+    if (!order?.pickupLocation) { setPickupCoords(null); return undefined; }
+    geocodeAddress(order.pickupLocation).then((coords) => { if (active) setPickupCoords(coords); });
+    return () => { active = false; };
+  }, [order?.pickupLocation]);
 
-    if (!order?.destination) {
-      setDestinationCoords(null);
-      return undefined;
-    }
-
-    geocodeAddress(order.destination).then((coords) => {
-      if (active) {
-        setDestinationCoords(coords);
-      }
-    });
-
-    return () => {
-      active = false;
-    };
+  // Geocode destination
+  useEffect(() => {
+    let active = true;
+    if (!order?.destination) { setDestinationCoords(null); return undefined; }
+    geocodeAddress(order.destination).then((coords) => { if (active) setDestinationCoords(coords); });
+    return () => { active = false; };
   }, [order?.destination]);
 
   useEffect(() => {
@@ -167,53 +186,33 @@ const LiveDeliveryTracker = ({ order }) => {
 
       try {
         const data = await getTruckETA(truckId, destinationCoords.lat, destinationCoords.lng);
-        if (active) {
-          setEta(data);
-        }
+        if (active) setEta(data);
       } catch (err) {
-        if (active) {
-          setEta(null);
-          setEtaError(err.message || 'Unable to load ETA');
-        }
+        if (active) { setEta(null); setEtaError(err.message || 'Unable to load ETA'); }
       } finally {
-        if (active) {
-          setEtaLoading(false);
-        }
+        if (active) setEtaLoading(false);
       }
     };
 
     loadETA();
-    return () => {
-      active = false;
-    };
+    return () => { active = false; };
   }, [truckId, truckCoords?.lat, truckCoords?.lng, destinationCoords?.lat, destinationCoords?.lng]);
 
+  // Fetch route polyline from pickup to destination (not truck position)
   useEffect(() => {
     const canBuildRoute =
-      truckCoords &&
-      destinationCoords &&
-      Number.isFinite(truckCoords.lat) &&
-      Number.isFinite(truckCoords.lng) &&
-      Number.isFinite(destinationCoords.lat) &&
-      Number.isFinite(destinationCoords.lng);
+      pickupCoords && destinationCoords &&
+      Number.isFinite(pickupCoords.lat) && Number.isFinite(pickupCoords.lng) &&
+      Number.isFinite(destinationCoords.lat) && Number.isFinite(destinationCoords.lng);
 
-    if (!canBuildRoute) {
-      setRouteCoords(null);
-      return undefined;
-    }
+    if (!canBuildRoute) { setRouteCoords(null); return undefined; }
 
     let active = true;
-
-    fetchRoutePolyline(truckCoords, destinationCoords).then((points) => {
-      if (active) {
-        setRouteCoords(points);
-      }
+    fetchRoutePolyline(pickupCoords, destinationCoords).then((points) => {
+      if (active) setRouteCoords(points);
     });
-
-    return () => {
-      active = false;
-    };
-  }, [truckCoords?.lat, truckCoords?.lng, destinationCoords?.lat, destinationCoords?.lng]);
+    return () => { active = false; };
+  }, [pickupCoords?.lat, pickupCoords?.lng, destinationCoords?.lat, destinationCoords?.lng]);
 
   const etaText = etaLoading
     ? 'Loading...'
@@ -270,7 +269,7 @@ const LiveDeliveryTracker = ({ order }) => {
           <span>{mapLabel}</span>
         </div>
 
-        {truckCoords && destinationCoords ? (
+        {pickupCoords && destinationCoords ? (
           <svg viewBox="0 0 1000 520" className="tracker-svg" role="img" aria-label="Delivery route map">
             <defs>
               <pattern id="trackerGrid" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -283,43 +282,85 @@ const LiveDeliveryTracker = ({ order }) => {
             </defs>
             <rect width="1000" height="520" fill="rgba(15,17,23,0.88)" />
             <rect width="1000" height="520" fill="url(#trackerGrid)" />
+
+            {/* Route line: pickup → destination */}
             {routePath ? (
               <path d={routePath} fill="none" stroke="url(#trackerLine)" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
-            ) : (
+            ) : pickupSvgPoint && destSvgPoint ? (
               <line
-                x1={pointsForSvg[0]?.x || 120}
-                y1={pointsForSvg[0]?.y || 360}
-                x2={pointsForSvg[1]?.x || 880}
-                y2={pointsForSvg[1]?.y || 160}
-                stroke="url(#trackerLine)"
-                strokeWidth="6"
-                strokeLinecap="round"
+                x1={pickupSvgPoint.x} y1={pickupSvgPoint.y}
+                x2={destSvgPoint.x} y2={destSvgPoint.y}
+                stroke="url(#trackerLine)" strokeWidth="6" strokeLinecap="round"
               />
-            )}
+            ) : null}
 
-            {pointsForSvg.length >= 2 && (
+            {/* Pickup marker */}
+            {pickupSvgPoint && (
               <>
-                <circle cx={pointsForSvg[0].x} cy={pointsForSvg[0].y} r="12" fill="#06b6d4" />
-                <circle cx={pointsForSvg[1].x} cy={pointsForSvg[1].y} r="12" fill="#10b981" />
-                <text x={pointsForSvg[0].x + 18} y={pointsForSvg[0].y - 16} fill="#e2e8f0" fontSize="24" fontWeight="700">
-                  Truck
-                </text>
-                <text x={pointsForSvg[1].x + 18} y={pointsForSvg[1].y - 16} fill="#e2e8f0" fontSize="24" fontWeight="700">
-                  Destination
+                <circle cx={pickupSvgPoint.x} cy={pickupSvgPoint.y} r="14" fill="#06b6d4" opacity="0.25" />
+                <circle cx={pickupSvgPoint.x} cy={pickupSvgPoint.y} r="8" fill="#06b6d4" />
+                <rect x={pickupSvgPoint.x - 10} y={pickupSvgPoint.y - 13} width="20" height="20" rx="4" fill="#06b6d4" />
+                <text x={pickupSvgPoint.x} y={pickupSvgPoint.y + 2} fill="#0f1117" fontSize="13" fontWeight="900" textAnchor="middle" dominantBaseline="middle">P</text>
+                <text
+                  x={pickupSvgPoint.x}
+                  y={pickupSvgPoint.y - 22}
+                  fill="#06b6d4"
+                  fontSize="18"
+                  fontWeight="700"
+                  textAnchor="middle"
+                >
+                  {order?.pickupLocation || 'Pickup'}
                 </text>
               </>
             )}
 
-            <text x="36" y="484" fill="#94a3b8" fontSize="22">
+            {/* Destination marker */}
+            {destSvgPoint && (
+              <>
+                <circle cx={destSvgPoint.x} cy={destSvgPoint.y} r="14" fill="#10b981" opacity="0.25" />
+                <circle cx={destSvgPoint.x} cy={destSvgPoint.y} r="8" fill="#10b981" />
+                <rect x={destSvgPoint.x - 10} y={destSvgPoint.y - 13} width="20" height="20" rx="4" fill="#10b981" />
+                <text x={destSvgPoint.x} y={destSvgPoint.y + 2} fill="#0f1117" fontSize="13" fontWeight="900" textAnchor="middle" dominantBaseline="middle">D</text>
+                <text
+                  x={destSvgPoint.x}
+                  y={destSvgPoint.y - 22}
+                  fill="#10b981"
+                  fontSize="18"
+                  fontWeight="700"
+                  textAnchor="middle"
+                >
+                  {order?.destination || 'Destination'}
+                </text>
+              </>
+            )}
+
+            {/* Live truck marker */}
+            {truckSvgPoint && (
+              <>
+                <circle cx={truckSvgPoint.x} cy={truckSvgPoint.y} r="18" fill="#f59e0b" opacity="0.2" />
+                <circle cx={truckSvgPoint.x} cy={truckSvgPoint.y} r="10" fill="#f59e0b" />
+                <rect x={truckSvgPoint.x - 10} y={truckSvgPoint.y - 13} width="20" height="20" rx="4" fill="#f59e0b" />
+                <text x={truckSvgPoint.x} y={truckSvgPoint.y + 2} fill="#0f1117" fontSize="13" fontWeight="900" textAnchor="middle" dominantBaseline="middle">T</text>
+                <text
+                  x={truckSvgPoint.x}
+                  y={truckSvgPoint.y - 26}
+                  fill="#f59e0b"
+                  fontSize="18"
+                  fontWeight="700"
+                  textAnchor="middle"
+                >
+                  Truck
+                </text>
+              </>
+            )}
+
+            <text x="36" y="510" fill="#94a3b8" fontSize="20">
               GPS {truckCoords ? formatCoords(truckCoords) : 'Unavailable'}
-            </text>
-            <text x="36" y="48" fill="#94a3b8" fontSize="22">
-              {order?.destination || 'Destination unavailable'}
             </text>
           </svg>
         ) : (
           <div className="tracker-empty">
-            Waiting for both truck GPS and destination coordinates before rendering the route.
+            Waiting for pickup and destination coordinates before rendering the route.
           </div>
         )}
       </div>

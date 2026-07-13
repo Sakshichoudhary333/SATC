@@ -161,6 +161,11 @@ export const updateTripStatus = async (req, res) => {
     return res.status(404).json({ message: 'Trip not found' });
   }
 
+  // Completed trips are read-only — status cannot be changed
+  if (trip.status === 'completed') {
+    return res.status(403).json({ message: 'Completed trips cannot be modified' });
+  }
+
   trip.status = status;
   await trip.save();
 
@@ -199,4 +204,111 @@ export const getTrips = async (req, res) => {
     .populate('driver');
 
   res.json(trips);
+};
+
+// ➤ Update Trip Details (Admin, only when status === 'started')
+export const updateTrip = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { truck, driver } = req.body;
+
+    if (!id || !isValidObjectId(id)) {
+      return res.status(400).json({ message: 'Invalid trip id' });
+    }
+
+    const trip = await Trip.findById(id);
+    if (!trip) return res.status(404).json({ message: 'Trip not found' });
+
+    if (trip.status !== 'started') {
+      return res.status(403).json({ message: 'Trip details can only be edited before the trip starts moving' });
+    }
+
+    if (truck && truck !== trip.truck?.toString()) {
+      if (!isValidObjectId(truck)) return res.status(400).json({ message: 'Invalid truck id' });
+      const truckDoc = await Truck.findById(truck);
+      if (!truckDoc) return res.status(404).json({ message: 'Truck not found' });
+      if (truckDoc.status === 'maintenance') return res.status(400).json({ message: 'Truck is under maintenance' });
+
+      // Free old truck
+      await Truck.findByIdAndUpdate(trip.truck, { driver: null, isAvailable: true });
+      truckDoc.isAvailable = false;
+      truckDoc.driver = driver || trip.driver;
+      await truckDoc.save();
+      trip.truck = truck;
+    }
+
+    if (driver && driver !== trip.driver?.toString()) {
+      if (!isValidObjectId(driver)) return res.status(400).json({ message: 'Invalid driver id' });
+      const driverDoc = await User.findById(driver);
+      if (!driverDoc || driverDoc.role !== 'driver') return res.status(404).json({ message: 'Driver not found' });
+      if (driverDoc.driverStatus === 'inactive') return res.status(400).json({ message: 'Driver is inactive' });
+
+      // Check new driver has no active trip
+      const activeTrip = await Trip.findOne({ driver, status: { $in: ['started', 'in-transit'] }, _id: { $ne: id } });
+      if (activeTrip) return res.status(400).json({ message: 'Driver already has an active trip' });
+
+      trip.driver = driver;
+      // Update truck's driver reference too
+      await Truck.findByIdAndUpdate(trip.truck, { driver });
+    }
+
+    // Sync order assignment
+    await Order.findByIdAndUpdate(trip.order, {
+      truck: trip.truck,
+      driver: trip.driver,
+    });
+
+    await trip.save();
+
+    const updated = await Trip.findById(trip._id)
+      .populate('order')
+      .populate('truck')
+      .populate('driver');
+
+    res.json({ message: 'Trip updated successfully', trip: updated });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ➤ Cancel Trip (Admin only)
+export const cancelTrip = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id || !isValidObjectId(id)) {
+      return res.status(400).json({ message: 'Invalid trip id' });
+    }
+
+    const trip = await Trip.findById(id).populate('order');
+    if (!trip) return res.status(404).json({ message: 'Trip not found' });
+
+    if (trip.status === 'completed') {
+      return res.status(403).json({ message: 'Cannot cancel a completed trip' });
+    }
+
+    // Free the truck
+    await Truck.findByIdAndUpdate(trip.truck, { driver: null, isAvailable: true });
+
+    // Reset order back to approved so it can be re-assigned
+    if (trip.order) {
+      await Order.findByIdAndUpdate(trip.order._id, {
+        status: 'approved',
+        truck: null,
+        driver: null,
+      });
+    }
+
+    await Trip.findByIdAndDelete(id);
+
+    emitTripStatusUpdated({
+      tripId: id,
+      orderId: trip.order?._id?.toString() || trip.order,
+      status: 'cancelled',
+    });
+
+    res.json({ message: 'Trip cancelled successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };

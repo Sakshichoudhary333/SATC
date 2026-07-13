@@ -35,6 +35,15 @@ const expenseSchema = new mongoose.Schema(
     notes: {
       type: String,
     },
+    approvalStatus: {
+      type: String,
+      enum: ['pending', 'approved', 'rejected'],
+      default: 'pending',
+    },
+    postTripEditUsed: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

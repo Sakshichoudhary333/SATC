@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { addReview } from '../services/api';
 import StarRating from '../components/StarRating';
 import ErrorMessage from '../components/ErrorMessage';
+import {FaStar} from "react-icons/fa";
 
 const isValidMongoId = (value) =>
   typeof value === 'string' && /^[a-fA-F0-9]{24}$/.test(value.trim());
@@ -37,7 +38,8 @@ const ReviewForm = () => {
     return (
       <div className="dash-page">
         <div className="dark-card" style={{ maxWidth: '420px', textAlign: 'center' }}>
-          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎉</div>
+          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}></div>
+          <FaStar size={48} color="#facc15" style={{ marginBottom: '1rem' }} />
           <h3 style={{ color: '#e2e8f0', marginBottom: '0.5rem' }}>Thank you!</h3>
           <p style={{ color: '#94a3b8', marginBottom: '1.5rem' }}>Your review has been submitted.</p>
           <button className="approve-btn" onClick={() => navigate('/dashboard')}>Back to Orders</button>

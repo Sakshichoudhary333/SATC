@@ -20,9 +20,11 @@ import AdminDrivers from '../pages/AdminDrivers';
 import AdminAssignTruck from '../pages/AdminAssignTruck';
 import AdminTrips from '../pages/AdminTrips';
 import AdminReports from '../pages/AdminReports';
+import AdminExpenses from '../pages/AdminExpenses';
 import Unauthorized from '../pages/Unauthorized';
 import TestMap from '../pages/TestMap';
 import Billing from "../pages/Billing";
+import LiveTruckTrack from '../pages/LiveTruckTrack';
 
 
 const A = ({ children }) => <ProtectedRoute roles={['admin']}>{children}</ProtectedRoute>;
@@ -63,7 +65,9 @@ const AppRoutes = () => (
     <Route path="/admin/drivers" element={<A><AdminDrivers /></A>} />
     <Route path="/admin/assign" element={<A><AdminAssignTruck /></A>} />
     <Route path="/admin/trips" element={<A><AdminTrips /></A>} />
+    <Route path="/admin/expenses" element={<A><AdminExpenses /></A>} />
     <Route path="/admin/reports" element={<A><AdminReports /></A>} />
+    <Route path="/track/truck/:truckId" element={<LiveTruckTrack />} />
     <Route path="/test-map" element={<TestMap />} />
 
     <Route path="*" element={<Navigate to="/login" replace />} />
