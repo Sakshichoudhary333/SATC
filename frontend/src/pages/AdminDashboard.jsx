@@ -4,25 +4,28 @@ import { getAdminDashboard, getAllExpenses, getAllReviews, getTrips } from '../s
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import { formatDate } from '../utils/helpers';
+import {FaTruck, FaUser, FaBox,FaMapMarkerAlt,FaMoneyBillWave,FaRoute,FaCheckCircle} from "react-icons/fa";
+import {MdPayment,MdPeople,MdAssessment} from "react-icons/md";
+import {HiOutlineLink} from "react-icons/hi";
 
 const CARDS = [
-  { key: 'totalTrucks', label: 'Total Trucks', icon: '🚛', color: '#06b6d4' },
-  { key: 'totalDrivers', label: 'Total Drivers', icon: '👤', color: '#8b5cf6' },
-  { key: 'availableTrucks', label: 'Available Trucks', icon: '✅', color: '#10b981' },
-  { key: 'assignedTrucks', label: 'Assigned Trucks', icon: '🔗', color: '#f59e0b' },
-  { key: 'totalOrders', label: 'Total Orders', icon: '📦', color: '#3b82f6' },
+  { key: 'totalTrucks', label: 'Total Trucks', icon: <FaTruck/>, color: '#06b6d4' },
+  { key: 'totalDrivers', label: 'Total Drivers', icon: <FaUser/>, color: '#8b5cf6' },
+  { key: 'availableTrucks', label: 'Available Trucks', icon: <FaCheckCircle/>, color: '#10b981' },
+  { key: 'assignedTrucks', label: 'Assigned Trucks', icon: <HiOutlineLink/>, color: '#f59e0b' },
+  { key: 'totalOrders', label: 'Total Orders', icon: <FaBox/>, color: '#3b82f6' },
 ];
 
 const QUICK_ACTIONS = [
-  { to: '/track', label: 'Live Truck Monitoring', icon: '📍', color: '#06b6d4' },
-  { to: '/admin/billing', label: 'Billing', icon: '💳', color: '#22c55e' },
-  { to: '/admin/users', label: 'Users', icon: '🧑‍💼', color: '#10b981' },
-  { to: '/admin/orders', label: 'Orders', icon: '📦', color: '#3b82f6' },
-  { to: '/admin/trucks', label: 'Trucks', icon: '🚛', color: '#10b981' },
-  { to: '/admin/drivers', label: 'Drivers', icon: '👤', color: '#8b5cf6' },
-  { to: '/admin/assign', label: 'Assign Truck', icon: '🔗', color: '#f59e0b' },
-  { to: '/admin/trips', label: 'Trips', icon: '🗺', color: '#ef4444' },
-  { to: '/admin/reports', label: 'Reports', icon: '📊', color: '#14b8a6' },
+  { to: '/track', label: 'Live Truck Monitoring', icon: <FaMapMarkerAlt/>, color: '#06b6d4' },
+  { to: '/admin/billing', label: 'Billing', icon: <FaMoneyBillWave/>, color: '#22c55e' },
+  { to: '/admin/users', label: 'Users', icon: <MdPeople/>, color: '#10b981' },
+  { to: '/admin/orders', label: 'Orders', icon: <FaBox/>, color: '#3b82f6' },
+  { to: '/admin/trucks', label: 'Trucks', icon: <FaBox/>, color: '#10b981' },
+  { to: '/admin/drivers', label: 'Drivers', icon: <FaUser/>, color: '#8b5cf6' },
+  { to: '/admin/assign', label: 'Assign Truck', icon: <HiOutlineLink/>, color: '#f59e0b' },
+  { to: '/admin/trips', label: 'Trips', icon: <FaRoute/>, color: '#ef4444' },
+  { to: '/admin/reports', label: 'Reports', icon: <MdAssessment/>, color: '#14b8a6' },
 ];
 
 const STATUS_COLOR = {

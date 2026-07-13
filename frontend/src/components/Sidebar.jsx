@@ -1,28 +1,30 @@
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-
+import { FaBox, FaPlus, FaMapMarkerAlt, FaTruck, FaMoneyBillWave ,FaUser,FaRoute} from "react-icons/fa"; 
+import { MdDashboard,MdPayment,MdPeople,MdAssessment } from "react-icons/md";
+import { HiOutlineLink } from "react-icons/hi";
 const NAV = {
   admin: [
-    { to: '/admin/billing', label: 'Billing', icon: '💳' },
-    { to: '/admin', label: 'Dashboard', icon: '▣' },
-    { to: '/track', label: 'Live Track', icon: '📍' },
-    { to: '/admin/users', label: 'Users', icon: '🧑‍💼' },
-    { to: '/admin/trucks', label: 'Trucks', icon: '🚛' },
-    { to: '/admin/drivers', label: 'Drivers', icon: '👤' },
-    { to: '/admin/assign', label: 'Assign Truck', icon: '🔗' },
-    { to: '/admin/orders', label: 'Orders', icon: '📦' },
-    { to: '/admin/trips', label: 'Trips', icon: '🗺' },
-    { to: '/admin/reports', label: 'Reports', icon: '📊' },
+    { to: '/admin/billing', label: 'Billing', icon: <MdPayment /> },
+    { to: '/admin', label: 'Dashboard', icon: <MdDashboard /> },
+    { to: '/track', label: 'Live Track', icon: <FaMapMarkerAlt /> },
+    { to: '/admin/users', label: 'Users', icon:  <MdPeople /> },
+    { to: '/admin/trucks', label: 'Trucks', icon: <FaTruck /> },
+    { to: '/admin/drivers', label: 'Drivers', icon:  <FaUser /> },
+    { to: '/admin/assign', label: 'Assign Truck', icon: <HiOutlineLink /> },
+    { to: '/admin/orders', label: 'Orders', icon: <FaBox /> },
+    { to: '/admin/trips', label: 'Trips', icon: <FaRoute /> },
+    { to: '/admin/reports', label: 'Reports', icon: <MdAssessment /> },
   ],
   driver: [
-    { to: '/driver', label: 'My Trips', icon: '🚚' },
-    { to: '/expenses', label: 'Expenses', icon: '💰' },
-    { to: '/track', label: 'Track', icon: '📍' },
+    { to: '/driver', label: 'My Trips', icon: <FaRoute /> },
+    { to: '/expenses', label: 'Expenses', icon: <FaMoneyBillWave /> },
+    { to: '/track', label: 'Track', icon: <FaMapMarkerAlt /> },
   ],
   customer: [
-    { to: '/dashboard', label: 'My Orders', icon: '📦' },
-    { to: '/place-order', label: 'Place Order', icon: '➕' },
-    { to: '/track', label: 'Track Truck', icon: '📍' },
+    { to: '/dashboard', label: 'My Orders', icon: <FaBox /> },
+    { to: '/place-order', label: 'Place Order', icon: <FaPlus /> },
+    { to: '/track', label: 'Track Truck', icon: <FaMapMarkerAlt /> },
   ],
 };
 

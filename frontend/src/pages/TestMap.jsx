@@ -11,7 +11,7 @@ export default function TestMap() {
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <Marker position={[28.6139, 77.2090]}>
-          <Popup>Delhi 🚚</Popup>
+          <Popup>Delhi </Popup>
         </Marker>
       </MapContainer>
     </div>
