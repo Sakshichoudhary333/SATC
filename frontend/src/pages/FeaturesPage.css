@@ -1,0 +1,177 @@
+/* Features Page Custom Styling */
+.feat-hero-section {
+  padding: 8rem 2rem 4rem;
+  text-align: center;
+  position: relative;
+  background: radial-gradient(circle at top, rgba(6, 182, 212, 0.1) 0%, transparent 60%);
+  border-bottom: 1px solid var(--border);
+}
+
+.feat-hero-glow {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 200px;
+  background: var(--cyan);
+  filter: blur(150px);
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.feat-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.feat-main-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #ffffff 0%, var(--cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.feat-subtitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+}
+
+.feat-intro-text {
+  font-size: 1.125rem;
+  color: var(--text);
+  line-height: 1.7;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: justify;
+}
+
+/* Services section */
+.feat-services-section {
+  padding: 5rem 2rem;
+  background: rgba(15, 17, 23, 0.5);
+  border-bottom: 1px solid var(--border);
+}
+
+.feat-services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.75rem;
+}
+
+.feat-card {
+  background: rgba(22, 28, 45, 0.5);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2.25rem 1.75rem;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.feat-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--cyan);
+  box-shadow: 0 10px 25px rgba(6, 182, 212, 0.1);
+  background: rgba(22, 28, 45, 0.85);
+}
+
+.feat-card-icon {
+  font-size: 2.25rem;
+  color: var(--cyan);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.35));
+}
+
+.feat-card h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.feat-card p {
+  font-size: 0.95rem;
+  color: var(--dim);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Why Choose Section */
+.feat-why-section {
+  padding: 5rem 2rem;
+}
+
+.feat-section-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 3rem;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+.feat-why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.feat-why-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(22, 28, 45, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  transition: all 0.2s;
+}
+
+.feat-why-item:hover {
+  border-color: rgba(6, 182, 212, 0.3);
+  background: rgba(22, 28, 45, 0.5);
+}
+
+.feat-bullet {
+  color: var(--cyan);
+  font-weight: bold;
+  font-size: 1.25rem;
+  text-shadow: 0 0 8px rgba(6, 182, 212, 0.5);
+}
+
+.feat-why-item span:last-child {
+  font-size: 0.975rem;
+  color: var(--text);
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .feat-hero-section {
+    padding: 6rem 1rem 3rem;
+  }
+  
+  .feat-main-title {
+    font-size: 2.5rem;
+  }
+  
+  .feat-subtitle {
+    font-size: 1.5rem;
+  }
+  
+  .feat-section-title {
+    font-size: 1.75rem;
+  }
+  
+  .feat-card {
+    padding: 1.75rem 1.25rem;
+  }
+}

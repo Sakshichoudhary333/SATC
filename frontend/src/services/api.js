@@ -87,6 +87,16 @@ export const getTruckById = (id) => {
   return fetch(`${BASE_URL}/trucks/${truckId}`).then(handleResponse); // public — no auth header
 };
 
+export const getTruckActiveTrip = (id) => {
+  const truckId = typeof id === 'string' ? id.trim() : '';
+  if (!isValidMongoId(truckId)) return Promise.reject(new Error('Invalid truck id'));
+  return fetch(`${BASE_URL}/trucks/${truckId}/trip`).then(handleResponse); // public — no auth header
+};
+
+export const getPublicTrucks = () => {
+  return fetch(`${BASE_URL}/trucks`).then(handleResponse); // public — no auth header
+};
+
 export const addTruck = (body) =>
   fetch(`${BASE_URL}/trucks`, { method: 'POST', headers: getHeaders(), body: JSON.stringify(body) }).then(handleResponse);
 

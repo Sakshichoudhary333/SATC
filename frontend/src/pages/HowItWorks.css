@@ -1,0 +1,183 @@
+/* How It Works Professional Timeline Page Styling */
+.hiw-hero-section {
+  padding: 8rem 2rem 4rem;
+  text-align: center;
+  position: relative;
+  background: radial-gradient(circle at top, rgba(6, 182, 212, 0.1) 0%, transparent 60%);
+  border-bottom: 1px solid var(--border);
+}
+
+.hiw-hero-glow {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 200px;
+  background: var(--cyan);
+  filter: blur(150px);
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.hiw-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hiw-main-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #ffffff 0%, var(--cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1.5rem;
+}
+
+.hiw-intro-text {
+  font-size: 1.15rem;
+  color: var(--text);
+  line-height: 1.7;
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: justify;
+}
+
+/* Timeline Layout */
+.hiw-steps-section {
+  padding: 6rem 2rem;
+  background: rgba(15, 17, 23, 0.5);
+}
+
+.hiw-timeline {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.hiw-timeline-item {
+  display: flex;
+  gap: 2.5rem;
+  position: relative;
+}
+
+.hiw-timeline-num-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 50px;
+}
+
+.hiw-timeline-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(22, 28, 45, 0.9);
+  border: 2px solid var(--cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+  transition: all 0.3s;
+}
+
+.hiw-timeline-item:hover .hiw-timeline-circle {
+  background: var(--cyan);
+  box-shadow: 0 0 25px rgba(6, 182, 212, 0.6);
+}
+
+.hiw-step-num {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+  transition: color 0.3s;
+}
+
+.hiw-timeline-item:hover .hiw-step-num {
+  color: #121620;
+}
+
+.hiw-timeline-line {
+  width: 2px;
+  flex: 1;
+  background: linear-gradient(to bottom, var(--cyan) 50%, rgba(255, 255, 255, 0.05) 100%);
+  margin: 10px 0;
+  min-height: 100px;
+}
+
+.hiw-timeline-content-col {
+  flex: 1;
+  padding-bottom: 4rem;
+}
+
+.hiw-step-card {
+  background: rgba(22, 28, 45, 0.4);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: all 0.3s;
+}
+
+.hiw-timeline-item:hover .hiw-step-card {
+  border-color: var(--cyan);
+  background: rgba(22, 28, 45, 0.7);
+  box-shadow: 0 8px 25px rgba(6, 182, 212, 0.06);
+}
+
+.hiw-step-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 1rem;
+}
+
+.hiw-step-icon {
+  font-size: 1.75rem;
+  color: var(--cyan);
+  display: flex;
+  align-items: center;
+  filter: drop-shadow(0 0 5px rgba(6, 182, 212, 0.3));
+}
+
+.hiw-step-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+}
+
+.hiw-step-desc {
+  font-size: 1rem;
+  color: var(--dim);
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .hiw-hero-section {
+    padding: 6rem 1rem 3rem;
+  }
+  
+  .hiw-main-title {
+    font-size: 2.5rem;
+  }
+  
+  .hiw-timeline-item {
+    gap: 1.25rem;
+  }
+  
+  .hiw-timeline-content-col {
+    padding-bottom: 2.5rem;
+  }
+  
+  .hiw-step-card {
+    padding: 1.5rem;
+  }
+  
+  .hiw-step-title {
+    font-size: 1.15rem;
+  }
+}

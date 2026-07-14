@@ -52,8 +52,12 @@ const geocodeAddress = async (address) => {
   if (!address) return null;
 
   try {
+    let queryAddr = address.trim();
+    if (!queryAddr.toLowerCase().includes('india')) {
+      queryAddr += ', India';
+    }
     const res = await fetch(
-      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`
+      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(queryAddr)}&format=json&limit=1`
     );
     const data = await res.json();
     const first = data?.[0];

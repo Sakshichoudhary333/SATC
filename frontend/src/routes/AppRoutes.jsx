@@ -25,6 +25,13 @@ import Unauthorized from '../pages/Unauthorized';
 import TestMap from '../pages/TestMap';
 import Billing from "../pages/Billing";
 import LiveTruckTrack from '../pages/LiveTruckTrack';
+import LandingPage from '../pages/LandingPage';
+import AboutUs from '../pages/AboutUs';
+import Careers from '../pages/Careers';
+import ContactUs from '../pages/ContactUs';
+import Faq from '../pages/Faq';
+import FeaturesPage from '../pages/FeaturesPage';
+import HowItWorks from '../pages/HowItWorks';
 
 
 const A = ({ children }) => <ProtectedRoute roles={['admin']}>{children}</ProtectedRoute>;
@@ -34,7 +41,13 @@ const S = ({ children }) => <ProtectedRoute roles={['customer', 'driver', 'admin
 
 const AppRoutes = () => (
   <Routes>
-    <Route path="/" element={<Navigate to="/login" replace />} />
+    <Route path="/" element={<LandingPage />} />
+    <Route path="/about" element={<AboutUs />} />
+    <Route path="/careers" element={<Careers />} />
+    <Route path="/contact" element={<ContactUs />} />
+    <Route path="/faq" element={<Faq />} />
+    <Route path="/features" element={<FeaturesPage />} />
+    <Route path="/how-it-works" element={<HowItWorks />} />
     <Route path="/login" element={<Login />} />
     <Route path="/register" element={<Register />} />
     <Route path="/verify-otp" element={<VerifyOtp />} />
@@ -70,7 +83,7 @@ const AppRoutes = () => (
     <Route path="/track/truck/:truckId" element={<LiveTruckTrack />} />
     <Route path="/test-map" element={<TestMap />} />
 
-    <Route path="*" element={<Navigate to="/login" replace />} />
+    <Route path="*" element={<Navigate to="/" replace />} />
   </Routes>
 );
 
