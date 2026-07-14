@@ -5902,3 +5902,10 @@
 {"timestamp":"2026-07-14T11:22:58.714Z","level":"info","message":"MongoDB connected"}
 {"timestamp":"2026-07-14T11:59:21.991Z","level":"info","message":"Server running","meta":{"port":"5001"}}
 {"timestamp":"2026-07-14T11:59:22.613Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-14T14:39:08.165Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-14T14:39:09.160Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-14T14:40:08.740Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":176}}
+{"timestamp":"2026-07-14T14:40:08.746Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":190}}
+{"timestamp":"2026-07-14T14:40:08.831Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":255}}
+{"timestamp":"2026-07-14T14:40:09.664Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":1099,"thresholdMs":1000}}
+{"timestamp":"2026-07-14T14:40:09.664Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":1099}}
