@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
-import LanguageSelector from './LanguageSelector';
 
 const PAGE_TITLE_KEYS = {
   '/admin': 'pages.adminDashboard',
@@ -43,7 +42,6 @@ const TopBar = () => {
         <h1 className="topbar-title">{title}</h1>
       </div>
       <div className="topbar-right">
-        <LanguageSelector />
         <button className="topbar-notif" title={t('common.notifications')}>
           <span>🔔</span>
           <span className="notif-dot" />

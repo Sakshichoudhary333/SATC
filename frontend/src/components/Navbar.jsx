@@ -1,10 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { FaBox, FaPlus, FaMapMarkerAlt, FaTruck, FaMoneyBillWave } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -14,16 +16,16 @@ const Navbar = () => {
 
   const navLinks = {
     customer: [
-      { to: '/dashboard', label:'My Orders', icon: <FaBox /> },
-      { to: '/place-order', label:'Place Order',icon: <FaPlus /> },
-      { to: '/track', label:'Track Truck',icon: <FaMapMarkerAlt /> },
+      { to: '/dashboard', labelKey: 'nav.myOrders', icon: <FaBox /> },
+      { to: '/place-order', labelKey: 'nav.placeOrder', icon: <FaPlus /> },
+      { to: '/track', labelKey: 'nav.trackTruck', icon: <FaMapMarkerAlt /> },
     ],
     driver: [
-      { to: '/driver', label:'My Trips' ,icon: <FaTruck />},
-      { to: '/expenses', label:'Expenses',icon: <FaMoneyBillWave />},
+      { to: '/driver', labelKey: 'nav.myTrips', icon: <FaTruck /> },
+      { to: '/expenses', labelKey: 'nav.expenses', icon: <FaMoneyBillWave /> },
     ],
     admin: [
-      { to: '/admin', label:'Dashboard',icon: <MdDashboard /> },
+      { to: '/admin', labelKey: 'nav.dashboard', icon: <MdDashboard /> },
     ],
   };
 
@@ -31,22 +33,22 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      <Link to="/" className="navbar-brand"> TruckMS</Link>
+      <Link to="/" className="navbar-brand"> {t('navbar.brand')}</Link>
       <div className="navbar-links">
         {links.map((l) => (
           <Link key={l.to} to={l.to} className='nav-link'> 
-          {l.icon}
-          <span>
-          {l.label}
-          </span>
+            {l.icon}
+            <span>
+              {t(l.labelKey)}
+            </span>
           </Link>
         ))}
         {user ? (
-          <button onClick={handleLogout} className="btn btn-outline">Logout</button>
+          <button onClick={handleLogout} className="btn btn-outline">{t('navbar.logout')}</button>
         ) : (
           <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
+            <Link to="/login">{t('navbar.login')}</Link>
+            <Link to="/register">{t('navbar.register')}</Link>
           </>
         )}
       </div>

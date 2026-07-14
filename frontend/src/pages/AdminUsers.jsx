@@ -1,16 +1,17 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { deleteUserApi, getUsers, updateUserApi } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
-import { capitalize, formatDate } from '../utils/helpers';
+import { formatDate } from '../utils/helpers';
 
 const PAGE_SIZE_OPTIONS = [8, 10, 15, 20];
 const ROLE_OPTIONS = [
-  { value: 'all', label: 'All Roles' },
-  { value: 'admin', label: 'Admins' },
-  { value: 'driver', label: 'Drivers' },
-  { value: 'customer', label: 'Customers' },
+  { value: 'all', labelKey: 'admin.users.allRoles' },
+  { value: 'admin', labelKey: 'roles.admin' },
+  { value: 'driver', labelKey: 'roles.driver' },
+  { value: 'customer', labelKey: 'roles.customer' },
 ];
 
 const EMPTY_FORM = {
@@ -35,6 +36,7 @@ const normalizeUserForm = (user) => ({
 
 const AdminUsers = () => {
   const { user: authUser } = useAuth();
+  const { t } = useLanguage();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -153,7 +155,7 @@ const AdminUsers = () => {
 
   const handleDelete = async (item) => {
     if (item._id === authUser?.id) return;
-    if (!window.confirm(`Delete ${item.name || item.email}?`)) return;
+    if (!window.confirm(`${t('admin.users.confirmDeleteUser')} (Delete ${item.name || item.email}?)`)) return;
 
     setDeletingId(item._id);
     setError('');
@@ -195,8 +197,8 @@ const AdminUsers = () => {
 
   return (
     <div className="dash-page">
-      <div className="dash-section-label">USERS</div>
-      <h2 className="dash-title">Admin Users</h2>
+      <div className="dash-section-label">{t('admin.users.usersLabel')}</div>
+      <h2 className="dash-title">{t('admin.users.title')}</h2>
 
       {error && <ErrorMessage message={error} />}
 
@@ -205,28 +207,28 @@ const AdminUsers = () => {
           <div className="admin-stat-icon" style={{ background: '#06b6d422', color: '#06b6d4' }}>👥</div>
           <div className="admin-stat-info">
             <div className="admin-stat-val">{total}</div>
-            <div className="admin-stat-label">Matching Users</div>
+            <div className="admin-stat-label">{t('admin.users.matchingUsers')}</div>
           </div>
         </div>
         <div className="admin-stat-card">
           <div className="admin-stat-icon" style={{ background: '#3b82f622', color: '#3b82f6' }}>▣</div>
           <div className="admin-stat-info">
             <div className="admin-stat-val">{stats.admins}</div>
-            <div className="admin-stat-label">Admins on Page</div>
+            <div className="admin-stat-label">{t('admin.users.adminsOnPage')}</div>
           </div>
         </div>
         <div className="admin-stat-card">
           <div className="admin-stat-icon" style={{ background: '#8b5cf622', color: '#8b5cf6' }}>🚚</div>
           <div className="admin-stat-info">
             <div className="admin-stat-val">{stats.drivers}</div>
-            <div className="admin-stat-label">Drivers on Page</div>
+            <div className="admin-stat-label">{t('admin.users.driversOnPage')}</div>
           </div>
         </div>
         <div className="admin-stat-card">
           <div className="admin-stat-icon" style={{ background: '#10b98122', color: '#10b981' }}>🧑‍💼</div>
           <div className="admin-stat-info">
             <div className="admin-stat-val">{stats.customers}</div>
-            <div className="admin-stat-label">Customers on Page</div>
+            <div className="admin-stat-label">{t('admin.users.customersOnPage')}</div>
           </div>
         </div>
       </div>
@@ -234,7 +236,7 @@ const AdminUsers = () => {
       <div className="users-toolbar">
         <form className="users-search" onSubmit={handleSearchSubmit}>
           <div className="dark-form-group users-search-field">
-            <label>Search users</label>
+            <label>{t('admin.users.searchLabel')}</label>
             <input
               className="dark-input"
               value={searchInput}
@@ -244,15 +246,15 @@ const AdminUsers = () => {
                 setPage(1);
                 setSearch(value.trim());
               }}
-              placeholder="Search by name or email"
+              placeholder={t('admin.users.searchPlaceholder')}
             />
           </div>
-          <button className="reject-btn" type="button" onClick={handleReset}>Reset</button>
+          <button className="reject-btn" type="button" onClick={handleReset}>{t('admin.users.resetBtn')}</button>
         </form>
 
         <div className="users-toolbar-filters">
           <div className="dark-form-group users-filter">
-            <label>Role</label>
+            <label>{t('admin.users.roleLabel')}</label>
             <select
               className="dark-input"
               value={role}
@@ -262,12 +264,12 @@ const AdminUsers = () => {
               }}
             >
               {ROLE_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>{option.label}</option>
+                <option key={option.value} value={option.value}>{t(option.labelKey)}</option>
               ))}
             </select>
           </div>
           <div className="dark-form-group users-filter">
-            <label>Page size</label>
+            <label>{t('admin.users.pageSizeLabel')}</label>
             <select
               className="dark-input"
               value={limit}
@@ -277,7 +279,7 @@ const AdminUsers = () => {
               }}
             >
               {PAGE_SIZE_OPTIONS.map((option) => (
-                <option key={option} value={option}>{option} per page</option>
+                <option key={option} value={option}>{option} {t('admin.users.perPage')}</option>
               ))}
             </select>
           </div>
@@ -287,24 +289,24 @@ const AdminUsers = () => {
       <div className="users-layout">
         {editId && (
           <div className="dark-card users-editor">
-            <div className="dark-card-label">EDIT USER</div>
-            <div className="users-editor-title">Update account</div>
+            <div className="dark-card-label">{t('admin.users.editUserLabel')}</div>
+            <div className="users-editor-title">{t('admin.users.updateAccountTitle')}</div>
             <div className="users-editor-sub">
-              Editing {selectedUser?.name || selectedUser?.email || 'selected user'}
+              {t('admin.users.editingLabel')} {selectedUser?.name || selectedUser?.email || ''}
             </div>
             {formError && <ErrorMessage message={formError} />}
             <form onSubmit={handleSubmit} className="users-editor-form">
               <div className="admin-form-grid">
                 <div className="dark-form-group">
-                  <label>Name</label>
+                  <label>{t('admin.users.nameField')}</label>
                   <input className="dark-input" name="name" value={form.name} onChange={handleChange} required />
                 </div>
                 <div className="dark-form-group">
-                  <label>Email</label>
+                  <label>{t('admin.users.emailField')}</label>
                   <input className="dark-input" name="email" type="email" value={form.email} onChange={handleChange} required />
                 </div>
                 <div className="dark-form-group">
-                  <label>Role</label>
+                  <label>{t('admin.users.roleLabel')}</label>
                   <select
                     className="dark-input"
                     name="role"
@@ -312,42 +314,42 @@ const AdminUsers = () => {
                     onChange={handleChange}
                     disabled={isSelfEditing}
                   >
-                    <option value="admin">Admin</option>
-                    <option value="driver">Driver</option>
-                    <option value="customer">Customer</option>
+                    <option value="admin">{t('roles.admin')}</option>
+                    <option value="driver">{t('roles.driver')}</option>
+                    <option value="customer">{t('roles.customer')}</option>
                   </select>
                 </div>
                 <div className="dark-form-group">
-                  <label>Mobile</label>
+                  <label>{t('admin.users.mobileField')}</label>
                   <input className="dark-input" name="mobile" value={form.mobile} onChange={handleChange} />
                 </div>
                 <div className="dark-form-group">
-                  <label>License Number</label>
+                  <label>{t('admin.users.licenseField')}</label>
                   <input className="dark-input" name="licenseNumber" value={form.licenseNumber} onChange={handleChange} />
                 </div>
                 <div className="dark-form-group">
-                  <label>Experience</label>
+                  <label>{t('admin.users.experienceField')}</label>
                   <input className="dark-input" name="experience" type="number" min="0" value={form.experience} onChange={handleChange} />
                 </div>
                 <div className="dark-form-group">
-                  <label>Driver Status</label>
+                  <label>{t('admin.users.driverStatusField')}</label>
                   <select className="dark-input" name="driverStatus" value={form.driverStatus} onChange={handleChange}>
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
+                    <option value="active">{t('admin.users.activeTag')}</option>
+                    <option value="inactive">{t('admin.users.inactiveTag')}</option>
                   </select>
                 </div>
               </div>
               {isSelfEditing && (
                 <div className="users-note">
-                  Your own role is locked to keep the current admin session safe.
+                  {t('admin.users.lockedSelfRole')}
                 </div>
               )}
               <div className="users-editor-actions">
                 <button className="approve-btn" type="submit" disabled={submitting}>
-                  {submitting ? 'Saving...' : 'Update User'}
+                  {submitting ? t('admin.users.saving') : t('admin.users.updateUserBtn')}
                 </button>
                 <button className="reject-btn" type="button" onClick={handleCancelEdit}>
-                  Cancel
+                  {t('admin.users.cancelBtn')}
                 </button>
               </div>
             </form>
@@ -357,25 +359,25 @@ const AdminUsers = () => {
         <div className="dark-card users-table-card">
           <div className="users-table-head">
             <div>
-              <div className="users-table-title">User registry</div>
+              <div className="users-table-title">{t('admin.users.registryTitle')}</div>
               <div className="users-table-sub">
-                Showing {pageStart}-{pageEnd} of {total}
+                {t('admin.users.showingCount')} {pageStart}-{pageEnd} of {total}
               </div>
             </div>
-            <div className="users-table-sub">{pages ? `Page ${page} of ${pages}` : 'No pages'}</div>
+            <div className="users-table-sub">{pages ? `${t('admin.users.pageCount')} ${page} of ${pages}` : t('admin.users.noPages')}</div>
           </div>
 
           <div className="dark-table-wrap users-table-wrap">
             <table className="dark-table">
               <thead>
                 <tr>
-                  <th>USER</th>
-                  <th>ROLE</th>
-                  <th>CONTACT</th>
-                  <th>STATUS</th>
-                  <th>JOINED</th>
-                  <th>EDIT</th>
-                  <th>DELETE</th>
+                  <th>{t('admin.users.colUser')}</th>
+                  <th>{t('admin.users.colRole')}</th>
+                  <th>{t('admin.users.colContact')}</th>
+                  <th>{t('admin.users.colStatus')}</th>
+                  <th>{t('admin.users.colJoined')}</th>
+                  <th>{t('admin.users.colEdit')}</th>
+                  <th>{t('admin.users.colDelete')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -390,8 +392,8 @@ const AdminUsers = () => {
                           </div>
                           <div>
                             <div className="users-row-name">
-                              {item.name || 'Unnamed user'}
-                              {isSelf && <span className="users-self-tag">You</span>}
+                              {item.name || t('admin.users.unnamedUser')}
+                              {isSelf && <span className="users-self-tag">{t('admin.users.selfTag')}</span>}
                             </div>
                             <div className="users-row-email">{item.email}</div>
                           </div>
@@ -399,7 +401,7 @@ const AdminUsers = () => {
                       </td>
                       <td>
                         <span className={`status-badge ${item.role === 'admin' ? 'badge-blue' : item.role === 'driver' ? 'badge-purple' : 'badge-green'}`}>
-                          {capitalize(item.role)}
+                          {t('roles.' + item.role)}
                         </span>
                       </td>
                       <td>
@@ -411,17 +413,17 @@ const AdminUsers = () => {
                       <td>
                         <div className="users-mini-stack">
                           <span className={`status-badge ${item.isVerified ? 'badge-green' : 'badge-yellow'}`}>
-                            {item.isVerified ? 'Verified' : 'Pending'}
+                            {item.isVerified ? t('admin.users.verifiedTag') : t('admin.users.pendingTag')}
                           </span>
                           <span className={`status-badge ${item.driverStatus === 'inactive' ? 'badge-red' : 'badge-green'}`}>
-                            {item.driverStatus === 'inactive' ? 'Inactive' : 'Active'}
+                            {item.driverStatus === 'inactive' ? t('admin.users.inactiveTag') : t('admin.users.activeTag')}
                           </span>
                         </div>
                       </td>
                       <td>{item.createdAt ? formatDate(item.createdAt) : '—'}</td>
                       <td>
                         <button className="approve-btn" style={{ padding: '0.3rem 0.75rem' }} onClick={() => handleEdit(item)}>
-                          Edit
+                          {t('admin.users.colEdit')}
                         </button>
                       </td>
                       <td>
@@ -431,7 +433,7 @@ const AdminUsers = () => {
                           disabled={deletingId === item._id || isSelf}
                           onClick={() => handleDelete(item)}
                         >
-                          {deletingId === item._id ? '...' : isSelf ? 'Locked' : 'Delete'}
+                          {deletingId === item._id ? '...' : isSelf ? t('admin.users.lockedTag') : t('admin.users.colDelete')}
                         </button>
                       </td>
                     </tr>
@@ -440,7 +442,7 @@ const AdminUsers = () => {
                 {users.length === 0 && (
                   <tr>
                     <td colSpan={7} style={{ textAlign: 'center', color: 'var(--dim)', padding: '2rem' }}>
-                      No users match the current filters
+                      {t('admin.users.noUsersMatch')}
                     </td>
                   </tr>
                 )}
@@ -450,7 +452,7 @@ const AdminUsers = () => {
 
           <div className="users-pagination">
             <button className="topbar-logout" type="button" onClick={() => goToPage(page - 1)} disabled={!canGoPrev}>
-              Prev
+              {t('admin.users.prevBtn')}
             </button>
             <div className="users-page-pills">
               {paginationWindow.map((item) => (
@@ -465,7 +467,7 @@ const AdminUsers = () => {
               ))}
             </div>
             <button className="topbar-logout" type="button" onClick={() => goToPage(page + 1)} disabled={!canGoNext}>
-              Next
+              {t('admin.users.nextBtn')}
             </button>
           </div>
         </div>

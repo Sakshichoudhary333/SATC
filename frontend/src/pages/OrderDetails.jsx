@@ -6,7 +6,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import LiveDeliveryTracker from '../components/LiveDeliveryTracker';
 import { getOrderById } from '../services/api';
-
+import { useLanguage } from '../context/LanguageContext';
 
 const SOCKET_URL = 'https://satc-backend.onrender.com';
 
@@ -19,10 +19,11 @@ const OrderDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const socketRef = useRef(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (!isValidMongoId(id)) {
-      setError('Invalid order id');
+      setError(t('orderDetails.invalidOrderId'));
       setLoading(false);
       return;
     }
@@ -31,7 +32,7 @@ const OrderDetails = () => {
       .then(setOrder)
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
-  }, [id]);
+  }, [id, t]);
 
   useEffect(() => {
     if (!order?._id) return undefined;
@@ -81,12 +82,12 @@ const OrderDetails = () => {
 
   return (
     <div className="dash-page">
-      <div className="dash-section-label">DELIVERY TRACKING</div>
+      <div className="dash-section-label">{t('orderDetails.deliveryTracking')}</div>
       <div className="dash-title-row">
-        <h2 className="dash-title">Order #{order._id.slice(-6)}</h2>
+        <h2 className="dash-title">{t('orderDetails.orderHash')}{order._id.slice(-6)}</h2>
         {order.status === 'completed' && (
           <Link to={`/review/${order._id}`} className="approve-btn" style={{ background: '#f59e0b' }}>
-            Leave Review
+            {t('orderDetails.leaveReview')}
           </Link>
         )}
       </div>
@@ -99,7 +100,7 @@ const OrderDetails = () => {
           className="approve-btn"
           style={{ background: 'transparent', border: '1px solid #334155' }}
         >
-          Back to Orders
+          {t('orderDetails.backToOrders')}
         </Link>
       </div>
     </div>

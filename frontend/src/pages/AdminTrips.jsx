@@ -14,6 +14,7 @@ import {
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import { formatDate } from '../utils/helpers';
+import { useLanguage } from '../context/LanguageContext';
 
 const SOCKET_URL = 'https://satc-backend.onrender.com';
 
@@ -33,6 +34,7 @@ const AdminTrips = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const { t } = useLanguage();
 
   // Create form
   const [form, setForm] = useState(EMPTY_FORM);
@@ -89,7 +91,7 @@ const AdminTrips = () => {
 
     const handleTripStatus = ({ tripId, status }) => {
       setTrips((prev) =>
-        prev.map((t) => (t._id === tripId ? { ...t, status } : t))
+        prev.map((tripItem) => (tripItem._id === tripId ? { ...tripItem, status } : tripItem))
       );
     };
 
@@ -108,7 +110,7 @@ const AdminTrips = () => {
   // ── Derived ────────────────────────────────────────
   const pendingOrders = useMemo(() => {
     const tripOrderIds = new Set(
-      trips.map((t) => t.order?._id || t.order).filter(Boolean).map(String)
+      trips.map((tripItem) => tripItem.order?._id || tripItem.order).filter(Boolean).map(String)
     );
     return orders.filter(
       (o) => ['approved', 'assigned'].includes(o.status) && !tripOrderIds.has(String(o._id))
@@ -116,7 +118,7 @@ const AdminTrips = () => {
   }, [orders, trips]);
 
   const selectedOrder = pendingOrders.find((o) => o._id === form.order) || null;
-  const selectedTruck = trucks.find((t) => t._id === form.truck) || null;
+  const selectedTruck = trucks.find((truckItem) => truckItem._id === form.truck) || null;
   const selectedDriver = drivers.find((d) => d._id === form.driver) || null;
 
   // ── Create trip ────────────────────────────────────
@@ -125,9 +127,9 @@ const AdminTrips = () => {
     setForm((prev) => ({ ...prev, [name]: value }));
 
     if (name === 'truck') {
-      const truck = trucks.find((t) => t._id === value);
-      if (truck?.driver) {
-        const tid = typeof truck.driver === 'object' ? truck.driver._id : truck.driver;
+      const truckItem = trucks.find((truckItem) => truckItem._id === value);
+      if (truckItem?.driver) {
+        const tid = typeof truckItem.driver === 'object' ? truckItem.driver._id : truckItem.driver;
         setForm((prev) => ({ ...prev, truck: value, driver: tid || prev.driver }));
       }
     }
@@ -141,7 +143,7 @@ const AdminTrips = () => {
     try {
       await createTrip(form);
       setForm(EMPTY_FORM);
-      setSuccess('Trip created successfully.');
+      setSuccess(t('admin.trips.successCreated'));
       await fetchData();
     } catch (err) {
       setError(err.message);
@@ -156,7 +158,7 @@ const AdminTrips = () => {
     setSuccess('');
     try {
       await updateTripStatus(id, 'completed');
-      setSuccess('Trip marked as completed.');
+      setSuccess(t('admin.trips.successCompleted'));
       await fetchData();
     } catch (err) {
       setError(err.message);
@@ -165,13 +167,13 @@ const AdminTrips = () => {
 
   // ── Cancel trip ────────────────────────────────────
   const handleCancel = async (id) => {
-    if (!confirm('Cancel this trip? The order will be reset to approved and the truck freed.')) return;
+    if (!confirm(t('admin.trips.confirmCancelTrip'))) return;
     setError('');
     setSuccess('');
     try {
       await cancelTrip(id);
-      setTrips((prev) => prev.filter((t) => t._id !== id));
-      setSuccess('Trip cancelled and order reset to approved.');
+      setTrips((prev) => prev.filter((tripItem) => tripItem._id !== id));
+      setSuccess(t('admin.trips.successCancelled'));
     } catch (err) {
       setError(err.message);
     }
@@ -197,9 +199,9 @@ const AdminTrips = () => {
     setEditForm((prev) => ({ ...prev, [name]: value }));
 
     if (name === 'truck') {
-      const truck = trucks.find((t) => t._id === value);
-      if (truck?.driver) {
-        const tid = typeof truck.driver === 'object' ? truck.driver._id : truck.driver;
+      const truckItem = trucks.find((truckItem) => truckItem._id === value);
+      if (truckItem?.driver) {
+        const tid = typeof truckItem.driver === 'object' ? truckItem.driver._id : truckItem.driver;
         setEditForm((prev) => ({ ...prev, truck: value, driver: tid || prev.driver }));
       }
     }
@@ -207,15 +209,12 @@ const AdminTrips = () => {
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
-    if (!editingTrip) return;
     setEditSubmitting(true);
     setError('');
-    setSuccess('');
     try {
-      const res = await updateTripDetails(editingTrip._id, editForm);
-      setTrips((prev) => prev.map((t) => (t._id === editingTrip._id ? (res.trip || res) : t)));
-      setSuccess('Trip updated successfully.');
+      await updateTripDetails(editingTrip._id, editForm);
       closeEdit();
+      await fetchData();
     } catch (err) {
       setError(err.message);
     } finally {
@@ -223,65 +222,68 @@ const AdminTrips = () => {
     }
   };
 
-  if (loading) return <LoadingSpinner />;
+  if (loading && trips.length === 0) return <LoadingSpinner />;
 
   return (
     <div className="dash-page">
-      <div className="dash-section-label">TRIPS</div>
-      <h2 className="dash-title">Create and Manage Trips</h2>
+      <div className="dash-section-label">{t('admin.trips.tripsLabel')}</div>
+      <h2 className="dash-title">{t('admin.trips.manageTripsTitle')}</h2>
 
       {error && <ErrorMessage message={error} />}
       {success && <div className="dark-success">{success}</div>}
 
-      {/* ── Create trip panel ── */}
-      <div className="assign-layout">
-        <div className="dark-card" style={{ flex: 1 }}>
-          <div style={{ fontWeight: 600, marginBottom: '1rem', color: 'var(--cyan)' }}>
-            + Create Trip
+      <div className="trips-layout" style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+        {/* ── Create trip card ── */}
+        <div className="dark-card" style={{ flex: 1, minWidth: '320px' }}>
+          <div style={{ fontWeight: 600, color: 'var(--cyan)', marginBottom: '1.25rem' }}>
+            {t('admin.trips.createTripTitle')}
           </div>
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             <div className="dark-form-group">
-              <label>Select Approved Order</label>
+              <label>{t('admin.trips.selectOrderField')}</label>
               <select className="dark-input" name="order" value={form.order} onChange={handleChange} required>
-                <option value="">-- Choose an order --</option>
+                <option value="">
+                  {pendingOrders.length === 0 ? t('admin.trips.noPendingOrders') : t('admin.trips.chooseOrder')}
+                </option>
                 {pendingOrders.map((o) => (
                   <option key={o._id} value={o._id}>
-                    {o._id.slice(-6)} • {o.customer?.name || o.customer?.email || 'Customer'}
+                    {o.customer?.name || o.customer?.email || 'N/A'} — {o.pickupLocation} → {o.destination}
                   </option>
                 ))}
               </select>
             </div>
 
             <div className="dark-form-group">
-              <label>Select Truck</label>
+              <label>{t('admin.trips.selectTruckField')}</label>
               <select className="dark-input" name="truck" value={form.truck} onChange={handleChange} required>
-                <option value="">-- Choose a truck --</option>
-                {trucks.map((t) => (
-                  <option key={t._id} value={t._id}>{t.truckNumber}</option>
+                <option value="">{t('admin.trips.chooseTruck')}</option>
+                {trucks.map((truckItem) => (
+                  <option key={truckItem._id} value={truckItem._id}>{truckItem.truckNumber}</option>
                 ))}
               </select>
-              {selectedTruck && <div className="users-note">Truck: <strong>{selectedTruck.truckNumber}</strong></div>}
+              {selectedTruck && <div className="users-note">{t('admin.assignTruck.colTruck')}: <strong>{selectedTruck.truckNumber}</strong></div>}
             </div>
 
             <div className="dark-form-group">
-              <label>Select Driver</label>
+              <label>{t('admin.trips.selectDriverField')}</label>
               <select className="dark-input" name="driver" value={form.driver} onChange={handleChange} required>
-                <option value="">-- Choose a driver --</option>
+                <option value="">{t('admin.trips.chooseDriver')}</option>
                 {drivers.map((d) => (
                   <option key={d._id} value={d._id}>{d.name}</option>
                 ))}
               </select>
-              {selectedDriver && <div className="users-note">Driver: <strong>{selectedDriver.name}</strong></div>}
+              {selectedDriver && <div className="users-note">{t('admin.assignTruck.colDriver')}: <strong>{selectedDriver.name}</strong></div>}
             </div>
 
             {selectedOrder && (
               <div className="users-note">
-                Route: {selectedOrder.pickupLocation} → {selectedOrder.destination}
+                {t('admin.trips.routeNote')} {selectedOrder.pickupLocation} → {selectedOrder.destination}
               </div>
             )}
 
             <button className="approve-btn" type="submit" disabled={submitting}>
-              {submitting ? 'Creating...' : 'Create Trip'}
+              {submitting ? t('admin.trips.creating') : t('admin.trips.createTripBtn')}
             </button>
           </form>
         </div>
@@ -292,26 +294,26 @@ const AdminTrips = () => {
             <table className="dark-table">
               <thead>
                 <tr>
-                  <th>TRIP ID</th>
-                  <th>ROUTE</th>
-                  <th>TRUCK</th>
-                  <th>DRIVER</th>
-                  <th>LIVE GPS</th>
-                  <th>STATUS</th>
-                  <th>DATE</th>
-                  <th>ACTIONS</th>
+                  <th>{t('admin.trips.colTripId')}</th>
+                  <th>{t('admin.trips.colRoute')}</th>
+                  <th>{t('admin.trips.colTruck')}</th>
+                  <th>{t('admin.trips.colDriver')}</th>
+                  <th>{t('admin.trips.colLiveGps')}</th>
+                  <th>{t('admin.trips.colStatus')}</th>
+                  <th>{t('admin.trips.colDate')}</th>
+                  <th>{t('admin.trips.colActions')}</th>
                 </tr>
               </thead>
               <tbody>
-                {trips.map((t) => {
-                  const truckId = t.truck?._id || t.truck;
-                  const live = liveLocations[truckId] || (t.truck?.location ? { lat: t.truck.location.lat, lng: t.truck.location.lng, updatedAt: t.truck.lastUpdated } : null);
+                {trips.map((tItem) => {
+                  const truckId = tItem.truck?._id || tItem.truck;
+                  const live = liveLocations[truckId] || (tItem.truck?.location ? { lat: tItem.truck.location.lat, lng: tItem.truck.location.lng, updatedAt: tItem.truck.lastUpdated } : null);
                   return (
-                    <tr key={t._id}>
-                      <td><code style={{ color: '#06b6d4' }}>{t._id.slice(-6)}</code></td>
-                      <td>{t.order?.pickupLocation} → {t.order?.destination}</td>
-                      <td>{t.truck?.truckNumber || '—'}</td>
-                      <td>{t.driver?.name || '—'}</td>
+                    <tr key={tItem._id}>
+                      <td><code style={{ color: '#06b6d4' }}>{tItem._id.slice(-6)}</code></td>
+                      <td>{tItem.order?.pickupLocation} → {tItem.order?.destination}</td>
+                      <td>{tItem.truck?.truckNumber || '—'}</td>
+                      <td>{tItem.driver?.name || '—'}</td>
                       <td style={{ fontSize: '0.75rem' }}>
                         {live
                           ? <>
@@ -324,49 +326,49 @@ const AdminTrips = () => {
                                 </div>
                               )}
                             </>
-                          : <span style={{ color: '#475569' }}>No GPS</span>
+                          : <span style={{ color: '#475569' }}>{t('admin.trips.noGps')}</span>
                         }
                       </td>
                       <td>
-                        <span className="status-badge" style={{ background: `${STATUS_COLOR[t.status] || '#94a3b8'}22`, color: STATUS_COLOR[t.status] || '#94a3b8' }}>
-                          {t.status}
+                        <span className="status-badge" style={{ background: `${STATUS_COLOR[tItem.status] || '#94a3b8'}22`, color: STATUS_COLOR[tItem.status] || '#94a3b8' }}>
+                          {tItem.status}
                         </span>
                       </td>
-                      <td>{formatDate(t.createdAt)}</td>
+                      <td>{formatDate(tItem.createdAt)}</td>
                       <td>
                         <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
                           {/* Edit — only before trip moves */}
-                          {t.status === 'started' && (
+                          {tItem.status === 'started' && (
                             <button
                               className="approve-btn"
                               style={{ padding: '0.25rem 0.6rem', fontSize: '0.78rem' }}
-                              onClick={() => openEdit(t)}
+                              onClick={() => openEdit(tItem)}
                             >
-                              Edit
+                              {t('admin.trips.editBtn')}
                             </button>
                           )}
                           {/* Complete — in-transit only */}
-                          {t.status === 'in-transit' && (
+                          {tItem.status === 'in-transit' && (
                             <button
                               className="approve-btn"
                               style={{ padding: '0.25rem 0.6rem', fontSize: '0.78rem', background: '#10b981' }}
-                              onClick={() => handleComplete(t._id)}
+                              onClick={() => handleComplete(tItem._id)}
                             >
-                              Complete
+                              {t('admin.trips.completeBtn')}
                             </button>
                           )}
                           {/* Cancel — active trips only */}
-                          {t.status !== 'completed' && (
+                          {tItem.status !== 'completed' && (
                             <button
                               className="reject-btn"
                               style={{ padding: '0.25rem 0.6rem', fontSize: '0.78rem' }}
-                              onClick={() => handleCancel(t._id)}
+                              onClick={() => handleCancel(tItem._id)}
                             >
-                              Cancel
+                              {t('admin.trips.cancelBtn')}
                             </button>
                           )}
-                          {t.status === 'completed' && (
-                            <span style={{ color: '#64748b', fontSize: '0.8rem' }}>🔒 Locked</span>
+                          {tItem.status === 'completed' && (
+                            <span style={{ color: '#64748b', fontSize: '0.8rem' }}>{t('admin.trips.lockedTag')}</span>
                           )}
                         </div>
                       </td>
@@ -374,7 +376,7 @@ const AdminTrips = () => {
                   );
                 })}
                 {trips.length === 0 && (
-                  <tr><td colSpan={8} style={{ textAlign: 'center', color: '#64748b' }}>No trips found</td></tr>
+                  <tr><td colSpan={8} style={{ textAlign: 'center', color: '#64748b' }}>{t('admin.trips.noTripsFound')}</td></tr>
                 )}
               </tbody>
             </table>
@@ -389,28 +391,28 @@ const AdminTrips = () => {
           display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000,
         }}>
           <div className="dark-card" style={{ maxWidth: '480px', width: '90%', padding: '1.5rem' }}>
-            <h3 style={{ marginBottom: '0.25rem' }}>Edit Trip #{editingTrip._id.slice(-6)}</h3>
+            <h3 style={{ marginBottom: '0.25rem' }}>{t('admin.trips.editTripHeader')}{editingTrip._id.slice(-6)}</h3>
             <p style={{ color: '#64748b', fontSize: '0.85rem', marginBottom: '1.25rem' }}>
-              Only allowed before the trip starts moving.
+              {t('admin.trips.editTripDesc')}
             </p>
 
             {error && <ErrorMessage message={error} />}
 
             <form onSubmit={handleEditSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <div className="dark-form-group">
-                <label>Truck</label>
+                <label>{t('admin.assignTruck.colTruck')}</label>
                 <select className="dark-input" name="truck" value={editForm.truck} onChange={handleEditChange} required>
-                  <option value="">-- Select truck --</option>
-                  {trucks.map((t) => (
-                    <option key={t._id} value={t._id}>{t.truckNumber}</option>
+                  <option value="">{t('admin.trips.chooseTruck')}</option>
+                  {trucks.map((truckItem) => (
+                    <option key={truckItem._id} value={truckItem._id}>{truckItem.truckNumber}</option>
                   ))}
                 </select>
               </div>
 
               <div className="dark-form-group">
-                <label>Driver</label>
+                <label>{t('admin.assignTruck.colDriver')}</label>
                 <select className="dark-input" name="driver" value={editForm.driver} onChange={handleEditChange} required>
-                  <option value="">-- Select driver --</option>
+                  <option value="">{t('admin.trips.chooseDriver')}</option>
                   {drivers.map((d) => (
                     <option key={d._id} value={d._id}>{d.name}</option>
                   ))}
@@ -419,10 +421,10 @@ const AdminTrips = () => {
 
               <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
                 <button type="submit" className="approve-btn" disabled={editSubmitting} style={{ flex: 1 }}>
-                  {editSubmitting ? 'Saving...' : 'Save Changes'}
+                  {editSubmitting ? t('admin.users.saving') : t('admin.trips.saveChangesBtn')}
                 </button>
                 <button type="button" className="reject-btn" onClick={closeEdit} style={{ flex: 1 }}>
-                  Cancel
+                  {t('admin.users.cancelBtn')}
                 </button>
               </div>
             </form>

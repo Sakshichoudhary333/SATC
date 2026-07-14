@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { approveOrder, getAllOrders, rejectOrder } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
+import { useLanguage } from '../context/LanguageContext';
 
 const STATUS_COLOR = {
   pending: '#f59e0b',
@@ -17,6 +18,7 @@ const AdminOrders = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [actionLoading, setActionLoading] = useState(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     fetchOrders();
@@ -58,20 +60,20 @@ const AdminOrders = () => {
 
   return (
     <div className="dash-page">
-      <div className="dash-section-label">ORDERS</div>
-      <h2 className="dash-title">Manage Orders</h2>
+      <div className="dash-section-label">{t('nav.orders')}</div>
+      <h2 className="dash-title">{t('admin.orders.manageOrdersTitle')}</h2>
       {error && <ErrorMessage message={error} />}
 
       <div className="dark-table-wrap admin-orders-wrap">
         <table className="dark-table admin-orders-table">
           <thead>
             <tr>
-              <th>CUSTOMER</th>
-              <th>PICKUP</th>
-              <th>DROP</th>
-              <th>GOODS</th>
-              <th>STATUS</th>
-              <th>ACTION</th>
+              <th>{t('admin.orders.colCustomer')}</th>
+              <th>{t('admin.orders.colPickup')}</th>
+              <th>{t('admin.orders.colDrop')}</th>
+              <th>{t('admin.orders.colGoods')}</th>
+              <th>{t('admin.orders.colStatus')}</th>
+              <th>{t('admin.orders.colAction')}</th>
             </tr>
           </thead>
           <tbody>
@@ -99,7 +101,7 @@ const AdminOrders = () => {
                             disabled={actionLoading === o._id + '_approve'}
                             onClick={() => handleApprove(o._id)}
                           >
-                            {actionLoading === o._id + '_approve' ? '...' : 'Approve'}
+                            {actionLoading === o._id + '_approve' ? '...' : t('admin.orders.approveBtn')}
                           </button>
                           <button
                             className="reject-btn"
@@ -108,7 +110,7 @@ const AdminOrders = () => {
                             disabled={actionLoading === o._id + '_reject'}
                             onClick={() => handleReject(o._id)}
                           >
-                            {actionLoading === o._id + '_reject' ? '...' : 'Reject'}
+                            {actionLoading === o._id + '_reject' ? '...' : t('admin.orders.rejectBtn')}
                           </button>
                         </>
                       )}
@@ -123,7 +125,7 @@ const AdminOrders = () => {
             {orders.length === 0 && (
               <tr>
                 <td colSpan={6} style={{ textAlign: 'center', color: '#64748b', padding: '2rem' }}>
-                  No orders found
+                  {t('admin.orders.noOrdersFound')}
                 </td>
               </tr>
             )}

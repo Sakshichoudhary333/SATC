@@ -3,6 +3,7 @@ import { getAllExpenses, updateExpenseStatus } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import { formatDate } from '../utils/helpers';
+import { useLanguage } from '../context/LanguageContext';
 
 const STATUS_COLOR = {
   pending: '#f59e0b',
@@ -15,6 +16,7 @@ const AdminExpenses = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [actionLoading, setActionLoading] = useState(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     fetchExpenses();
@@ -44,24 +46,24 @@ const AdminExpenses = () => {
 
   return (
     <div className="dash-page">
-      <div className="dash-section-label">EXPENSES</div>
-      <h2 className="dash-title">Manage Expense Approvals</h2>
+      <div className="dash-section-label">{t('admin.expenses.expensesLabel')}</div>
+      <h2 className="dash-title">{t('admin.expenses.manageApprovalsTitle')}</h2>
       {error && <ErrorMessage message={error} />}
 
       <div className="dark-table-wrap">
         <table className="dark-table">
           <thead>
             <tr>
-              <th>DRIVER</th>
-              <th>TRIP</th>
-              <th>FUEL</th>
-              <th>TOLL</th>
-              <th>FOOD</th>
-              <th>MAINTENANCE</th>
-              <th>TOTAL</th>
-              <th>STATUS</th>
-              <th>DATE</th>
-              <th>ACTION</th>
+              <th>{t('admin.expenses.colDriver')}</th>
+              <th>{t('admin.expenses.colTrip')}</th>
+              <th>{t('admin.expenses.colFuel')}</th>
+              <th>{t('admin.expenses.colToll')}</th>
+              <th>{t('admin.expenses.colFood')}</th>
+              <th>{t('admin.expenses.colMaintenance')}</th>
+              <th>{t('admin.expenses.colTotal')}</th>
+              <th>{t('admin.expenses.colStatus')}</th>
+              <th>{t('admin.expenses.colDate')}</th>
+              <th>{t('admin.expenses.colAction')}</th>
             </tr>
           </thead>
           <tbody>
@@ -97,7 +99,7 @@ const AdminExpenses = () => {
                             disabled={actionLoading === e._id + '_approved'}
                             onClick={() => handleStatusUpdate(e._id, 'approved')}
                           >
-                            {actionLoading === e._id + '_approved' ? '...' : 'Approve'}
+                            {actionLoading === e._id + '_approved' ? '...' : t('admin.expenses.approveBtn')}
                           </button>
                           <button
                             className="reject-btn"
@@ -106,7 +108,7 @@ const AdminExpenses = () => {
                             disabled={actionLoading === e._id + '_rejected'}
                             onClick={() => handleStatusUpdate(e._id, 'rejected')}
                           >
-                            {actionLoading === e._id + '_rejected' ? '...' : 'Reject'}
+                            {actionLoading === e._id + '_rejected' ? '...' : t('admin.expenses.rejectBtn')}
                           </button>
                         </>
                       )}
@@ -121,7 +123,7 @@ const AdminExpenses = () => {
             {expenses.length === 0 && (
               <tr>
                 <td colSpan={10} style={{ textAlign: 'center', color: '#64748b', padding: '2rem' }}>
-                  No expenses found
+                  {t('admin.expenses.noExpensesFound')}
                 </td>
               </tr>
             )}

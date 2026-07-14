@@ -6,7 +6,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import LiveDeliveryTracker from '../components/LiveDeliveryTracker';
 import { formatDate } from '../utils/helpers';
-
+import { useLanguage } from '../context/LanguageContext';
 
 const SOCKET_URL = 'https://satc-backend.onrender.com';
 
@@ -39,6 +39,7 @@ const CustomerDashboard = () => {
   const [error, setError] = useState('');
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const socketRef = useRef(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     getMyOrders()
@@ -109,33 +110,33 @@ const CustomerDashboard = () => {
 
   return (
     <div className="dash-page">
-      <div className="dash-section-label">ORDERS</div>
+      <div className="dash-section-label">{t('customerDashboard.orders')}</div>
       <div className="dash-title-row">
-        <h2 className="dash-title">My Orders</h2>
-        <Link to="/place-order" className="approve-btn">+ New Order</Link>
+        <h2 className="dash-title">{t('customerDashboard.myOrders')}</h2>
+        <Link to="/place-order" className="approve-btn">{t('customerDashboard.newOrder')}</Link>
       </div>
       {error && <ErrorMessage message={error} />}
 
       <div className="dark-card customer-tracker-panel">
-        <div className="dark-card-label">LIVE DELIVERY</div>
+        <div className="dark-card-label">{t('customerDashboard.liveDelivery')}</div>
         {spotlightOrder?.truck ? (
           <>
             <div className="customer-tracker-meta">
               <div className="customer-tracker-kv">
-                <span className="customer-tracker-label">Assigned Truck</span>
+                <span className="customer-tracker-label">{t('customerDashboard.assignedTruck')}</span>
                 <span className="customer-tracker-value">
                   {spotlightOrder.truck.truckNumber}
                   {spotlightOrder.truck.model ? ` • ${spotlightOrder.truck.model}` : ''}
                 </span>
               </div>
               <div className="customer-tracker-kv">
-                <span className="customer-tracker-label">Driver</span>
+                <span className="customer-tracker-label">{t('customerDashboard.driver')}</span>
                 <span className="customer-tracker-value">
-                  {spotlightOrder.driver?.name || 'Unassigned'}
+                  {spotlightOrder.driver?.name || t('customerDashboard.unassigned')}
                 </span>
               </div>
               <div className="customer-tracker-kv">
-                <span className="customer-tracker-label">Delivery Status</span>
+                <span className="customer-tracker-label">{t('customerDashboard.deliveryStatus')}</span>
                 <span
                   className="status-badge"
                   style={{
@@ -148,39 +149,39 @@ const CustomerDashboard = () => {
                 </span>
               </div>
               <div className="customer-tracker-kv">
-                <span className="customer-tracker-label">Last GPS</span>
+                <span className="customer-tracker-label">{t('customerDashboard.lastGps')}</span>
                 <span className="customer-tracker-value">
-                  {spotlightOrder.truck.lastUpdated ? new Date(spotlightOrder.truck.lastUpdated).toLocaleString() : 'Waiting for update'}
+                  {spotlightOrder.truck.lastUpdated ? new Date(spotlightOrder.truck.lastUpdated).toLocaleString() : t('customerDashboard.waitingForUpdate')}
                 </span>
               </div>
             </div>
 
             <div className="customer-tracker-meta customer-tracker-meta-tight">
               <div className="customer-tracker-kv">
-                <span className="customer-tracker-label">Pickup</span>
+                <span className="customer-tracker-label">{t('customerDashboard.pickup')}</span>
                 <span className="customer-tracker-value">{spotlightOrder.pickupLocation}</span>
               </div>
               <div className="customer-tracker-kv">
-                <span className="customer-tracker-label">Destination</span>
+                <span className="customer-tracker-label">{t('customerDashboard.destination')}</span>
                 <span className="customer-tracker-value">{spotlightOrder.destination}</span>
               </div>
               <div className="customer-tracker-kv">
-                <span className="customer-tracker-label">Truck Capacity</span>
+                <span className="customer-tracker-label">{t('customerDashboard.truckCapacity')}</span>
                 <span className="customer-tracker-value">{spotlightOrder.truck.capacity || '—'}</span>
               </div>
               <div className="customer-tracker-kv">
-                <span className="customer-tracker-label">Truck Location</span>
+                <span className="customer-tracker-label">{t('customerDashboard.truckLocation')}</span>
                 <span className="customer-tracker-value">
                   {spotlightOrder.truck.location
                     ? `${Number(spotlightOrder.truck.location.lat).toFixed(5)}, ${Number(spotlightOrder.truck.location.lng).toFixed(5)}`
-                    : 'Unavailable'}
+                    : t('customerDashboard.unavailable')}
                 </span>
               </div>
             </div>
 
             <div className="customer-tracker-actions">
               <Link to={`/order/${spotlightOrder._id}`} className="approve-btn">
-                View Order
+                {t('customerDashboard.viewOrder')}
               </Link>
               {spotlightOrder.status === 'completed' && (
                 <Link
@@ -188,7 +189,7 @@ const CustomerDashboard = () => {
                   className="approve-btn"
                   style={{ background: '#f59e0b' }}
                 >
-                  Leave Review
+                  {t('customerDashboard.leaveReview')}
                 </Link>
               )}
             </div>
@@ -197,8 +198,8 @@ const CustomerDashboard = () => {
           </>
         ) : (
           <div className="customer-tracker-empty">
-            <p>No truck has been assigned to an active order yet.</p>
-            <span>Once an order is approved, the assigned truck, GPS location, ETA, and route will appear here automatically.</span>
+            <p>{t('customerDashboard.noTruckAssigned')}</p>
+            <span>{t('customerDashboard.noTruckAssignedDesc')}</span>
           </div>
         )}
       </div>
@@ -207,13 +208,13 @@ const CustomerDashboard = () => {
         <table className="dark-table">
           <thead>
             <tr>
-              <th>ORDER ID</th>
-              <th>PICKUP</th>
-              <th>DROP</th>
-              <th>ORDER STATUS</th>
-              <th>DELIVERY STATUS</th>
-              <th>DATE</th>
-              <th>ACTION</th>
+              <th>{t('customerDashboard.orderIdCol')}</th>
+              <th>{t('customerDashboard.pickupCol')}</th>
+              <th>{t('customerDashboard.dropCol')}</th>
+              <th>{t('customerDashboard.orderStatusCol')}</th>
+              <th>{t('customerDashboard.deliveryStatusCol')}</th>
+              <th>{t('customerDashboard.dateCol')}</th>
+              <th>{t('customerDashboard.actionCol')}</th>
             </tr>
           </thead>
           <tbody>
@@ -261,7 +262,7 @@ const CustomerDashboard = () => {
                           style={{ marginRight: '6px', padding: '0.3rem 0.75rem', background: '#8b5cf6' }}
                           onClick={() => setSelectedOrderId(order._id)}
                         >
-                          Track
+                          {t('customerDashboard.trackBtn')}
                         </button>
                       )}
                       <Link
@@ -269,7 +270,7 @@ const CustomerDashboard = () => {
                         className="approve-btn"
                         style={{ marginRight: '6px', padding: '0.3rem 0.75rem' }}
                       >
-                        View
+                        {t('customerDashboard.viewBtn')}
                       </Link>
                       {order.status === 'completed' && (
                         <Link
@@ -277,7 +278,7 @@ const CustomerDashboard = () => {
                           className="approve-btn"
                           style={{ background: '#f59e0b', padding: '0.3rem 0.75rem' }}
                         >
-                          Review
+                          {t('customerDashboard.reviewBtn')}
                         </Link>
                       )}
                     </td>
@@ -288,7 +289,7 @@ const CustomerDashboard = () => {
             {orders.length === 0 && (
               <tr>
                 <td colSpan={7} style={{ textAlign: 'center', color: '#64748b', padding: '2rem' }}>
-                  No orders yet. <Link to="/place-order" style={{ color: '#06b6d4' }}>Place your first order</Link>
+                  {t('customerDashboard.noOrdersYet')} <Link to="/place-order" style={{ color: '#06b6d4' }}>{t('customerDashboard.placeFirstOrder')}</Link>
                 </td>
               </tr>
             )}

@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ErrorMessage from '../components/ErrorMessage';
 import { forgotPasswordUser, resetPasswordUser } from '../services/api';
+import { useLanguage } from '../context/LanguageContext';
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useLanguage();
   const [step, setStep] = useState(location.pathname === '/reset-password' ? 'reset' : 'request');
   const [form, setForm] = useState({
     email: location.state?.email || '',
@@ -26,12 +28,12 @@ const ForgotPassword = () => {
     setSuccess('');
 
     const email = form.email.trim();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setError('Invalid email format.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setError(t('auth.invalidEmail'));
 
     setLoading(true);
     try {
       await forgotPasswordUser({ email });
-      setSuccess('A reset OTP has been sent to your email.');
+      setSuccess(t('auth.successOtpSent'));
       setStep('reset');
       navigate('/reset-password', { replace: true, state: { email } });
     } catch (err) {
@@ -47,12 +49,12 @@ const ForgotPassword = () => {
     setSuccess('');
 
     const otp = form.otp.trim();
-    if (!/^\d{6}$/.test(otp)) return setError('OTP must be exactly 6 digits.');
-    if (form.newPassword.length < 8) return setError('Password must be at least 8 characters.');
-    if (!/[A-Z]/.test(form.newPassword)) return setError('Password must contain an uppercase letter.');
-    if (!/[a-z]/.test(form.newPassword)) return setError('Password must contain a lowercase letter.');
-    if (!/[0-9]/.test(form.newPassword)) return setError('Password must contain a number.');
-    if (form.newPassword !== form.confirmPassword) return setError('Passwords do not match.');
+    if (!/^\d{6}$/.test(otp)) return setError(t('auth.otpDigitError'));
+    if (form.newPassword.length < 8) return setError(t('auth.passResetMinError'));
+    if (!/[A-Z]/.test(form.newPassword)) return setError(t('auth.passUpperError'));
+    if (!/[a-z]/.test(form.newPassword)) return setError(t('auth.passLowerError'));
+    if (!/[0-9]/.test(form.newPassword)) return setError(t('auth.passNumberError'));
+    if (form.newPassword !== form.confirmPassword) return setError(t('auth.passMatchError'));
 
     setLoading(true);
     try {
@@ -61,7 +63,7 @@ const ForgotPassword = () => {
         otp,
         newPassword: form.newPassword,
       });
-      setSuccess('Password reset successfully. Redirecting to login...');
+      setSuccess(t('auth.successReset'));
       setTimeout(() => navigate('/login'), 1500);
     } catch (err) {
       setError(err.message);
@@ -73,19 +75,17 @@ const ForgotPassword = () => {
   return (
     <div className="auth-screen">
       <div className="auth-left">
-        <div className="auth-brand">TMS</div>
-        <h1 className="auth-headline">Reset your password</h1>
-        <p className="auth-sub">
-          We&apos;ll send a one-time code to your email, then you can choose a new password and get back into your account.
-        </p>
+        <div className="auth-brand">{t('auth.brand')}</div>
+        <h1 className="auth-headline">{t('auth.resetPasswordHeader')}</h1>
+        <p className="auth-sub">{t('auth.resetTagline')}</p>
       </div>
       <div className="auth-right">
         <div className="auth-box">
-          <h2 className="auth-box-title">Forgot password</h2>
+          <h2 className="auth-box-title">{t('auth.forgotPasswordTitle')}</h2>
           <p className="auth-box-sub">
             {step === 'request'
-              ? 'Enter your account email to receive a reset OTP.'
-              : 'Enter the OTP and your new password.'}
+              ? t('auth.emailResetPrompt')
+              : t('auth.otpResetPrompt')}
           </p>
 
           {error && <ErrorMessage message={error} />}
@@ -93,7 +93,7 @@ const ForgotPassword = () => {
 
           <form onSubmit={step === 'request' ? handleSendOtp : handleResetPassword}>
             <div className="dark-form-group">
-              <label>Email</label>
+              <label>{t('auth.emailLabel')}</label>
               <input
                 className="dark-input"
                 name="email"
@@ -101,7 +101,7 @@ const ForgotPassword = () => {
                 value={form.email}
                 onChange={handleChange}
                 required
-                placeholder="you@example.com"
+                placeholder={t('auth.emailPlaceholder')}
                 autoComplete="email"
               />
             </div>
@@ -109,21 +109,21 @@ const ForgotPassword = () => {
             {step === 'reset' && (
               <>
                 <div className="dark-form-group">
-                  <label>OTP Code</label>
+                  <label>{t('auth.otpCodeLabel')}</label>
                   <input
                     className="dark-input"
                     name="otp"
                     value={form.otp}
                     onChange={handleChange}
                     required
-                    placeholder="Enter 6-digit OTP"
+                    placeholder={t('auth.otpCodePlaceholder')}
                     maxLength={6}
                     autoComplete="one-time-code"
                     style={{ letterSpacing: '0.2em', fontSize: '1.1rem' }}
                   />
                 </div>
                 <div className="dark-form-group">
-                  <label>New Password</label>
+                  <label>{t('auth.newPasswordLabel')}</label>
                   <input
                     className="dark-input"
                     name="newPassword"
@@ -131,12 +131,12 @@ const ForgotPassword = () => {
                     value={form.newPassword}
                     onChange={handleChange}
                     required
-                    placeholder="••••••••"
+                    placeholder={t('auth.passwordPlaceholder')}
                     autoComplete="new-password"
                   />
                 </div>
                 <div className="dark-form-group">
-                  <label>Confirm New Password</label>
+                  <label>{t('auth.confirmNewPasswordLabel')}</label>
                   <input
                     className="dark-input"
                     name="confirmPassword"
@@ -144,7 +144,7 @@ const ForgotPassword = () => {
                     value={form.confirmPassword}
                     onChange={handleChange}
                     required
-                    placeholder="••••••••"
+                    placeholder={t('auth.passwordPlaceholder')}
                     autoComplete="new-password"
                   />
                 </div>
@@ -158,8 +158,8 @@ const ForgotPassword = () => {
               style={{ width: '100%', marginTop: '0.5rem', padding: '0.75rem' }}
             >
               {loading
-                ? (step === 'request' ? 'Sending code...' : 'Resetting...')
-                : (step === 'request' ? 'Send Reset Code' : 'Reset Password')}
+                ? (step === 'request' ? t('auth.sendingCode') : t('auth.resetting'))
+                : (step === 'request' ? t('auth.sendResetCode') : t('auth.resetPasswordBtn'))}
             </button>
           </form>
 
@@ -174,12 +174,12 @@ const ForgotPassword = () => {
                 navigate('/forgot-password', { replace: true });
               }}
             >
-              Start over
+              {t('auth.startOver')}
             </button>
           )}
 
           <p className="auth-switch">
-            Remember your password? <Link to="/login">Back to login</Link>
+            {t('auth.rememberPassword')} <Link to="/login">{t('auth.backToLogin')}</Link>
           </p>
         </div>
       </div>

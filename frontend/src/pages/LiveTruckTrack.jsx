@@ -5,6 +5,7 @@ import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { getTruckById } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { useLanguage } from '../context/LanguageContext';
 import 'leaflet/dist/leaflet.css';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
@@ -37,6 +38,7 @@ const LiveTruckTrack = () => {
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
   const socketRef = useRef(null);
+  const { t } = useLanguage();
 
   // Load truck details
   useEffect(() => {
@@ -92,14 +94,14 @@ const LiveTruckTrack = () => {
       {/* Header */}
       <div style={{ marginBottom: '1.5rem' }}>
         <div style={{ fontSize: '0.7rem', letterSpacing: '0.1em', color: '#64748b', marginBottom: '0.25rem' }}>
-          LIVE TRUCK TRACKING
+          {t('liveTruckTrack.liveTruckTracking')}
         </div>
         <h2 style={{ margin: 0, fontSize: '1.4rem', fontWeight: 700 }}>
-          {truck ? `Truck ${truck.truckNumber}` : 'Live Tracker'}
+          {truck ? `${t('admin.assignTruck.colTruck')} ${truck.truckNumber}` : t('liveTruckTrack.liveTracker')}
         </h2>
         {truck?.driver?.name && (
           <div style={{ color: '#94a3b8', fontSize: '0.9rem', marginTop: '0.25rem' }}>
-            Driver: {truck.driver.name}
+            {t('liveTruckTrack.driverLabel')}{truck.driver.name}
           </div>
         )}
       </div>
@@ -113,21 +115,21 @@ const LiveTruckTrack = () => {
       {/* Stats bar */}
       <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
         <div style={{ background: '#1e2330', borderRadius: '8px', padding: '0.75rem 1.25rem', flex: 1, minWidth: '140px' }}>
-          <div style={{ fontSize: '0.7rem', color: '#64748b', marginBottom: '0.25rem' }}>STATUS</div>
+          <div style={{ fontSize: '0.7rem', color: '#64748b', marginBottom: '0.25rem' }}>{t('liveTruckTrack.statusLabel')}</div>
           <div style={{ color: truck?.isAvailable ? '#10b981' : '#8b5cf6', fontWeight: 600 }}>
-            {truck?.isAvailable ? 'Available' : 'On Trip'}
+            {truck?.isAvailable ? t('liveTruckTrack.available') : t('liveTruckTrack.onTrip')}
           </div>
         </div>
         <div style={{ background: '#1e2330', borderRadius: '8px', padding: '0.75rem 1.25rem', flex: 1, minWidth: '140px' }}>
-          <div style={{ fontSize: '0.7rem', color: '#64748b', marginBottom: '0.25rem' }}>LIVE LOCATION</div>
+          <div style={{ fontSize: '0.7rem', color: '#64748b', marginBottom: '0.25rem' }}>{t('liveTruckTrack.liveLocation')}</div>
           <div style={{ color: '#06b6d4', fontWeight: 600, fontSize: '0.9rem' }}>
             {location
               ? `${location.lat.toFixed(5)}, ${location.lng.toFixed(5)}`
-              : 'Waiting for GPS...'}
+              : t('liveTruckTrack.waitingGps')}
           </div>
         </div>
         <div style={{ background: '#1e2330', borderRadius: '8px', padding: '0.75rem 1.25rem', flex: 1, minWidth: '140px' }}>
-          <div style={{ fontSize: '0.7rem', color: '#64748b', marginBottom: '0.25rem' }}>LAST UPDATED</div>
+          <div style={{ fontSize: '0.7rem', color: '#64748b', marginBottom: '0.25rem' }}>{t('liveTruckTrack.lastUpdated')}</div>
           <div style={{ color: '#e2e8f0', fontSize: '0.85rem' }}>
             {lastUpdated ? new Date(lastUpdated).toLocaleTimeString() : '—'}
           </div>
@@ -149,7 +151,7 @@ const LiveTruckTrack = () => {
               <Marker position={[location.lat, location.lng]}>
                 <Popup>
                   <strong>{truck?.truckNumber}</strong><br />
-                  {truck?.driver?.name && <>Driver: {truck.driver.name}<br /></>}
+                  {truck?.driver?.name && <>{t('liveTruckTrack.driverLabel')}{truck.driver.name}<br /></>}
                   {location.lat.toFixed(5)}, {location.lng.toFixed(5)}
                 </Popup>
               </Marker>
@@ -158,7 +160,7 @@ const LiveTruckTrack = () => {
         </MapContainer>
         {!location && (
           <div style={{ background: '#1e2330', padding: '1rem', textAlign: 'center', color: '#64748b', fontSize: '0.85rem' }}>
-            Waiting for the driver to share their GPS location...
+            {t('liveTruckTrack.waitingDriverShare')}
           </div>
         )}
       </div>
@@ -166,7 +168,7 @@ const LiveTruckTrack = () => {
       {/* Shareable link */}
       <div style={{ background: '#1e2330', borderRadius: '10px', padding: '1rem 1.25rem' }}>
         <div style={{ fontSize: '0.7rem', color: '#64748b', marginBottom: '0.5rem', letterSpacing: '0.08em' }}>
-          SHAREABLE LINK
+          {t('liveTruckTrack.shareableLink')}
         </div>
         <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
           <input
@@ -198,11 +200,11 @@ const LiveTruckTrack = () => {
               whiteSpace: 'nowrap',
             }}
           >
-            {copied ? 'Copied!' : 'Copy Link'}
+            {copied ? t('liveTruckTrack.copied') : t('liveTruckTrack.copyLink')}
           </button>
         </div>
         <div style={{ color: '#475569', fontSize: '0.75rem', marginTop: '0.5rem' }}>
-          Anyone with this link can view the truck's live location — no login required.
+          {t('liveTruckTrack.noLoginRequiredDesc')}
         </div>
       </div>
     </div>

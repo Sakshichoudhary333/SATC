@@ -6,11 +6,11 @@ import { useAuth } from '../context/AuthContext';
 import { getMyOrders, getTrucks, getTrips } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
+import { useLanguage } from '../context/LanguageContext';
 import 'leaflet/dist/leaflet.css';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-
 
 const SOCKET_URL = 'https://satc-backend.onrender.com';
 const DEFAULT_CENTER = [20.5937, 78.9629];
@@ -78,6 +78,7 @@ const FlyToLocation = ({ location }) => {
 };
 
 const TruckMap = ({ location, truckNumber, waiting = false }) => {
+  const { t } = useLanguage();
   const center = location ? [location.lat, location.lng] : DEFAULT_CENTER;
   const mapKey = location
     ? `${truckNumber}-${location.lat.toFixed(5)}-${location.lng.toFixed(5)}`
@@ -97,7 +98,7 @@ const TruckMap = ({ location, truckNumber, waiting = false }) => {
         {location ? (
           <Marker position={[location.lat, location.lng]}>
             <Popup>
-              Truck {truckNumber}
+              {t('admin.assignTruck.colTruck')} {truckNumber}
               <br />
               {location.lat.toFixed(5)}, {location.lng.toFixed(5)}
             </Popup>
@@ -106,8 +107,8 @@ const TruckMap = ({ location, truckNumber, waiting = false }) => {
       </MapContainer>
       {waiting ? (
         <div className="truck-map-overlay">
-          <span>Waiting for signal...</span>
-          <small>Map is ready and will update when truck GPS arrives.</small>
+          <span>{t('trackTruck.waitingSignal')}</span>
+          <small>{t('trackTruck.mapReadyDesc')}</small>
         </div>
       ) : null}
     </div>
@@ -116,6 +117,7 @@ const TruckMap = ({ location, truckNumber, waiting = false }) => {
 
 const TrackTruck = () => {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [trucks, setTrucks] = useState([]);
   const [locations, setLocations] = useState({});
   const [loading, setLoading] = useState(true);
@@ -252,30 +254,30 @@ const TrackTruck = () => {
 
   const headline =
     user?.role === 'admin'
-      ? 'All trucks in real time'
+      ? t('trackTruck.headlineAdmin')
       : user?.role === 'driver'
-        ? 'Your assigned truck'
-        : 'Your delivery truck';
+        ? t('trackTruck.headlineDriver')
+        : t('trackTruck.headlineCustomer');
 
   const subline =
     user?.role === 'admin'
-      ? 'Watch live fleet movement and switch between active trucks.'
+      ? t('trackTruck.sublineAdmin')
       : user?.role === 'driver'
-        ? 'Share your truck location and keep the assigned trip visible.'
-        : 'Follow the truck assigned to your current order.';
+        ? t('trackTruck.sublineDriver')
+        : t('trackTruck.sublineCustomer');
 
   if (loading) return <LoadingSpinner />;
 
   return (
     <div className="dash-page">
-      <div className="dash-section-label">TRACKING</div>
-      <h2 className="dash-title">Live Truck Tracking</h2>
+      <div className="dash-section-label">{t('trackTruck.trackingLabel')}</div>
+      <h2 className="dash-title">{t('trackTruck.liveTrackingTitle')}</h2>
       <div className="track-summary">
         <div>
           <div className="track-summary-title">{headline}</div>
           <div className="track-summary-sub">{subline}</div>
         </div>
-        <div className="track-summary-count">{trucksWithLocations.length} truck(s)</div>
+        <div className="track-summary-count">{trucksWithLocations.length} {t('trackTruck.trucksCount')}</div>
       </div>
       {error && <ErrorMessage message={error} />}
 
@@ -287,24 +289,24 @@ const TrackTruck = () => {
             <div key={truck._id} className="dark-card">
               <div className="dark-card-label">🚛 {truck.truckNumber}</div>
               <div className="dark-info-row">
-                <span>Driver</span>
-                <span>{truck.driver?.name || 'Unassigned'}</span>
+                <span>{t('trackTruck.driverLabel')}</span>
+                <span>{truck.driver?.name || t('trackTruck.unassigned')}</span>
               </div>
               <div className="dark-info-row">
-                <span>Status</span>
+                <span>{t('trackTruck.statusLabel')}</span>
                 <span style={{ color: truck.isAvailable ? '#10b981' : '#f59e0b' }}>
-                  {truck.isAvailable ? 'Available' : 'On Trip'}
+                  {truck.isAvailable ? t('trackTruck.availableStatus') : t('trackTruck.onTripStatus')}
                 </span>
               </div>
 
               {loc ? (
                 <>
                   <div className="dark-info-row">
-                    <span>Lat</span>
+                    <span>{t('trackTruck.latLabel')}</span>
                     <span style={{ color: '#06b6d4' }}>{loc.lat.toFixed(5)}</span>
                   </div>
                   <div className="dark-info-row">
-                    <span>Lng</span>
+                    <span>{t('trackTruck.lngLabel')}</span>
                     <span style={{ color: '#06b6d4' }}>{loc.lng.toFixed(5)}</span>
                   </div>
                   <TruckMap location={loc} truckNumber={truck.truckNumber} />
@@ -319,13 +321,13 @@ const TrackTruck = () => {
         {trucks.length === 0 && (
           <div className="dark-card">
             <div className="customer-tracker-empty">
-              <p>No trucks available for this view yet.</p>
+              <p>{t('trackTruck.noTrucksAvailable')}</p>
               <span>
                 {user?.role === 'admin'
-                  ? 'Register or assign trucks to see live movement here.'
+                  ? t('trackTruck.emptyDescAdmin')
                   : user?.role === 'driver'
-                    ? 'You need an assigned truck before live tracking can start.'
-                    : 'Your assigned truck will appear here after an order is allocated.'}
+                    ? t('trackTruck.emptyDescDriver')
+                    : t('trackTruck.emptyDescCustomer')}
               </span>
             </div>
           </div>

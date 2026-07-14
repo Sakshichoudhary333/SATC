@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getUsers, getTrucks, assignTruck } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
+import { useLanguage } from '../context/LanguageContext';
 
 const AdminAssignTruck = () => {
   const [drivers, setDrivers] = useState([]);
@@ -11,6 +12,7 @@ const AdminAssignTruck = () => {
   const [success, setSuccess] = useState('');
   const [form, setForm] = useState({ driverId: '', truckId: '' });
   const [submitting, setSubmitting] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => { fetchAll(); }, []);
 
@@ -44,7 +46,7 @@ const AdminAssignTruck = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!canAssign) {
-      setError('Please choose an available driver and truck.');
+      setError(t('admin.assignTruck.validationChoose'));
       return;
     }
     setSubmitting(true);
@@ -52,7 +54,7 @@ const AdminAssignTruck = () => {
     setSuccess('');
     try {
       await assignTruck(form);
-      setSuccess(`Truck assigned successfully to ${selectedDriver?.name}`);
+      setSuccess(`${t('admin.assignTruck.successAssign')} ${selectedDriver?.name}`);
       setForm({ driverId: '', truckId: '' });
       fetchAll();
     } catch (err) {
@@ -66,8 +68,8 @@ const AdminAssignTruck = () => {
 
   return (
     <div className="dash-page">
-      <div className="dash-section-label">ASSIGN TRUCK</div>
-      <h2 className="dash-title">Assign Truck to Driver</h2>
+      <div className="dash-section-label">{t('admin.assignTruck.assignLabel')}</div>
+      <h2 className="dash-title">{t('admin.assignTruck.title')}</h2>
 
       {error && <ErrorMessage message={error} />}
       {success && <div className="dark-success">{success}</div>}
@@ -78,7 +80,7 @@ const AdminAssignTruck = () => {
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             {/* Driver select */}
             <div className="dark-form-group" style={{ marginBottom: 0 }}>
-              <label>Select Driver</label>
+              <label>{t('admin.assignTruck.driverField')}</label>
               <select
                 className="dark-input"
                 value={form.driverId}
@@ -87,7 +89,7 @@ const AdminAssignTruck = () => {
                 disabled={unassignedDrivers.length === 0}
               >
                 <option value="">
-                  {unassignedDrivers.length === 0 ? '— No available drivers —' : '— Choose a driver —'}
+                  {unassignedDrivers.length === 0 ? t('admin.assignTruck.noDrivers') : t('admin.assignTruck.chooseDriver')}
                 </option>
                 {unassignedDrivers.map((d) => (
                   <option key={d._id} value={d._id}>
@@ -98,20 +100,20 @@ const AdminAssignTruck = () => {
               {selectedDriver && (
                 <div className="assign-badge-row">
                   <span className={`status-badge ${selectedDriver.driverStatus === 'active' ? 'badge-green' : 'badge-red'}`}>
-                    {selectedDriver.driverStatus === 'active' ? 'Active' : 'Inactive'}
+                    {selectedDriver.driverStatus === 'active' ? t('admin.users.activeTag') : t('admin.users.inactiveTag')}
                   </span>
                 </div>
               )}
               {unassignedDrivers.length === 0 && (
                 <div className="users-note" style={{ marginTop: '0.75rem' }}>
-                  No drivers are available right now. Unassign a truck first before creating a new assignment.
+                  {t('admin.assignTruck.noDriversNote')}
                 </div>
               )}
             </div>
 
             {/* Truck select */}
             <div className="dark-form-group" style={{ marginBottom: 0 }}>
-              <label>Select Truck</label>
+              <label>{t('admin.assignTruck.truckField')}</label>
               <select
                 className="dark-input"
                 value={form.truckId}
@@ -120,32 +122,32 @@ const AdminAssignTruck = () => {
                 disabled={!form.driverId || availableTrucks.length === 0}
               >
                 <option value="">
-                  {availableTrucks.length === 0 ? '— No available trucks —' : '— Choose a truck —'}
+                  {availableTrucks.length === 0 ? t('admin.assignTruck.noTrucks') : t('admin.assignTruck.chooseTruck')}
                 </option>
-                {availableTrucks.map((t) => (
-                  <option key={t._id} value={t._id}>
-                    {t.truckNumber}{t.model ? ` — ${t.model}` : ''}{t.capacity ? ` (${t.capacity})` : ''}
+                {availableTrucks.map((tItem) => (
+                  <option key={tItem._id} value={tItem._id}>
+                    {tItem.truckNumber}{tItem.model ? ` — ${tItem.model}` : ''}{tItem.capacity ? ` (${tItem.capacity})` : ''}
                   </option>
                 ))}
               </select>
               {selectedTruck && (
                 <div className="assign-badge-row">
-                  <span className="status-badge badge-green">Available</span>
+                  <span className="status-badge badge-green">{t('admin.users.activeTag')}</span>
                   {selectedTruck.status === 'maintenance' && (
-                    <span className="status-badge badge-red">Maintenance</span>
+                    <span className="status-badge badge-red">{t('admin.users.inactiveTag')}</span>
                   )}
                 </div>
               )}
               {availableTrucks.length === 0 && (
                 <div className="users-note" style={{ marginTop: '0.75rem' }}>
-                  No trucks are available right now. Assignments are blocked until a truck is freed up.
+                  {t('admin.assignTruck.noTrucksNote')}
                 </div>
               )}
             </div>
 
             <button className="approve-btn" type="submit" disabled={submitting || !canAssign}
               style={{ alignSelf: 'flex-start', padding: '0.6rem 1.5rem' }}>
-              {submitting ? 'Assigning...' : '🔗 Assign Truck'}
+              {submitting ? t('admin.assignTruck.assigning') : t('admin.assignTruck.assignBtn')}
             </button>
           </form>
         </div>
@@ -153,20 +155,20 @@ const AdminAssignTruck = () => {
         {/* Current assignments table */}
         <div style={{ flex: 1.5 }}>
           <div style={{ fontWeight: 600, color: 'var(--muted)', fontSize: '0.75rem', letterSpacing: '0.08em', marginBottom: '0.75rem' }}>
-            CURRENT ASSIGNMENTS
+            {t('admin.assignTruck.currentAssignments')}
           </div>
           <div className="dark-table-wrap">
             <table className="dark-table">
               <thead>
                 <tr>
-                  <th>DRIVER</th>
-                  <th>TRUCK</th>
-                  <th>TRUCK STATUS</th>
+                  <th>{t('admin.assignTruck.colDriver')}</th>
+                  <th>{t('admin.assignTruck.colTruck')}</th>
+                  <th>{t('admin.assignTruck.colTruckStatus')}</th>
                 </tr>
               </thead>
               <tbody>
                 {drivers.map((d) => {
-                  const truck = trucks.find((t) => t.driver?._id === d._id || t.driver === d._id);
+                  const truck = trucks.find((tItem) => tItem.driver?._id === d._id || tItem.driver === d._id);
                   return (
                     <tr key={d._id}>
                       <td>
@@ -176,12 +178,12 @@ const AdminAssignTruck = () => {
                       <td>
                         {truck
                           ? <span style={{ color: '#10b981' }}>{truck.truckNumber}</span>
-                          : <span style={{ color: 'var(--dim)' }}>Unassigned</span>}
+                          : <span style={{ color: 'var(--dim)' }}>{t('admin.assignTruck.unassigned')}</span>}
                       </td>
                       <td>
                         {truck
                           ? <span className={`status-badge ${truck.status === 'available' ? 'badge-green' : 'badge-yellow'}`}>
-                              {truck.status === 'available' ? 'Available' : 'Maintenance'}
+                              {truck.status === 'available' ? t('admin.users.activeTag') : t('admin.users.inactiveTag')}
                             </span>
                           : '—'}
                       </td>
@@ -189,10 +191,10 @@ const AdminAssignTruck = () => {
                   );
                 })}
                 {drivers.length === 0 && (
-                  <tr><td colSpan={3} style={{ textAlign: 'center', color: 'var(--dim)', padding: '2rem' }}>No drivers found</td></tr>
+                  <tr><td colSpan={3} style={{ textAlign: 'center', color: 'var(--dim)', padding: '2rem' }}>{t('admin.drivers.noDriversFound')}</td></tr>
                 )}
                 {drivers.length > 0 && unassignedDrivers.length === 0 && (
-                  <tr><td colSpan={3} style={{ textAlign: 'center', color: 'var(--dim)', padding: '2rem' }}>All drivers already have trucks assigned</td></tr>
+                  <tr><td colSpan={3} style={{ textAlign: 'center', color: 'var(--dim)', padding: '2rem' }}>{t('admin.assignTruck.allDriversAssigned')}</td></tr>
                 )}
               </tbody>
             </table>

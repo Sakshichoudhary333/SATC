@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import { formatDate } from '../utils/helpers';
+import { useLanguage } from '../context/LanguageContext';
 
 const isValidMongoId = (value) =>
   typeof value === 'string' && /^[a-fA-F0-9]{24}$/.test(value.trim());
@@ -31,6 +32,7 @@ const COST_FIELDS = ['fuelCost', 'tollCost', 'foodCost', 'maintenanceCost'];
 
 const ExpenseForm = () => {
   const { user } = useAuth();
+  const { t } = useLanguage();
 
   const [trips, setTrips] = useState([]);           // all driver trips (for history display)
   const [eligibleTrips, setEligibleTrips] = useState([]); // trips that can accept an expense entry
@@ -50,19 +52,14 @@ const ExpenseForm = () => {
       const [allTrips, myExp] = await Promise.all([getTrips(), getMyExpenses()]);
 
       const userId = user?.id || user?._id;
-      const driverTrips = (Array.isArray(allTrips) ? allTrips : []).filter((t) => {
-        const driverId = typeof t.driver === 'object' ? t.driver?._id : t.driver;
+      const driverTrips = (Array.isArray(allTrips) ? allTrips : []).filter((tItem) => {
+        const driverId = typeof tItem.driver === 'object' ? tItem.driver?._id : tItem.driver;
         return driverId?.toString() === userId?.toString();
       });
 
       const normalizedExpenses = (Array.isArray(myExp) ? myExp : [])
         .map(normalizeExpense)
         .filter(Boolean);
-
-      // Trip IDs that already have an expense record
-      const submittedTripIds = new Set(
-        normalizedExpenses.map((e) => (e.trip?._id || e.trip)?.toString()).filter(Boolean)
-      );
 
       // Map of tripId → expense for quick lookup
       const expenseByTripId = {};
@@ -73,9 +70,9 @@ const ExpenseForm = () => {
 
       // Eligible = active trips (always) + completed trips where post-trip edit is still available
       const eligible = sortTripsForExpenses(
-        driverTrips.filter((t) => {
-          if (t.status !== 'completed') return true;
-          const exp = expenseByTripId[t._id?.toString()];
+        driverTrips.filter((tItem) => {
+          if (tItem.status !== 'completed') return true;
+          const exp = expenseByTripId[tItem._id?.toString()];
           // No expense yet → eligible (first submission)
           if (!exp) return true;
           // Expense exists but post-trip edit not yet used → eligible (one final edit)
@@ -89,7 +86,7 @@ const ExpenseForm = () => {
 
       // Auto-select first eligible trip
       setSelectedTripId((prev) => {
-        if (prev && eligible.some((t) => t._id === prev)) return prev;
+        if (prev && eligible.some((tItem) => tItem._id === prev)) return prev;
         return eligible[0]?._id || '';
       });
     } catch (err) {
@@ -126,7 +123,7 @@ const ExpenseForm = () => {
     }
   }, [selectedTripId, expenses]);
 
-  const selectedTrip = [...trips, ...eligibleTrips].find((t) => t._id === selectedTripId) || null;
+  const selectedTrip = [...trips, ...eligibleTrips].find((tItem) => tItem._id === selectedTripId) || null;
 
   // Expense record for the currently selected trip (if any)
   const existingExpense = expenses.find(
@@ -135,7 +132,7 @@ const ExpenseForm = () => {
 
   const getTripDisplay = (expense) => {
     const tripId = expense.trip?._id || expense.trip;
-    const trip = trips.find((t) => t._id === tripId);
+    const trip = trips.find((tItem) => tItem._id === tripId);
     if (trip) {
       return (
         <>
@@ -155,10 +152,10 @@ const ExpenseForm = () => {
     for (const key of COST_FIELDS) {
       const val = Number(form[key]);
       if (form[key] !== '' && (isNaN(val) || val < 0 || val > 1_000_000)) {
-        return `${key.replace('Cost', ' cost')} must be between 0 and 1,000,000.`;
+        return `${key.replace('Cost', ' cost')} ${t('expenses.rangeError')}`;
       }
     }
-    if (form.notes && form.notes.length > 500) return 'Notes must be at most 500 characters.';
+    if (form.notes && form.notes.length > 500) return t('expenses.notesLimit');
     return null;
   };
 
@@ -169,7 +166,7 @@ const ExpenseForm = () => {
     setSuccess('');
 
     if (!selectedTripId || !isValidMongoId(selectedTripId)) {
-      setError('Please select a trip');
+      setError(t('expenses.pleaseSelectTrip'));
       return;
     }
 
@@ -198,13 +195,13 @@ const ExpenseForm = () => {
         // If the post-trip edit was just consumed, remove this trip from eligible list
         if (saved?.postTripEditUsed) {
           setEligibleTrips((prev) => {
-            const next = prev.filter((t) => t._id !== selectedTripId);
+            const next = prev.filter((tItem) => tItem._id !== selectedTripId);
             setSelectedTripId(next[0]?._id || '');
             return next;
           });
         }
 
-        setSuccess('Expense updated successfully!');
+        setSuccess(t('expenses.successUpdate'));
       } else {
         // Create new record for this trip
         const created = await addExpense({ trip: selectedTripId, ...payload });
@@ -213,16 +210,16 @@ const ExpenseForm = () => {
 
         // If trip is completed, it's now submitted — remove from eligible list
         setEligibleTrips((prev) => {
-          const trip = prev.find((t) => t._id === selectedTripId);
+          const trip = prev.find((tItem) => tItem._id === selectedTripId);
           if (trip?.status === 'completed') {
-            const next = prev.filter((t) => t._id !== selectedTripId);
+            const next = prev.filter((tItem) => tItem._id !== selectedTripId);
             setSelectedTripId(next[0]?._id || '');
             return next;
           }
           return prev;
         });
 
-        setSuccess('Expense recorded successfully!');
+        setSuccess(t('expenses.successRecord'));
       }
     } catch (err) {
       setError(err.message || 'Failed to save expense');
@@ -232,21 +229,21 @@ const ExpenseForm = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to delete this expense?')) return;
+    if (!confirm(t('expenses.confirmDelete'))) return;
     setError('');
     try {
       await deleteExpense(id);
       setExpenses((prev) => prev.filter((e) => e._id !== id));
       // After deletion the trip becomes eligible again if it was completed
       await load();
-      setSuccess('Expense deleted.');
+      setSuccess(t('expenses.successDelete'));
     } catch (err) {
       setError(err.message || 'Failed to delete expense');
     }
   };
 
   const canEdit = (expense) => {
-    const trip = trips.find((t) => t._id === (expense.trip?._id || expense.trip));
+    const trip = trips.find((tItem) => tItem._id === (expense.trip?._id || expense.trip));
     if (expense.approvalStatus === 'approved') return false;
     if (!trip || trip.status !== 'completed') return true; // active trip — always editable
     return !expense.postTripEditUsed; // completed trip — only if post-trip edit not yet used
@@ -263,18 +260,18 @@ const ExpenseForm = () => {
 
   return (
     <div className="dash-page">
-      <div className="dash-section-label">EXPENSES</div>
-      <h2 className="dash-title">Record Expense</h2>
+      <div className="dash-section-label">{t('expenses.expenses')}</div>
+      <h2 className="dash-title">{t('expenses.recordExpense')}</h2>
 
       {error && <ErrorMessage message={error} />}
       {success && <div className="dark-success">{success}</div>}
 
       {trips.length === 0 && (
-        <p style={{ color: 'orange', marginBottom: '1rem' }}>No trips assigned to you yet.</p>
+        <p style={{ color: 'orange', marginBottom: '1rem' }}>{t('expenses.noTripsAssigned')}</p>
       )}
       {trips.length > 0 && eligibleTrips.length === 0 && (
         <p style={{ color: '#f59e0b', marginBottom: '1rem' }}>
-          All trip expenses have been submitted.
+          {t('expenses.allExpensesSubmitted')}
         </p>
       )}
 
@@ -283,33 +280,33 @@ const ExpenseForm = () => {
 
           {/* Trip selector */}
           <div className="dark-form-group" style={{ marginBottom: '1.25rem' }}>
-            <label>Select Trip</label>
+            <label>{t('expenses.selectTrip')}</label>
             <select
               className="dark-input"
               value={selectedTripId}
               onChange={(e) => setSelectedTripId(e.target.value)}
             >
-              <option value="">-- Select a trip --</option>
-              {eligibleTrips.map((t) => (
-                <option key={t._id} value={t._id}>
-                  {t._id.slice(-6)} — {t.order?.pickupLocation || 'N/A'} → {t.order?.destination || 'N/A'}
-                  {' '}({t.status === 'completed' ? 'completed – final entry' : t.status})
+              <option value="">{t('expenses.selectTripPlaceholder')}</option>
+              {eligibleTrips.map((tItem) => (
+                <option key={tItem._id} value={tItem._id}>
+                  {tItem._id.slice(-6)} — {tItem.order?.pickupLocation || 'N/A'} → {tItem.order?.destination || 'N/A'}
+                  {' '}({tItem.status === 'completed' ? t('expenses.completedFinalEntry') : tItem.status})
                 </option>
               ))}
             </select>
             {selectedTrip && (
               <div className="users-note" style={{ marginTop: '0.5rem' }}>
                 {isEditMode
-                  ? `Editing existing expense for trip ${selectedTripId.slice(-6)}`
-                  : `New expense entry for trip ${selectedTripId.slice(-6)}`}
+                  ? `${t('expenses.editingExistingExpense')} ${selectedTripId.slice(-6)}`
+                  : `${t('expenses.newExpenseEntry')} ${selectedTripId.slice(-6)}`}
                 {isApproved && (
-                  <span style={{ color: '#10b981', marginLeft: '0.5rem' }}> — Approved (read-only)</span>
+                  <span style={{ color: '#10b981', marginLeft: '0.5rem' }}>{t('expenses.approvedReadOnly')}</span>
                 )}
                 {!isApproved && isTripCompleted && !postTripEditUsed && isEditMode && (
-                  <span style={{ color: '#f59e0b', marginLeft: '0.5rem' }}> — 1 edit remaining after completion</span>
+                  <span style={{ color: '#f59e0b', marginLeft: '0.5rem' }}>{t('expenses.oneEditRemaining')}</span>
                 )}
                 {!isApproved && isTripCompleted && postTripEditUsed && (
-                  <span style={{ color: '#ef4444', marginLeft: '0.5rem' }}> — Locked (post-trip edit used)</span>
+                  <span style={{ color: '#ef4444', marginLeft: '0.5rem' }}>{t('expenses.lockedPostTripUsed')}</span>
                 )}
               </div>
             )}
@@ -320,7 +317,7 @@ const ExpenseForm = () => {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
               {COST_FIELDS.map((f) => (
                 <div className="dark-form-group" key={f}>
-                  <label>{f.replace('Cost', '').replace(/([A-Z])/g, ' $1').trim()} Cost (₹)</label>
+                  <label>{t(`expenses.costLabels.${f}`)}</label>
                   <input
                     className="dark-input"
                     name={f}
@@ -336,14 +333,14 @@ const ExpenseForm = () => {
             </div>
 
             <div className="dark-form-group">
-              <label>Notes</label>
+              <label>{t('expenses.notesLabel')}</label>
               <textarea
                 className="dark-input"
                 name="notes"
                 value={form.notes}
                 onChange={handleChange}
                 rows={3}
-                placeholder="Additional notes..."
+                placeholder={t('expenses.notesPlaceholder')}
                 disabled={formReadOnly}
               />
             </div>
@@ -356,10 +353,10 @@ const ExpenseForm = () => {
                 style={{ width: '100%', marginTop: '0.5rem' }}
               >
                 {submitting
-                  ? 'Saving...'
+                  ? t('expenses.saving')
                   : isEditMode
-                    ? 'Update Expense'
-                    : 'Submit Expense'}
+                    ? t('expenses.updateExpense')
+                    : t('expenses.submitExpense')}
               </button>
             )}
           </form>
@@ -370,21 +367,21 @@ const ExpenseForm = () => {
       {expenses.length > 0 && (
         <>
           <div className="dash-section-label" style={{ marginBottom: '0.75rem' }}>
-            MY EXPENSE HISTORY
+            {t('expenses.expenseHistory')}
           </div>
           <div className="dark-table-wrap">
             <table className="dark-table">
               <thead>
                 <tr>
-                  <th>TRIP</th>
-                  <th>FUEL</th>
-                  <th>TOLL</th>
-                  <th>FOOD</th>
-                  <th>MAINTENANCE</th>
-                  <th>TOTAL</th>
-                  <th>STATUS</th>
-                  <th>DATE</th>
-                  <th>ACTIONS</th>
+                  <th>{t('expenses.tripCol')}</th>
+                  <th>{t('expenses.fuelCol')}</th>
+                  <th>{t('expenses.tollCol')}</th>
+                  <th>{t('expenses.foodCol')}</th>
+                  <th>{t('expenses.maintenanceCol')}</th>
+                  <th>{t('expenses.totalCol')}</th>
+                  <th>{t('expenses.statusCol')}</th>
+                  <th>{t('expenses.dateCol')}</th>
+                  <th>{t('expenses.actionsCol')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -420,18 +417,18 @@ const ExpenseForm = () => {
                               window.scrollTo({ top: 0, behavior: 'smooth' });
                             }}
                           >
-                            Edit
+                            {t('expenses.editBtn')}
                           </button>
                           <button
                             className="reject-btn"
                             style={{ padding: '0.3rem 0.75rem', fontSize: '0.8rem' }}
                             onClick={() => handleDelete(e._id)}
                           >
-                            Delete
+                            {t('expenses.deleteBtn')}
                           </button>
                         </div>
                       ) : (
-                        <span style={{ color: '#64748b', fontSize: '0.8rem' }}>Read-only</span>
+                        <span style={{ color: '#64748b', fontSize: '0.8rem' }}>{t('expenses.readOnly')}</span>
                       )}
                     </td>
                   </tr>

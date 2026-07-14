@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import ErrorMessage from '../components/ErrorMessage';
+import { useLanguage } from '../context/LanguageContext';
 
 const Register = () => {
   const { register } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -14,7 +16,6 @@ const Register = () => {
     confirmPassword: '', 
     role: 'customer'
   });
-
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -29,14 +30,14 @@ const Register = () => {
     const name = form.name.trim();
     const email = form.email.trim();
 
-    if (name.length < 2 || name.length > 60) return setError('Name must be 2–60 characters.');
-    if (!/^[A-Za-z\s'-]+$/.test(name)) return setError('Name contains invalid characters.');
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setError('Invalid email format.');
-    if (form.password.length < 6) return setError('Password must be at least 6 characters.');
-    if (!/[A-Z]/.test(form.password)) return setError('Password must contain an uppercase letter.');
-    if (!/[a-z]/.test(form.password)) return setError('Password must contain a lowercase letter.');
-    if (!/[0-9]/.test(form.password)) return setError('Password must contain a number.');
-    if (form.password !== form.confirmPassword) return setError('Passwords do not match.');
+    if (name.length < 2 || name.length > 60) return setError(t('auth.nameValidationError'));
+    if (!/^[A-Za-z\s'-]+$/.test(name)) return setError(t('auth.nameCharError'));
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setError(t('auth.invalidEmail'));
+    if (form.password.length < 6) return setError(t('auth.passLengthError'));
+    if (!/[A-Z]/.test(form.password)) return setError(t('auth.passUpperError'));
+    if (!/[a-z]/.test(form.password)) return setError(t('auth.passLowerError'));
+    if (!/[0-9]/.test(form.password)) return setError(t('auth.passNumberError'));
+    if (form.password !== form.confirmPassword) return setError(t('auth.passMatchError'));
 
     setLoading(true);
     try {
@@ -51,37 +52,36 @@ const Register = () => {
       setLoading(false);
     }
   };
+
   return (
     <div className="auth-screen">
       <div className="auth-left">
-        <div className="auth-brand">TMS</div>
-        <h1 className="auth-headline">Join the platform</h1>
-        <p className="auth-sub">
-          Create your account to start managing logistics efficiently.
-        </p>
+        <div className="auth-brand">{t('auth.brand')}</div>
+        <h1 className="auth-headline">{t('auth.joinPlatform')}</h1>
+        <p className="auth-sub">{t('auth.registerTagline')}</p>
       </div>
 
       <div className="auth-right">
         <div className="auth-box">
-          <h2 className="auth-box-title">Register</h2>
+          <h2 className="auth-box-title">{t('auth.registerLink')}</h2>
 
           {error && <ErrorMessage message={error} />}
 
           <form onSubmit={handleSubmit}>
             <div className="dark-form-group">
-              <label>Full Name</label>
+              <label>{t('auth.fullNameLabel')}</label>
               <input
                 className="dark-input"
                 name="name"
                 value={form.name}
                 onChange={handleChange}
                 required
-                placeholder="John Doe"
+                placeholder={t('auth.fullNamePlaceholder')}
               />
             </div>
 
             <div className="dark-form-group">
-              <label>Email</label>
+              <label>{t('auth.emailLabel')}</label>
               <input
                 className="dark-input"
                 name="email"
@@ -89,12 +89,12 @@ const Register = () => {
                 value={form.email}
                 onChange={handleChange}
                 required
-                placeholder="you@example.com"
+                placeholder={t('auth.emailPlaceholder')}
               />
             </div>
 
             <div className="dark-form-group">
-              <label>Password</label>
+              <label>{t('auth.passwordLabel')}</label>
               <input
                 className="dark-input"
                 name="password"
@@ -102,33 +102,33 @@ const Register = () => {
                 value={form.password}
                 onChange={handleChange}
                 required
-                placeholder="••••••••"
+                placeholder={t('auth.passwordPlaceholder')}
               />
             </div>
 
             <div className="dark-form-group">
-  <label>Confirm Password</label>
-  <input
-    className="dark-input"
-    name="confirmPassword"
-    type="password"
-    value={form.confirmPassword}
-    onChange={handleChange}
-    required
-    placeholder="••••••••"
-  />
-</div>
+              <label>{t('auth.confirmPasswordLabel')}</label>
+              <input
+                className="dark-input"
+                name="confirmPassword"
+                type="password"
+                value={form.confirmPassword}
+                onChange={handleChange}
+                required
+                placeholder={t('auth.passwordPlaceholder')}
+              />
+            </div>
 
             <div className="dark-form-group">
-              <label>Role</label>
+              <label>{t('auth.roleLabel')}</label>
               <select
                 className="dark-input"
                 name="role"
                 value={form.role}
                 onChange={handleChange}
               >
-                <option value="customer">Customer</option>
-                <option value="driver">Driver</option>
+                <option value="customer">{t('auth.customerRole')}</option>
+                <option value="driver">{t('auth.driverRole')}</option>
               </select>
             </div>
 
@@ -145,12 +145,12 @@ const Register = () => {
                 alignItems: 'center'
               }}
             >
-              {loading ? 'Creating account...' : 'Create Account'}
+              {loading ? t('auth.creatingAccount') : t('auth.createAccountBtn')}
             </button>
           </form>
 
           <p className="auth-switch">
-            Already have an account? <Link to="/login">Login</Link>
+            {t('auth.alreadyHaveAccount')} <Link to="/login">{t('auth.loginLink')}</Link>
           </p>
         </div>
       </div>
