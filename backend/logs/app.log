@@ -5909,3 +5909,5 @@
 {"timestamp":"2026-07-14T14:40:08.831Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":255}}
 {"timestamp":"2026-07-14T14:40:09.664Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":1099,"thresholdMs":1000}}
 {"timestamp":"2026-07-14T14:40:09.664Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":1099}}
+{"timestamp":"2026-07-15T05:14:33.457Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-15T05:14:33.999Z","level":"info","message":"MongoDB connected"}
