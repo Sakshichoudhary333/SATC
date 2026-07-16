@@ -24,6 +24,7 @@ import AdminExpenses from '../pages/AdminExpenses';
 import Unauthorized from '../pages/Unauthorized';
 import TestMap from '../pages/TestMap';
 import Billing from "../pages/Billing";
+import AdminMaintenance from '../pages/AdminMaintenance';
 import LiveTruckTrack from '../pages/LiveTruckTrack';
 import LandingPage from '../pages/LandingPage';
 import AboutUs from '../pages/AboutUs';
@@ -32,6 +33,8 @@ import ContactUs from '../pages/ContactUs';
 import Faq from '../pages/Faq';
 import FeaturesPage from '../pages/FeaturesPage';
 import HowItWorks from '../pages/HowItWorks';
+import PrivacyPolicy from '../pages/PrivacyPolicy';
+import TermsOfService from '../pages/TermsOfService';
 
 
 const A = ({ children }) => <ProtectedRoute roles={['admin']}>{children}</ProtectedRoute>;
@@ -48,6 +51,8 @@ const AppRoutes = () => (
     <Route path="/faq" element={<Faq />} />
     <Route path="/features" element={<FeaturesPage />} />
     <Route path="/how-it-works" element={<HowItWorks />} />
+    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+    <Route path="/terms-of-service" element={<TermsOfService />} />
     <Route path="/login" element={<Login />} />
     <Route path="/register" element={<Register />} />
     <Route path="/verify-otp" element={<VerifyOtp />} />
@@ -80,6 +85,7 @@ const AppRoutes = () => (
     <Route path="/admin/trips" element={<A><AdminTrips /></A>} />
     <Route path="/admin/expenses" element={<A><AdminExpenses /></A>} />
     <Route path="/admin/reports" element={<A><AdminReports /></A>} />
+    <Route path="/admin/maintenance" element={<A><AdminMaintenance /></A>} />
     <Route path="/track/truck/:truckId" element={<LiveTruckTrack />} />
     <Route path="/test-map" element={<TestMap />} />
 

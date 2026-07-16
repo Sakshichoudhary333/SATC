@@ -36,13 +36,19 @@ const AboutUs = () => {
         </Link>
         
         <div className="landing-nav-actions">
-          <Link to="/" className="landing-nav-link">Home</Link>
+          <Link to="/" className="landing-nav-link">{t('common.home')}</Link>
+          <Link to="/about" className="landing-nav-link">{t('landing.aboutUs')}</Link>
+          <Link to="/careers" className="landing-nav-link">{t('landing.careers')}</Link>
+          <Link to="/faq" className="landing-nav-link">{t('landing.faq')}</Link>
           <Link to="/features" className="landing-nav-link">{t('landing.features') || 'Features'}</Link>
+          <Link to="/how-it-works" className="landing-nav-link">{t('landing.howItWorks') || 'How It Works'}</Link>
+          <Link to="/#tracking-simulator" className="landing-nav-link">{t('landing.trackShipment')}</Link>
+          <Link to="/contact" className="landing-nav-link">{t('landing.contactUs')}</Link>
           <LanguageSelector />
           
           {user ? (
-            <button className="landing-btn-signup" onClick={handleGetStarted}>
-              {t('nav.dashboard')}
+            <button className="landing-btn-signup" onClick={() => navigate('/login')}>
+              {t('landing.signIn')}
             </button>
           ) : (
             <>
@@ -57,12 +63,12 @@ const AboutUs = () => {
       <section className="about-hero-section">
         <div className="about-hero-glow"></div>
         <div className="about-container">
-          <h1 className="about-main-title">About Us</h1>
+          <h1 className="about-main-title">{t('aboutPage.title')}</h1>
           <p className="about-intro-text">
-            Welcome to <strong>Logistics Management System</strong>, a smart platform designed to simplify and optimize transportation and logistics operations. Our mission is to help businesses efficiently manage orders, drivers, vehicles, trips, expenses, and deliveries from a single, user-friendly dashboard.
+            {t('aboutPage.intro1')}
           </p>
           <p className="about-intro-text">
-            We understand the challenges of modern logistics, including shipment tracking, fleet coordination, delivery delays, and operational costs. Our platform provides real-time visibility and intelligent management tools that enable organizations to streamline their logistics processes and improve overall productivity.
+            {t('aboutPage.intro2')}
           </p>
         </div>
       </section>
@@ -70,47 +76,47 @@ const AboutUs = () => {
       {/* Offerings Grid */}
       <section className="about-offer-section">
         <div className="about-container">
-          <h2 className="about-section-title">What We Offer</h2>
+          <h2 className="about-section-title">{t('aboutPage.whatWeOffer')}</h2>
           <div className="about-offer-grid">
             <div className="about-card">
               <div className="about-card-icon"><FaFileInvoiceDollar /></div>
-              <h3>Order Management</h3>
-              <p>Create, organize, and monitor customer orders with ease.</p>
+              <h3>{t('aboutPage.orderManagementTitle')}</h3>
+              <p>{t('aboutPage.orderManagementDesc')}</p>
             </div>
             <div className="about-card">
               <div className="about-card-icon"><FaRoute /></div>
-              <h3>Trip Management</h3>
-              <p>Plan, assign, and track delivery trips efficiently.</p>
+              <h3>{t('aboutPage.tripManagementTitle')}</h3>
+              <p>{t('aboutPage.tripManagementDesc')}</p>
             </div>
             <div className="about-card">
               <div className="about-card-icon"><FaCogs /></div>
-              <h3>Driver Management</h3>
-              <p>Manage driver information, assignments, and performance.</p>
+              <h3>{t('aboutPage.driverManagementTitle')}</h3>
+              <p>{t('aboutPage.driverManagementDesc')}</p>
             </div>
             <div className="about-card">
               <div className="about-card-icon"><FaTruck /></div>
-              <h3>Fleet Management</h3>
-              <p>Maintain records of trucks and vehicles used for transportation.</p>
+              <h3>{t('aboutPage.fleetManagementTitle')}</h3>
+              <p>{t('aboutPage.fleetManagementDesc')}</p>
             </div>
             <div className="about-card">
               <div className="about-card-icon"><MdSpeed /></div>
-              <h3>Live GPS Tracking</h3>
-              <p>Monitor vehicle locations in real time for improved transparency and faster decision-making.</p>
+              <h3>{t('aboutPage.liveGpsTitle')}</h3>
+              <p>{t('aboutPage.liveGpsDesc')}</p>
             </div>
             <div className="about-card">
               <div className="about-card-icon"><FaFileInvoiceDollar /></div>
-              <h3>Expense Management</h3>
-              <p>Record and manage trip-related expenses with approval workflows.</p>
+              <h3>{t('aboutPage.expenseManagementTitle')}</h3>
+              <p>{t('aboutPage.expenseManagementDesc')}</p>
             </div>
             <div className="about-card">
               <div className="about-card-icon"><FaCheckCircle /></div>
-              <h3>Reviews & Feedback</h3>
-              <p>Collect customer feedback to continuously improve service quality.</p>
+              <h3>{t('aboutPage.reviewsFeedbackTitle')}</h3>
+              <p>{t('aboutPage.reviewsFeedbackDesc')}</p>
             </div>
             <div className="about-card">
               <div className="about-card-icon"><FaShieldAlt /></div>
-              <h3>Secure Role-Based Access</h3>
-              <p>Separate dashboards and permissions for administrators and drivers to ensure secure system access.</p>
+              <h3>{t('aboutPage.secureAccessTitle')}</h3>
+              <p>{t('aboutPage.secureAccessDesc')}</p>
             </div>
           </div>
         </div>
@@ -122,19 +128,19 @@ const AboutUs = () => {
           <div className="about-mission-card">
             <div className="about-icon-header">
               <FaGlobe size={28} color="var(--cyan)" />
-              <h2>Our Mission</h2>
+              <h2>{t('aboutPage.ourMission')}</h2>
             </div>
             <p>
-              Our mission is to transform logistics operations through technology by providing a reliable, secure, and efficient management platform that reduces manual work, improves delivery performance, and enhances customer satisfaction.
+              {t('aboutPage.missionDesc')}
             </p>
           </div>
           <div className="about-mission-card">
             <div className="about-icon-header">
               <FaEye size={28} color="var(--cyan)" />
-              <h2>Our Vision</h2>
+              <h2>{t('aboutPage.ourVision')}</h2>
             </div>
             <p>
-              To become a trusted digital logistics solution that empowers businesses with smarter fleet management, real-time tracking, and data-driven decision-making.
+              {t('aboutPage.visionDesc')}
             </p>
           </div>
         </div>
@@ -143,39 +149,39 @@ const AboutUs = () => {
       {/* Why Choose Us */}
       <section className="about-why-section">
         <div className="about-container">
-          <h2 className="about-section-title">Why Choose Us?</h2>
+          <h2 className="about-section-title">{t('aboutPage.whyChooseUs')}</h2>
           <div className="about-why-list">
             <div className="about-why-item">
               <span className="about-check-bullet">✓</span>
-              <span>Easy-to-use and responsive interface</span>
+              <span>{t('aboutPage.why1')}</span>
             </div>
             <div className="about-why-item">
               <span className="about-check-bullet">✓</span>
-              <span>Real-time shipment and vehicle tracking</span>
+              <span>{t('aboutPage.why2')}</span>
             </div>
             <div className="about-why-item">
               <span className="about-check-bullet">✓</span>
-              <span>Secure authentication and role-based access</span>
+              <span>{t('aboutPage.why3')}</span>
             </div>
             <div className="about-why-item">
               <span className="about-check-bullet">✓</span>
-              <span>Faster order and trip management</span>
+              <span>{t('aboutPage.why4')}</span>
             </div>
             <div className="about-why-item">
               <span className="about-check-bullet">✓</span>
-              <span>Transparent expense monitoring</span>
+              <span>{t('aboutPage.why5')}</span>
             </div>
             <div className="about-why-item">
               <span className="about-check-bullet">✓</span>
-              <span>Reliable and scalable architecture</span>
+              <span>{t('aboutPage.why6')}</span>
             </div>
             <div className="about-why-item">
               <span className="about-check-bullet">✓</span>
-              <span>Improved operational efficiency</span>
+              <span>{t('aboutPage.why7')}</span>
             </div>
           </div>
           <p className="about-closing-tagline">
-            Whether you're managing a small fleet or a growing logistics business, our platform is designed to make transportation management simpler, faster, and more efficient.
+            {t('aboutPage.closingTagline')}
           </p>
         </div>
       </section>
@@ -194,7 +200,7 @@ const AboutUs = () => {
           </div>
 
           <div>
-            <h4 className="landing-footer-title">Platform</h4>
+            <h4 className="landing-footer-title">{t('footer.platform')}</h4>
             <div className="landing-footer-links">
               <Link to="/features">{t('landing.features') || 'Features'}</Link>
               <Link to="/how-it-works">{t('landing.howItWorks') || 'How It Works'}</Link>
@@ -203,7 +209,7 @@ const AboutUs = () => {
           </div>
 
           <div>
-            <h4 className="landing-footer-title">{t('landing.company') || 'Company'}</h4>
+            <h4 className="landing-footer-title">{t('footer.company')}</h4>
             <div className="landing-footer-links">
               <Link to="/about">{t('landing.aboutUs') || 'About Us'}</Link>
               <Link to="/contact">{t('landing.contactUs') || 'Contact Us'}</Link>
@@ -213,19 +219,19 @@ const AboutUs = () => {
           </div>
 
           <div>
-            <h4 className="landing-footer-title">SECURE & RELIABLE</h4>
+            <h4 className="landing-footer-title">{t('footer.secureAndReliable')}</h4>
             <div className="landing-footer-links" style={{ color: 'var(--muted)', fontSize: '0.875rem', gap: '0.65rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                Secure Authentication
+                {t('footer.secureAuth')}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                Live GPS Tracking
+                {t('footer.liveGpsTracking')}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                Smart Trip Management
+                {t('footer.smartTripManagement')}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                Expense Monitoring
+                {t('footer.expenseMonitoring')}
               </div>
             </div>
           </div>
@@ -234,26 +240,26 @@ const AboutUs = () => {
             <h4 className="landing-footer-title">{t('landing.contactUs') || 'Contact Us'}</h4>
             <div className="landing-footer-links" style={{ color: 'var(--muted)', fontSize: '0.875rem', gap: '0.6rem' }}>
               <div>
-                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>Email</span>
+                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>{t('footer.email')}</span>
                 <a href="mailto:choudharysakshi828@gmail.com" style={{ color: 'var(--muted)' }}>choudharysakshi828@gmail.com</a>
               </div>
               <div>
-                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>Phone</span>
+                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>{t('footer.phone')}</span>
                 <a href="tel:+919664372498" style={{ color: 'var(--muted)' }}>+91-9664372498</a>
               </div>
               <div>
-                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>Address</span>
-                <span>Mansarovar, Jaipur</span>
+                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>{t('footer.address')}</span>
+                <span>{t('footer.addressValue')}</span>
               </div>
             </div>
           </div>
         </div>
 
         <div className="landing-footer-bottom">
-          <span>&copy; {new Date().getFullYear()} TMS Logistics Inc. All rights reserved.</span>
+          <span>&copy; {new Date().getFullYear()} TMS Logistics Inc. {t('footer.allRightsReserved')}</span>
           <span style={{ display: 'flex', gap: '1rem' }}>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
+            <Link to="/privacy-policy">{t('footer.privacyPolicy')}</Link>
+            <Link to="/terms-of-service">{t('footer.termsOfService')}</Link>
           </span>
         </div>
       </footer>

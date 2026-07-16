@@ -1,6 +1,7 @@
 import Billing from "../models/Billing.js";
 import Trip from "../models/Trip.js";
 import User from "../models/User.js";
+import PDFDocument from 'pdfkit';
 
 const DRIVER_MONTHLY_PAYOUT = 20000;
 const DEFAULT_CUSTOMER_ADVANCE = 5000;
@@ -159,5 +160,65 @@ export const generateMonthEndDriverPayouts = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+export const downloadInvoice = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const bill = await Billing.findById(id);
+    if (!bill) {
+      return res.status(404).json({ message: "Bill not found" });
+    }
+
+    const doc = new PDFDocument({ margin: 50 });
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=invoice-${id}.pdf`);
+    doc.pipe(res);
+
+    // Layout Design
+    // Title
+    doc.fillColor('#06b6d4').fontSize(20).text('SATC LOGISTICS', 50, 50);
+    doc.fillColor('#94a3b8').fontSize(9).text('Smart Trucking & Logistics Platform', 50, 75);
+    
+    doc.fillColor('#000000').fontSize(24).text('INVOICE / RECEIPT', 300, 50, { align: 'right' });
+    doc.fillColor('#94a3b8').fontSize(9).text(`Date: ${new Date(bill.createdAt).toLocaleDateString()}`, 300, 75, { align: 'right' });
+
+    // Divider Line
+    doc.strokeColor('#e2e8f0').lineWidth(1).moveTo(50, 100).lineTo(550, 100).stroke();
+
+    // Bill Details
+    doc.fillColor('#000000').fontSize(12).text('Invoice Details:', 50, 120);
+    doc.fillColor('#334155').fontSize(10).text(`Bill ID: ${bill._id}`, 50, 140);
+    doc.text(`Party Name: ${bill.partyName || 'Customer'}`, 50, 160);
+    doc.text(`Party Role: ${bill.partyRole}`, 50, 180);
+    doc.text(`Billing Type: ${bill.billType}`, 50, 200);
+
+    // Table Header
+    doc.strokeColor('#e2e8f0').lineWidth(1).moveTo(50, 240).lineTo(550, 240).stroke();
+    doc.fillColor('#475569').fontSize(10).text('Description', 60, 250);
+    doc.text('Amount', 450, 250, { align: 'right' });
+    doc.strokeColor('#e2e8f0').lineWidth(1).moveTo(50, 270).lineTo(550, 270).stroke();
+
+    // Table Row
+    doc.fillColor('#0f172a').fontSize(10).text(bill.notes || `Logistics payment description`, 60, 290);
+    doc.text(`INR ${bill.amount}`, 450, 290, { align: 'right' });
+
+    // Table Footer
+    doc.strokeColor('#e2e8f0').lineWidth(1).moveTo(50, 320).lineTo(550, 320).stroke();
+    doc.fillColor('#10b981').fontSize(12).text('Total', 60, 340);
+    doc.text(`INR ${bill.amount}`, 450, 340, { align: 'right' });
+
+    // Status Badge
+    doc.fillColor(bill.paymentStatus === 'Paid' ? '#10b981' : '#f59e0b')
+       .fontSize(14)
+       .text(`Status: ${bill.paymentStatus.toUpperCase()}`, 50, 400);
+
+    // Footer note
+    doc.fillColor('#94a3b8').fontSize(8).text('Thank you for choosing SATC Logistics platform. For any inquiries, support@satc.com', 50, 500, { align: 'center' });
+
+    doc.end();
+  } catch (error) {
+    res.status(500).json({ message: "Failed to generate PDF invoice", error: error.message });
   }
 };

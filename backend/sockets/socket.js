@@ -44,3 +44,10 @@ export const emitTripStatusUpdated = (data) => {
     io.emit('tripStatusUpdated', data);
   }
 };
+
+export const emitGeofenceAlert = (data) => {
+  if (io) {
+    io.emit('geofenceAlert', data);
+  }
+};
+

@@ -17,6 +17,7 @@ import otpRoutes from './routes/otpRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import locationRoutes from './routes/locationRoutes.js';
 import billingRoutes from './routes/billingRoutes.js';
+import maintenanceRoutes from './routes/maintenanceRoutes.js';
 
 import { initSocket } from './sockets/socket.js';
 import { errorMiddleware } from './middleware/errorMiddleware.js';
@@ -79,6 +80,7 @@ app.use('/api/otp', otpRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/location', locationRoutes);
 app.use('/api/billing', billingRoutes);
+app.use('/api/maintenance', maintenanceRoutes);
 
 // ========================
 // TEST ROUTES

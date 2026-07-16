@@ -2,8 +2,10 @@ import Truck from '../models/Truck.js';
 import mongoose from 'mongoose';
 import { getDistance } from '../utils/distanceCalculator.js';
 import { calculateETA } from '../utils/etaCalculator.js';
-import { emitLocationUpdated } from '../sockets/socket.js';
+import { emitLocationUpdated, emitGeofenceAlert } from '../sockets/socket.js';
 import { logger } from '../utils/logger.js';
+import { geocodeAddress } from '../utils/geocoder.js';
+
 
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
@@ -93,6 +95,35 @@ export const updateTruckLocation = async (req, res) => {
       lng: nextLng,
       lastUpdated: truck.lastUpdated,
     });
+
+    // Geofencing Check
+    try {
+      const Trip = (await import('../models/Trip.js')).default;
+      const activeTrip = await Trip.findOne({ truck: id, status: { $ne: 'completed' } })
+        .populate({
+          path: 'order',
+          select: 'destination pickupLocation',
+        });
+
+      if (activeTrip && activeTrip.order?.destination) {
+        const destCoords = await geocodeAddress(activeTrip.order.destination);
+        if (destCoords) {
+          const distance = await getDistance(nextLat, nextLng, destCoords.lat, destCoords.lng);
+          if (distance <= 2.0) { // 2 km threshold
+            emitGeofenceAlert({
+              truckId: truck._id.toString(),
+              tripId: activeTrip._id.toString(),
+              distance: Number(distance.toFixed(2)),
+              destination: activeTrip.order.destination,
+              message: `Truck is near destination: within ${distance.toFixed(2)} km`,
+            });
+          }
+        }
+      }
+    } catch (err) {
+      logger.error('Failed to run geofence check during location update', err);
+    }
+
     return res.json(truck);
   } catch (error) {
     logger.error('Failed to update truck location', error);
@@ -128,7 +159,7 @@ export const getTruckETA = async (req, res) => {
       return res.status(422).json({ message: 'Truck location is not available' });
     }
 
-    const distance = getDistance(truckLat, truckLng, destLat, destLng);
+    const distance = await getDistance(truckLat, truckLng, destLat, destLng);
     const eta = calculateETA(distance);
 
     logger.info('Calculated truck ETA', {

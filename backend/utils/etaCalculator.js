@@ -1,5 +1,5 @@
-export const calculateETA = (distanceKm, speedKmPerHr = 40) => {
-    if (!distanceKm) return 0;
+export const calculateETA = (distanceKm, speedKmPerHr = 65) => {
+    if (!distanceKm) return { hours: 0, minutes: 0 };
   
     const time = distanceKm / speedKmPerHr;
   

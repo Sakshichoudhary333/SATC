@@ -54,7 +54,12 @@ const Register = () => {
   };
 
   return (
-    <div className="auth-screen">
+    <div className="auth-screen" style={{ position: 'relative' }}>
+      <div style={{ position: 'absolute', top: '1.5rem', left: '1.5rem', zIndex: 10 }}>
+        <Link to="/" style={{ color: 'var(--dim)', textDecoration: 'none', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.25rem', fontWeight: 600 }}>
+          ← {t('auth.backToHome')}
+        </Link>
+      </div>
       <div className="auth-left">
         <div className="auth-brand">{t('auth.brand')}</div>
         <h1 className="auth-headline">{t('auth.joinPlatform')}</h1>

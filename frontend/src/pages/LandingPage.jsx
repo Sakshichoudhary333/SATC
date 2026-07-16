@@ -298,16 +298,20 @@ const LandingPage = () => {
         </div>
         
         <div className="landing-nav-actions">
+          <Link to="/" className="landing-nav-link">{t('common.home')}</Link>
+          <Link to="/about" className="landing-nav-link">{t('landing.aboutUs')}</Link>
+          <Link to="/careers" className="landing-nav-link">{t('landing.careers')}</Link>
+          <Link to="/faq" className="landing-nav-link">{t('landing.faq')}</Link>
           <Link to="/features" className="landing-nav-link">{t('landing.features') || 'Features'}</Link>
           <Link to="/how-it-works" className="landing-nav-link">{t('landing.howItWorks') || 'How It Works'}</Link>
-          <a href="#tracking-simulator" className="landing-nav-link">{t('landing.trackShipment')}</a>
-          <Link to="/contact" className="landing-nav-link">{t('landing.contactUs') || 'Contact Us'}</Link>
+          <Link to="/#tracking-simulator" className="landing-nav-link">{t('landing.trackShipment')}</Link>
+          <Link to="/contact" className="landing-nav-link">{t('landing.contactUs')}</Link>
           
           <LanguageSelector />
           
           {user ? (
-            <button className="landing-btn-signup" onClick={handleGetStarted}>
-              {t('nav.dashboard')}
+            <button className="landing-btn-signup" onClick={() => navigate('/login')}>
+              {t('landing.signIn')}
             </button>
           ) : (
             <>
@@ -334,9 +338,9 @@ const LandingPage = () => {
             <button className="landing-hero-btn-primary" onClick={handleGetStarted}>
               {t('landing.getStarted')} <FaArrowRight size={14} />
             </button>
-            <a href="#tracking-simulator" className="landing-hero-btn-secondary">
+            <Link to="/#tracking-simulator" className="landing-hero-btn-secondary">
               {t('landing.trackShipment')}
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -540,7 +544,7 @@ const LandingPage = () => {
           </div>
 
           <div>
-            <h4 className="landing-footer-title">Platform</h4>
+            <h4 className="landing-footer-title">{t('footer.platform')}</h4>
             <div className="landing-footer-links">
               <Link to="/features">{t('landing.features') || 'Features'}</Link>
               <Link to="/how-it-works">{t('landing.howItWorks') || 'How It Works'}</Link>
@@ -549,7 +553,7 @@ const LandingPage = () => {
           </div>
 
           <div>
-            <h4 className="landing-footer-title">{t('landing.company') || 'Company'}</h4>
+            <h4 className="landing-footer-title">{t('footer.company')}</h4>
             <div className="landing-footer-links">
               <Link to="/about">{t('landing.aboutUs') || 'About Us'}</Link>
               <Link to="/contact">{t('landing.contactUs') || 'Contact Us'}</Link>
@@ -559,19 +563,19 @@ const LandingPage = () => {
           </div>
 
           <div>
-            <h4 className="landing-footer-title">SECURE & RELIABLE</h4>
+            <h4 className="landing-footer-title">{t('footer.secureAndReliable')}</h4>
             <div className="landing-footer-links" style={{ color: 'var(--muted)', fontSize: '0.875rem', gap: '0.65rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                Secure Authentication
+                {t('footer.secureAuth')}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                Live GPS Tracking
+                {t('footer.liveGpsTracking')}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                Smart Trip Management
+                {t('footer.smartTripManagement')}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                Expense Monitoring
+                {t('footer.expenseMonitoring')}
               </div>
             </div>
           </div>
@@ -580,16 +584,16 @@ const LandingPage = () => {
             <h4 className="landing-footer-title">{t('landing.contactUs') || 'Contact Us'}</h4>
             <div className="landing-footer-links" style={{ color: 'var(--muted)', fontSize: '0.875rem', gap: '0.6rem' }}>
               <div>
-                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>Email</span>
+                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>{t('footer.email')}</span>
                 <a href="mailto:choudharysakshi828@gmail.com" style={{ color: 'var(--muted)' }}>choudharysakshi828@gmail.com</a>
               </div>
               <div>
-                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>Phone</span>
+                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>{t('footer.phone')}</span>
                 <a href="tel:+919664372498" style={{ color: 'var(--muted)' }}>+91-9664372498</a>
               </div>
               <div>
-                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>Address</span>
-                <span>Mansarovar, Jaipur</span>
+                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>{t('footer.address')}</span>
+                <span>{t('footer.addressValue')}</span>
               </div>
             </div>
           </div>
@@ -597,10 +601,10 @@ const LandingPage = () => {
         </div>
 
         <div className="landing-footer-bottom">
-          <span>&copy; {new Date().getFullYear()} TMS Logistics Inc. All rights reserved.</span>
+          <span>&copy; {new Date().getFullYear()} TMS Logistics Inc. {t('footer.allRightsReserved')}</span>
           <span style={{ display: 'flex', gap: '1rem' }}>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
+            <Link to="/privacy-policy">{t('footer.privacyPolicy')}</Link>
+            <Link to="/terms-of-service">{t('footer.termsOfService')}</Link>
           </span>
         </div>
       </footer>

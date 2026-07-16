@@ -6,6 +6,8 @@ import Billing from '../models/Billing.js';
 import Truck from '../models/Truck.js';
 import { emitTripStatusUpdated } from '../sockets/socket.js';
 import { logger } from '../utils/logger.js';
+import sendEmail from '../utils/sendEmail.js';
+import PDFDocument from 'pdfkit';
 
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 const ORDER_STATUS_BY_TRIP = {
@@ -31,7 +33,7 @@ export const createTrip = async (req, res) => {
     return res.status(400).json({ message: 'Trip already exists for this order' });
   }
 
-  const orderDoc = await Order.findById(order);
+  const orderDoc = await Order.findById(order).populate('customer');
   if (!orderDoc) {
     return res.status(404).json({ message: 'Order not found' });
   }
@@ -156,7 +158,7 @@ export const updateTripStatus = async (req, res) => {
     return res.status(400).json({ message: 'Invalid trip status' });
   }
 
-  const trip = await Trip.findById(id).populate('order');
+  const trip = await Trip.findById(id).select('+deliveryOtp +deliveryOtpExpiry').populate('order');
   if (!trip) {
     return res.status(404).json({ message: 'Trip not found' });
   }
@@ -164,6 +166,45 @@ export const updateTripStatus = async (req, res) => {
   // Completed trips are read-only — status cannot be changed
   if (trip.status === 'completed') {
     return res.status(403).json({ message: 'Completed trips cannot be modified' });
+  }
+
+  if (status === 'completed') {
+    const { otp } = req.body;
+    if (!otp) {
+      const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+      trip.deliveryOtp = generatedOtp;
+      trip.deliveryOtpExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours expiry
+      await trip.save();
+
+      const orderId = trip.order?._id || trip.order;
+      const populatedOrder = await Order.findById(orderId).populate('customer');
+
+      // Print to terminal console for local debugging
+      console.log(`\n${'─'.repeat(48)}`);
+      console.log(`  🔑  Delivery Verification OTP : ${generatedOtp}`);
+      console.log(`  📧  For Customer             : ${populatedOrder?.customer?.email || 'Unknown'}`);
+      console.log(`${'─'.repeat(48)}\n`);
+
+      if (populatedOrder && populatedOrder.customer?.email) {
+        const emailSubject = `SATC Delivery Verification OTP - Order #${populatedOrder._id.toString().slice(-6)}`;
+        const emailText = `Hello ${populatedOrder.customer.name || 'Customer'},\n\nYour delivery verification OTP code is: ${generatedOtp}.\n\nPlease provide this code to the driver to complete your delivery.\n\nThank you,\nSATC Team`;
+        
+        await sendEmail(populatedOrder.customer.email, emailSubject, emailText)
+          .catch((err) => logger.error('Failed to send delivery OTP email', err));
+      }
+
+      return res.status(200).json({ 
+        otpSent: true, 
+        message: 'Verification OTP has been sent to customer\'s email. Please prompt the customer for the code.' 
+      });
+    }
+
+    if (trip.deliveryOtp && trip.deliveryOtp !== otp.trim()) {
+      return res.status(400).json({ message: 'Invalid verification OTP' });
+    }
+    if (trip.deliveryOtpExpiry && new Date() > new Date(trip.deliveryOtpExpiry)) {
+      return res.status(400).json({ message: 'Verification OTP has expired' });
+    }
   }
 
   trip.status = status;
@@ -180,6 +221,42 @@ export const updateTripStatus = async (req, res) => {
 
     // Free up the truck when trip is done
     await Truck.findByIdAndUpdate(trip.truck, { driver: null, isAvailable: true });
+
+    // Send delivery success confirmation email to the customer with PDF receipt attachment
+    const orderId = trip.order?._id || trip.order;
+    const populatedOrder = await Order.findById(orderId).populate('customer');
+    if (populatedOrder && populatedOrder.customer?.email) {
+      const emailSubject = `ORDER DELIVERED SUCCESSFULLY`;
+      const emailText = `Your shipment has been verified and safely delivered. A confirmation receipt has been sent to your email. Thank you for choosing SATC Logistics!`;
+      
+      const bill = await Billing.findOne({ tripId: trip._id.toString() }) || {
+        _id: 'N/A',
+        createdAt: new Date(),
+        partyName: populatedOrder.customer?.name || 'Customer',
+        partyRole: 'customer',
+        billType: 'customer_advance',
+        notes: `Delivery invoice for Order #${populatedOrder._id.toString().slice(-6)}`,
+        amount: populatedOrder.price || 5000,
+        paymentStatus: 'Paid',
+      };
+
+      try {
+        const pdfBuffer = await generateInvoiceBuffer(bill);
+        const attachments = [
+          {
+            filename: `invoice-${bill._id.toString()}.pdf`,
+            content: pdfBuffer,
+          }
+        ];
+
+        sendEmail(populatedOrder.customer.email, emailSubject, emailText, attachments)
+          .catch((err) => logger.error('Failed to send delivery success email with attachment', err));
+      } catch (pdfErr) {
+        logger.error('Failed to generate PDF attachment for email', pdfErr);
+        sendEmail(populatedOrder.customer.email, emailSubject, emailText)
+          .catch((err) => logger.error('Failed to send fallback success email', err));
+      }
+    }
   }
 
   emitTripStatusUpdated({
@@ -311,4 +388,62 @@ export const cancelTrip = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+};
+
+const generateInvoiceBuffer = (bill) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const doc = new PDFDocument({ margin: 50 });
+      const chunks = [];
+
+      doc.on('data', (chunk) => chunks.push(chunk));
+      doc.on('end', () => resolve(Buffer.concat(chunks)));
+      doc.on('error', (err) => reject(err));
+
+      // Layout Design
+      // Title
+      doc.fillColor('#06b6d4').fontSize(20).text('SATC LOGISTICS', 50, 50);
+      doc.fillColor('#94a3b8').fontSize(9).text('Smart Trucking & Logistics Platform', 50, 75);
+      
+      doc.fillColor('#000000').fontSize(24).text('INVOICE / RECEIPT', 300, 50, { align: 'right' });
+      doc.fillColor('#94a3b8').fontSize(9).text(`Date: ${new Date(bill.createdAt).toLocaleDateString()}`, 300, 75, { align: 'right' });
+
+      // Divider Line
+      doc.strokeColor('#e2e8f0').lineWidth(1).moveTo(50, 100).lineTo(550, 100).stroke();
+
+      // Bill Details
+      doc.fillColor('#000000').fontSize(12).text('Invoice Details:', 50, 120);
+      doc.fillColor('#334155').fontSize(10).text(`Bill ID: ${bill._id}`, 50, 140);
+      doc.text(`Party Name: ${bill.partyName || 'Customer'}`, 50, 160);
+      doc.text(`Party Role: ${bill.partyRole}`, 50, 180);
+      doc.text(`Billing Type: ${bill.billType}`, 50, 200);
+
+      // Table Header
+      doc.strokeColor('#e2e8f0').lineWidth(1).moveTo(50, 240).lineTo(550, 240).stroke();
+      doc.fillColor('#475569').fontSize(10).text('Description', 60, 250);
+      doc.text('Amount', 450, 250, { align: 'right' });
+      doc.strokeColor('#e2e8f0').lineWidth(1).moveTo(50, 270).lineTo(550, 270).stroke();
+
+      // Table Row
+      doc.fillColor('#0f172a').fontSize(10).text(bill.notes || `Logistics payment description`, 60, 290);
+      doc.text(`INR ${bill.amount}`, 450, 290, { align: 'right' });
+
+      // Table Footer
+      doc.strokeColor('#e2e8f0').lineWidth(1).moveTo(50, 320).lineTo(550, 320).stroke();
+      doc.fillColor('#10b981').fontSize(12).text('Total', 60, 340);
+      doc.text(`INR ${bill.amount}`, 450, 340, { align: 'right' });
+
+      // Status Badge
+      doc.fillColor(bill.paymentStatus === 'Paid' ? '#10b981' : '#f59e0b')
+         .fontSize(14)
+         .text(`Status: ${bill.paymentStatus.toUpperCase()}`, 50, 400);
+
+      // Footer note
+      doc.fillColor('#94a3b8').fontSize(8).text('Thank you for choosing SATC Logistics platform. For any inquiries, support@satc.com', 50, 500, { align: 'center' });
+
+      doc.end();
+    } catch (e) {
+      reject(e);
+    }
+  });
 };

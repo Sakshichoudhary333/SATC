@@ -121,6 +121,26 @@ const CustomerDashboard = () => {
         <div className="dark-card-label">{t('customerDashboard.liveDelivery')}</div>
         {spotlightOrder?.truck ? (
           <>
+            {getDeliveryStatus(spotlightOrder) === 'completed' && (
+              <div style={{
+                background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(5, 150, 105, 0.12) 100%)',
+                border: '1px solid #10b981',
+                borderRadius: '8px',
+                padding: '1.2rem 1.5rem',
+                marginBottom: '1.5rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '1rem',
+              }}>
+                <span style={{ fontSize: '1.75rem' }}>🎉</span>
+                <div>
+                  <div style={{ fontWeight: 700, color: '#10b981', textTransform: 'uppercase', letterSpacing: '0.05em', fontSize: '0.9rem' }}>Order Delivered Successfully</div>
+                  <div style={{ fontSize: '0.85rem', color: '#cbd5e1', marginTop: '0.25rem', lineHeight: '1.4' }}>
+                    Your shipment has been verified and safely delivered. A confirmation receipt has been sent to your email. Thank you for choosing SATC Logistics!
+                  </div>
+                </div>
+              </div>
+            )}
             <div className="customer-tracker-meta">
               <div className="customer-tracker-kv">
                 <span className="customer-tracker-label">{t('customerDashboard.assignedTruck')}</span>

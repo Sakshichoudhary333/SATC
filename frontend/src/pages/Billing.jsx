@@ -112,6 +112,22 @@ const Billing = () => {
                     <button className="reject-btn" style={{ padding: '0.3rem 0.75rem', fontSize: '0.8rem' }} onClick={() => handleDelete(bill._id)}>
                       {t('admin.billing.deleteBtn')}
                     </button>
+                    <a
+                      href={`http://localhost:5001/api/billing/${bill._id}/invoice`}
+                      download
+                      className="approve-btn"
+                      style={{
+                        padding: '0.3rem 0.75rem',
+                        fontSize: '0.8rem',
+                        textDecoration: 'none',
+                        display: 'inline-block',
+                        background: '#0891b2',
+                        color: '#0f1117',
+                        fontWeight: 700,
+                      }}
+                    >
+                      Invoice
+                    </a>
                   </td>
                 </tr>
               ))}

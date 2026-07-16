@@ -46,6 +46,11 @@ const Login = () => {
 
   return (
     <div className="auth-screen" style={{ position: 'relative' }}>
+      <div style={{ position: 'absolute', top: '1.5rem', left: '1.5rem', zIndex: 10 }}>
+        <Link to="/" style={{ color: 'var(--dim)', textDecoration: 'none', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.25rem', fontWeight: 600 }}>
+          ← {t('auth.backToHome')}
+        </Link>
+      </div>
       <div style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', zIndex: 10 }}>
         <LanguageSelector />
       </div>

@@ -8,10 +8,14 @@ import {
   updateExpense,
   deleteExpense,
 } from '../controllers/expenseController.js';
+import { scanReceipt } from '../controllers/ocrController.js';
 import { authMiddleware } from '../middleware/authMiddleware.js';
 import { validateAddExpense } from '../validators/expenseValidator.js';
 
 const router = express.Router();
+
+// ➤ OCR Scan Receipt (Driver)
+router.post('/ocr', authMiddleware, scanReceipt);
 
 // ➤ Add Expense (Driver)
 router.post('/', authMiddleware, validateAddExpense, addExpense);

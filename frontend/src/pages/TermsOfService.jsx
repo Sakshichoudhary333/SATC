@@ -1,20 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaTruck, FaShieldAlt, FaChevronDown, FaSearch } from 'react-icons/fa';
-import { MdSpeed, MdOutlineSupportAgent } from 'react-icons/md';
+import { FaTruck } from 'react-icons/fa';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import LanguageSelector from '../components/LanguageSelector';
-import './LandingPage.css'; // Reuse landing layout
-import './Faq.css';
+import './LandingPage.css';
 
-const Faq = () => {
+const TermsOfService = () => {
   const { t } = useLanguage();
   const { user } = useAuth();
   const navigate = useNavigate();
-
-  // Accordion state
-  const [expandedIndex, setExpandedIndex] = useState(null);
 
   const handleGetStarted = () => {
     if (user) {
@@ -28,57 +23,6 @@ const Faq = () => {
       navigate('/register');
     }
   };
-
-  const toggleAccordion = (index) => {
-    if (expandedIndex === index) {
-      setExpandedIndex(null);
-    } else {
-      setExpandedIndex(index);
-    }
-  };
-
-  const faqData = [
-    {
-      q: t('faqPage.q1'),
-      a: t('faqPage.a1')
-    },
-    {
-      q: t('faqPage.q2'),
-      a: t('faqPage.a2')
-    },
-    {
-      q: t('faqPage.q3'),
-      a: t('faqPage.a3')
-    },
-    {
-      q: t('faqPage.q4'),
-      a: t('faqPage.a4')
-    },
-    {
-      q: t('faqPage.q5'),
-      a: t('faqPage.a5')
-    },
-    {
-      q: t('faqPage.q6'),
-      a: t('faqPage.a6')
-    },
-    {
-      q: t('faqPage.q7'),
-      a: t('faqPage.a7')
-    },
-    {
-      q: t('faqPage.q8'),
-      a: t('faqPage.a8')
-    },
-    {
-      q: t('faqPage.q9'),
-      a: t('faqPage.a9')
-    },
-    {
-      q: t('faqPage.q10'),
-      a: t('faqPage.a10')
-    }
-  ];
 
   return (
     <div className="landing-container">
@@ -113,39 +57,33 @@ const Faq = () => {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="faq-hero-section">
-        <div className="faq-hero-glow"></div>
-        <div className="faq-container">
-          <h1 className="faq-main-title">{t('faqPage.title')}</h1>
-          <p className="faq-intro-text">
-            {t('faqPage.subtitle')}
-          </p>
-        </div>
-      </section>
-
-      {/* FAQ Accordion Section */}
-      <section className="faq-list-section">
-        <div className="faq-container">
-            <div className="faq-accordion">
-              {faqData.map((faq, index) => {
-                const isExpanded = expandedIndex === index;
-                return (
-                  <div key={index} className={`faq-item ${isExpanded ? 'active' : ''}`}>
-                    <button className="faq-question-btn" onClick={() => toggleAccordion(index)}>
-                      <span className="faq-question-num">{index + 1}.</span>
-                      <span className="faq-question-text">{faq.q}</span>
-                      <FaChevronDown className="faq-chevron-icon" />
-                    </button>
-                    <div className="faq-answer-panel">
-                      <div className="faq-answer-content">
-                        <p>{faq.a}</p>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+      {/* Terms of Service Content */}
+      <section className="about-hero-section">
+        <div className="about-hero-glow"></div>
+        <div className="about-container" style={{ maxWidth: '800px' }}>
+          <h1 className="about-main-title">{t('termsPage.title')}</h1>
+          
+          <div className="about-intro-text" style={{ lineHeight: '1.8', fontSize: '1.05rem' }}>
+            <p style={{ marginBottom: '1.5rem' }}>
+              {t('termsPage.p1')}
+            </p>
+            
+            <p style={{ marginBottom: '1.5rem' }}>
+              {t('termsPage.p2')}
+            </p>
+            
+            <p style={{ marginBottom: '1.5rem' }}>
+              {t('termsPage.p3')}
+            </p>
+            
+            <p style={{ marginBottom: '1.5rem' }}>
+              {t('termsPage.p4')}
+            </p>
+            
+            <p style={{ marginBottom: '1.5rem' }}>
+              {t('termsPage.p5')} <Link to="/contact" style={{ color: 'var(--cyan)' }}>{t('landing.contactUs') || 'Contact Us'}</Link>
+            </p>
+          </div>
         </div>
       </section>
 
@@ -163,7 +101,7 @@ const Faq = () => {
           </div>
 
           <div>
-            <h4 className="landing-footer-title">{t('footer.platform')}</h4>
+            <h4 className="landing-footer-title">{t('footer.platform') || 'Platform'}</h4>
             <div className="landing-footer-links">
               <Link to="/features">{t('landing.features') || 'Features'}</Link>
               <Link to="/how-it-works">{t('landing.howItWorks') || 'How It Works'}</Link>
@@ -172,7 +110,7 @@ const Faq = () => {
           </div>
 
           <div>
-            <h4 className="landing-footer-title">{t('footer.company')}</h4>
+            <h4 className="landing-footer-title">{t('footer.company') || 'Company'}</h4>
             <div className="landing-footer-links">
               <Link to="/about">{t('landing.aboutUs') || 'About Us'}</Link>
               <Link to="/contact">{t('landing.contactUs') || 'Contact Us'}</Link>
@@ -203,26 +141,26 @@ const Faq = () => {
             <h4 className="landing-footer-title">{t('landing.contactUs') || 'Contact Us'}</h4>
             <div className="landing-footer-links" style={{ color: 'var(--muted)', fontSize: '0.875rem', gap: '0.6rem' }}>
               <div>
-                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>{t('footer.email')}</span>
+                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>{t('footer.email') || 'Email'}</span>
                 <a href="mailto:choudharysakshi828@gmail.com" style={{ color: 'var(--muted)' }}>choudharysakshi828@gmail.com</a>
               </div>
               <div>
-                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>{t('footer.phone')}</span>
+                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>{t('footer.phone') || 'Phone'}</span>
                 <a href="tel:+919664372498" style={{ color: 'var(--muted)' }}>+91-9664372498</a>
               </div>
               <div>
-                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>{t('footer.address')}</span>
-                <span>{t('footer.addressValue')}</span>
+                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>{t('footer.address') || 'Address'}</span>
+                <span>{t('footer.addressValue') || 'Mansarovar, Jaipur'}</span>
               </div>
             </div>
           </div>
         </div>
 
         <div className="landing-footer-bottom">
-          <span>&copy; {new Date().getFullYear()} TMS Logistics Inc. {t('footer.allRightsReserved')}</span>
+          <span>&copy; {new Date().getFullYear()} TMS Logistics Inc. {t('footer.allRightsReserved') || 'All rights reserved.'}</span>
           <span style={{ display: 'flex', gap: '1rem' }}>
-            <Link to="/privacy-policy">{t('footer.privacyPolicy')}</Link>
-            <Link to="/terms-of-service">{t('footer.termsOfService')}</Link>
+            <Link to="/privacy-policy">{t('footer.privacyPolicy') || 'Privacy Policy'}</Link>
+            <Link to="/terms-of-service">{t('footer.termsOfService') || 'Terms of Service'}</Link>
           </span>
         </div>
       </footer>
@@ -230,4 +168,4 @@ const Faq = () => {
   );
 };
 
-export default Faq;
+export default TermsOfService;

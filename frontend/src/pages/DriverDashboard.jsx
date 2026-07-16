@@ -253,8 +253,30 @@ const DriverDashboard = () => {
   const handleStatus = async (tripId, status) => {
     setUpdating(tripId);
     try {
-      const updated = await updateTripStatus(tripId, status);
-      setTrips((prev) => prev.map((trip) => (trip._id === tripId ? { ...trip, status: updated.status } : trip)));
+      if (status === 'completed') {
+        const initiateRes = await updateTripStatus(tripId, 'completed');
+        
+        if (initiateRes.otpSent) {
+          const inputOtp = prompt('Verification OTP has been sent to the customer\'s email. Please enter the 6-digit OTP code to complete delivery:');
+          if (inputOtp === null) {
+            setUpdating('');
+            return;
+          }
+          if (!inputOtp.trim()) {
+            alert('OTP is required to complete delivery');
+            setUpdating('');
+            return;
+          }
+
+          const finalizedTrip = await updateTripStatus(tripId, 'completed', inputOtp.trim());
+          setTrips((prev) => prev.map((trip) => (trip._id === tripId ? { ...trip, status: finalizedTrip.status } : trip)));
+        } else {
+          setTrips((prev) => prev.map((trip) => (trip._id === tripId ? { ...trip, status: initiateRes.status } : trip)));
+        }
+      } else {
+        const updated = await updateTripStatus(tripId, status);
+        setTrips((prev) => prev.map((trip) => (trip._id === tripId ? { ...trip, status: updated.status } : trip)));
+      }
     } catch (err) {
       setError(err.message);
     } finally {

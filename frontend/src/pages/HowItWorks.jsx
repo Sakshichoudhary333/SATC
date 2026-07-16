@@ -30,38 +30,38 @@ const HowItWorks = () => {
     {
       num: "01",
       icon: <FaPlusCircle />,
-      title: "Create a Shipment",
-      desc: "Customers submit shipment details, including pickup and delivery locations, cargo information, and preferred delivery schedule."
+      title: t('howItWorksPage.step1Title'),
+      desc: t('howItWorksPage.step1Desc')
     },
     {
       num: "02",
       icon: <FaUserCheck />,
-      title: "Assign Driver & Vehicle",
-      desc: "The administrator reviews the shipment request and assigns the most suitable driver and truck based on availability and operational requirements."
+      title: t('howItWorksPage.step2Title'),
+      desc: t('howItWorksPage.step2Desc')
     },
     {
       num: "03",
       icon: <FaRoute />,
-      title: "Start the Journey",
-      desc: "The assigned driver begins the trip, updates the shipment status, and shares live GPS location through the platform."
+      title: t('howItWorksPage.step3Title'),
+      desc: t('howItWorksPage.step3Desc')
     },
     {
       num: "04",
       icon: <FaMapMarkerAlt />,
-      title: "Track in Real Time",
-      desc: "Customers and administrators can monitor the shipment's progress, receive live location updates, and stay informed throughout the delivery process."
+      title: t('howItWorksPage.step4Title'),
+      desc: t('howItWorksPage.step4Desc')
     },
     {
       num: "05",
       icon: <FaCheckCircle />,
-      title: "Complete Delivery",
-      desc: "Once the shipment reaches its destination, the driver marks the trip as completed, and the customer receives confirmation of successful delivery."
+      title: t('howItWorksPage.step5Title'),
+      desc: t('howItWorksPage.step5Desc')
     },
     {
       num: "06",
       icon: <FaChartLine />,
-      title: "Review & Analytics",
-      desc: "Customers can rate their delivery experience, while administrators access trip reports, expense records, and performance insights to improve future operations."
+      title: t('howItWorksPage.step6Title'),
+      desc: t('howItWorksPage.step6Desc')
     }
   ];
 
@@ -75,16 +75,19 @@ const HowItWorks = () => {
         </Link>
         
         <div className="landing-nav-actions">
-          <Link to="/" className="landing-nav-link">Home</Link>
-          <Link to="/about" className="landing-nav-link">About</Link>
-          <Link to="/features" className="landing-nav-link">Features</Link>
-          <Link to="/careers" className="landing-nav-link">Careers</Link>
-          <Link to="/faq" className="landing-nav-link">FAQ</Link>
+          <Link to="/" className="landing-nav-link">{t('common.home')}</Link>
+          <Link to="/about" className="landing-nav-link">{t('landing.aboutUs')}</Link>
+          <Link to="/careers" className="landing-nav-link">{t('landing.careers')}</Link>
+          <Link to="/faq" className="landing-nav-link">{t('landing.faq')}</Link>
+          <Link to="/features" className="landing-nav-link">{t('landing.features') || 'Features'}</Link>
+          <Link to="/how-it-works" className="landing-nav-link">{t('landing.howItWorks') || 'How It Works'}</Link>
+          <Link to="/#tracking-simulator" className="landing-nav-link">{t('landing.trackShipment')}</Link>
+          <Link to="/contact" className="landing-nav-link">{t('landing.contactUs')}</Link>
           <LanguageSelector />
           
           {user ? (
-            <button className="landing-btn-signup" onClick={handleGetStarted}>
-              {t('nav.dashboard')}
+            <button className="landing-btn-signup" onClick={() => navigate('/login')}>
+              {t('landing.signIn')}
             </button>
           ) : (
             <>
@@ -99,9 +102,9 @@ const HowItWorks = () => {
       <section className="hiw-hero-section">
         <div className="hiw-hero-glow"></div>
         <div className="hiw-container">
-          <h1 className="hiw-main-title">How It Works</h1>
+          <h1 className="hiw-main-title">{t('howItWorksPage.title')}</h1>
           <p className="hiw-intro-text">
-            Our platform simplifies the entire logistics process by connecting customers, administrators, and drivers through one centralized system.
+            {t('howItWorksPage.subtitle')}
           </p>
         </div>
       </section>
@@ -150,7 +153,7 @@ const HowItWorks = () => {
           </div>
 
           <div>
-            <h4 className="landing-footer-title">Platform</h4>
+            <h4 className="landing-footer-title">{t('footer.platform') || 'Platform'}</h4>
             <div className="landing-footer-links">
               <Link to="/features">{t('landing.features') || 'Features'}</Link>
               <Link to="/how-it-works">{t('landing.howItWorks') || 'How It Works'}</Link>
@@ -159,7 +162,7 @@ const HowItWorks = () => {
           </div>
 
           <div>
-            <h4 className="landing-footer-title">{t('landing.company') || 'Company'}</h4>
+            <h4 className="landing-footer-title">{t('footer.company') || 'Company'}</h4>
             <div className="landing-footer-links">
               <Link to="/about">{t('landing.aboutUs') || 'About Us'}</Link>
               <Link to="/contact">{t('landing.contactUs') || 'Contact Us'}</Link>
@@ -169,19 +172,19 @@ const HowItWorks = () => {
           </div>
 
           <div>
-            <h4 className="landing-footer-title">SECURE & RELIABLE</h4>
+            <h4 className="landing-footer-title">{t('footer.secureAndReliable')}</h4>
             <div className="landing-footer-links" style={{ color: 'var(--muted)', fontSize: '0.875rem', gap: '0.65rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                Secure Authentication
+                {t('footer.secureAuth')}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                Live GPS Tracking
+                {t('footer.liveGpsTracking')}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                Smart Trip Management
+                {t('footer.smartTripManagement')}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                Expense Monitoring
+                {t('footer.expenseMonitoring')}
               </div>
             </div>
           </div>
@@ -190,26 +193,26 @@ const HowItWorks = () => {
             <h4 className="landing-footer-title">{t('landing.contactUs') || 'Contact Us'}</h4>
             <div className="landing-footer-links" style={{ color: 'var(--muted)', fontSize: '0.875rem', gap: '0.6rem' }}>
               <div>
-                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>Email</span>
+                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>{t('footer.email') || 'Email'}</span>
                 <a href="mailto:choudharysakshi828@gmail.com" style={{ color: 'var(--muted)' }}>choudharysakshi828@gmail.com</a>
               </div>
               <div>
-                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>Phone</span>
+                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>{t('footer.phone') || 'Phone'}</span>
                 <a href="tel:+919664372498" style={{ color: 'var(--muted)' }}>+91-9664372498</a>
               </div>
               <div>
-                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>Address</span>
-                <span>Mansarovar, Jaipur</span>
+                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>{t('footer.address') || 'Address'}</span>
+                <span>{t('footer.addressValue') || 'Mansarovar, Jaipur'}</span>
               </div>
             </div>
           </div>
         </div>
 
         <div className="landing-footer-bottom">
-          <span>&copy; {new Date().getFullYear()} TMS Logistics Inc. All rights reserved.</span>
+          <span>&copy; {new Date().getFullYear()} TMS Logistics Inc. {t('footer.allRightsReserved') || 'All rights reserved.'}</span>
           <span style={{ display: 'flex', gap: '1rem' }}>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
+            <Link to="/privacy-policy">{t('footer.privacyPolicy') || 'Privacy Policy'}</Link>
+            <Link to="/terms-of-service">{t('footer.termsOfService') || 'Terms of Service'}</Link>
           </span>
         </div>
       </footer>

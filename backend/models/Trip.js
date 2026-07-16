@@ -19,6 +19,16 @@ const tripSchema = new mongoose.Schema(
       enum: ['started', 'in-transit', 'completed'],
       default: 'started',
     },
+    deliveryOtp: {
+      type: String,
+      default: null,
+      select: false,
+    },
+    deliveryOtpExpiry: {
+      type: Date,
+      default: null,
+      select: false,
+    },
   },
   { timestamps: true }
 );

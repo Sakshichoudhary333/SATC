@@ -4,7 +4,8 @@ import {
   getBills,
   updateBill,
   deleteBill,
-  generateMonthEndDriverPayouts
+  generateMonthEndDriverPayouts,
+  downloadInvoice
 } from "../controllers/billingController.js";
 
 const router = express.Router();
@@ -14,5 +15,6 @@ router.get("/all", getBills);
 router.put("/pay/:id", updateBill);
 router.delete("/delete/:id", deleteBill);
 router.post("/driver-payouts/month-end", generateMonthEndDriverPayouts);
+router.get("/:id/invoice", downloadInvoice);
 
 export default router;

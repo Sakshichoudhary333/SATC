@@ -13,13 +13,15 @@ export const initTransporter = async () => {
   // Prefer Gmail if credentials are available (both dev and production)
   if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
     _transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
     });
-    console.log("\n📬 Gmail email ready\n");
+    console.log("\n📬 Gmail secure SMTP ready\n");
   } else if (isDev) {
     // Fallback to Ethereal only in dev if no Gmail credentials
     try {

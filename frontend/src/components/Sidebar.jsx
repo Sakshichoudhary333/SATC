@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
-import { FaBox, FaPlus, FaMapMarkerAlt, FaTruck, FaMoneyBillWave, FaUser, FaRoute, FaHome } from 'react-icons/fa';
+import { FaBox, FaPlus, FaMapMarkerAlt, FaTruck, FaMoneyBillWave, FaUser, FaRoute, FaHome, FaWrench } from 'react-icons/fa';
 import { MdDashboard, MdPayment, MdPeople, MdAssessment, MdReceipt } from 'react-icons/md';
 import { HiOutlineLink } from 'react-icons/hi';
 
@@ -19,6 +19,7 @@ const NAV = {
     { to: '/admin/trips', labelKey: 'nav.trips', icon: <FaRoute /> },
     { to: '/admin/expenses', labelKey: 'nav.expenses', icon: <MdReceipt /> },
     { to: '/admin/reports', labelKey: 'nav.reports', icon: <MdAssessment /> },
+    { to: '/admin/maintenance', labelKey: 'nav.maintenance', icon: <FaWrench /> },
   ],
   driver: [
     { to: '/', labelKey: 'nav.homePage', icon: <FaHome /> },

@@ -19,6 +19,14 @@ const orderSchema = new mongoose.Schema(
     pickupLocation: String,
     destination: String,
     goodsDetails: String,
+    price: {
+      type: Number,
+      default: 0,
+    },
+    distance: {
+      type: Number,
+      default: 0,
+    },
     status: {
       type: String,
       enum: ['pending', 'approved', 'rejected', 'assigned', 'in-transit', 'completed'],

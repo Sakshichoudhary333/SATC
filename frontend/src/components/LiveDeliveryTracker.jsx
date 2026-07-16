@@ -263,6 +263,28 @@ const LiveDeliveryTracker = ({ order }) => {
         </div>
       </div>
 
+      {eta?.distance !== undefined && Number(eta.distance) <= 2.0 && Number(eta.distance) > 0.0 && (
+        <div style={{
+          background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(245, 158, 11, 0.1) 100%)',
+          border: '1px solid #ef4444',
+          borderRadius: '8px',
+          padding: '0.85rem 1.25rem',
+          margin: '1.25rem 0',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.75rem',
+          boxShadow: '0 0 10px rgba(239, 68, 68, 0.1)',
+        }}>
+          <span style={{ fontSize: '1.5rem' }}>🚨</span>
+          <div>
+            <div style={{ fontWeight: 700, color: '#f43f5e', fontSize: '0.9rem', letterSpacing: '0.05em' }}>PROXIMITY WARNING: TRUCK IS NEAR DESTINATION</div>
+            <div style={{ fontSize: '0.8rem', color: '#cbd5e1', marginTop: '0.15rem' }}>
+              The truck is within <strong>{Number(eta.distance).toFixed(2)} km</strong> of the delivery address.
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="tracker-map">
         <div className="tracker-map-topline">
           <span>Route visualization</span>

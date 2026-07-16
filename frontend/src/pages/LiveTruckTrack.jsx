@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
-import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
+import { MapContainer, Marker, Popup, TileLayer, useMap, Polyline, Circle } from 'react-leaflet';
 import L from 'leaflet';
-import { getTruckById } from '../services/api';
+import { getTruckById, getTruckActiveTrip } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useLanguage } from '../context/LanguageContext';
 import 'leaflet/dist/leaflet.css';
@@ -21,6 +21,21 @@ L.Icon.Default.mergeOptions({
 const SOCKET_URL = 'https://satc-backend.onrender.com';
 const DEFAULT_CENTER = [20.5937, 78.9629];
 
+// Helper to calculate distance in km
+const getDistanceKm = (from, to) => {
+  if (!from || !to) return null;
+  const toRad = (value) => (value * Math.PI) / 180;
+  const earthRadiusKm = 6371;
+  const dLat = toRad(to.lat - from.lat);
+  const dLng = toRad(to.lng - from.lng);
+  const lat1 = toRad(from.lat);
+  const lat2 = toRad(to.lat);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
+  return 2 * earthRadiusKm * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+};
+
 const FlyTo = ({ lat, lng }) => {
   const map = useMap();
   useEffect(() => {
@@ -32,29 +47,94 @@ const FlyTo = ({ lat, lng }) => {
 const LiveTruckTrack = () => {
   const { truckId } = useParams();
   const [truck, setTruck] = useState(null);
+  const [activeTrip, setActiveTrip] = useState(null);
   const [location, setLocation] = useState(null);
+  const [destinationCoords, setDestinationCoords] = useState(null);
+  const [routeCoords, setRouteCoords] = useState([]);
   const [lastUpdated, setLastUpdated] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
+  const [socketAlert, setSocketAlert] = useState(null);
   const socketRef = useRef(null);
   const { t } = useLanguage();
 
-  // Load truck details
+  // Load truck details and active trip on mount
   useEffect(() => {
-    getTruckById(truckId)
-      .then((data) => {
-        setTruck(data);
-        if (data?.location?.lat && data?.location?.lng) {
-          setLocation({ lat: Number(data.location.lat), lng: Number(data.location.lng) });
-          setLastUpdated(data.lastUpdated);
+    setLoading(true);
+    Promise.all([
+      getTruckById(truckId),
+      getTruckActiveTrip(truckId).catch(() => null)
+    ])
+      .then(([truckData, tripData]) => {
+        setTruck(truckData);
+        setActiveTrip(tripData);
+        if (truckData?.location?.lat && truckData?.location?.lng) {
+          setLocation({ lat: Number(truckData.location.lat), lng: Number(truckData.location.lng) });
+          setLastUpdated(truckData.lastUpdated);
         }
       })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, [truckId]);
 
-  // Socket: live location updates
+  // Geocode destination address
+  useEffect(() => {
+    if (!activeTrip?.order?.destination) {
+      setDestinationCoords(null);
+      return;
+    }
+
+    const geocode = async () => {
+      try {
+        let queryAddr = activeTrip.order.destination.trim();
+        if (!queryAddr.toLowerCase().includes('india')) {
+          queryAddr += ', India';
+        }
+        const res = await fetch(
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(queryAddr)}&format=json&limit=1`
+        );
+        const data = await res.json();
+        const first = data?.[0];
+        if (first) {
+          setDestinationCoords({
+            lat: Number.parseFloat(first.lat),
+            lng: Number.parseFloat(first.lon),
+          });
+        }
+      } catch (err) {
+        console.error('Failed to geocode destination address', err);
+      }
+    };
+
+    geocode();
+  }, [activeTrip?.order?.destination]);
+
+  // Fetch OSRM driving route polyline
+  useEffect(() => {
+    if (!location || !destinationCoords) {
+      setRouteCoords([]);
+      return;
+    }
+
+    const fetchRoute = async () => {
+      try {
+        const url = `https://router.project-osrm.org/route/v1/driving/${location.lng},${location.lat};${destinationCoords.lng},${destinationCoords.lat}?overview=full&geometries=geojson`;
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data?.routes?.[0]?.geometry?.coordinates) {
+          const mappedCoords = data.routes[0].geometry.coordinates.map(([lng, lat]) => [lat, lng]);
+          setRouteCoords(mappedCoords);
+        }
+      } catch (err) {
+        console.error('Failed to fetch driving route polyline', err);
+      }
+    };
+
+    fetchRoute();
+  }, [location?.lat, location?.lng, destinationCoords]);
+
+  // Socket: live location & geofence updates
   useEffect(() => {
     const socket = io(SOCKET_URL);
     socketRef.current = socket;
@@ -68,15 +148,28 @@ const LiveTruckTrack = () => {
       setLastUpdated(ts || new Date().toISOString());
     };
 
+    const handleGeofenceAlert = (data) => {
+      if (data.truckId === truckId) {
+        setSocketAlert(data);
+      }
+    };
+
     socket.on('locationUpdated', handleLocation);
     socket.on('truckLocationUpdated', handleLocation);
+    socket.on('geofenceAlert', handleGeofenceAlert);
 
     return () => {
       socket.off('locationUpdated', handleLocation);
       socket.off('truckLocationUpdated', handleLocation);
+      socket.off('geofenceAlert', handleGeofenceAlert);
       socket.disconnect();
     };
   }, [truckId]);
+
+  const currentDistance = useMemo(() => {
+    if (!location || !destinationCoords) return null;
+    return getDistanceKm(location, destinationCoords);
+  }, [location, destinationCoords]);
 
   const shareUrl = window.location.href;
 
@@ -91,6 +184,17 @@ const LiveTruckTrack = () => {
 
   return (
     <div style={{ minHeight: '100vh', background: '#0f1117', color: '#e2e8f0', padding: '1.5rem' }}>
+      <style>{`
+        @keyframes pulse-border {
+          0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
+          70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        .pulse-banner {
+          animation: pulse-border 2s infinite;
+        }
+      `}</style>
+
       {/* Header */}
       <div style={{ marginBottom: '1.5rem' }}>
         <div style={{ fontSize: '0.7rem', letterSpacing: '0.1em', color: '#64748b', marginBottom: '0.25rem' }}>
@@ -112,6 +216,30 @@ const LiveTruckTrack = () => {
         </div>
       )}
 
+      {/* Geofence Alert Banner */}
+      {(currentDistance !== null && currentDistance <= 2.0 || socketAlert) && (
+        <div className="pulse-banner" style={{
+          background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(244, 63, 94, 0.15) 100%)',
+          border: '1px solid #ef4444',
+          borderRadius: '10px',
+          padding: '1rem 1.25rem',
+          marginBottom: '1.25rem',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '1rem',
+        }}>
+          <span style={{ fontSize: '1.75rem', animation: 'bounce 1s infinite' }}>🚨</span>
+          <div>
+            <div style={{ fontWeight: 700, color: '#f43f5e', fontSize: '1rem', letterSpacing: '0.05em' }}>
+              PROXIMITY WARNING: ENTERING GEOFENCE
+            </div>
+            <div style={{ fontSize: '0.85rem', color: '#cbd5e1', marginTop: '0.25rem' }}>
+              This truck is currently within <strong>{currentDistance ? currentDistance.toFixed(2) : socketAlert?.distance?.toFixed(2) || '2.0'} km</strong> of the destination address: <em>{activeTrip?.order?.destination || socketAlert?.destination}</em>.
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Stats bar */}
       <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
         <div style={{ background: '#1e2330', borderRadius: '8px', padding: '0.75rem 1.25rem', flex: 1, minWidth: '140px' }}>
@@ -129,9 +257,9 @@ const LiveTruckTrack = () => {
           </div>
         </div>
         <div style={{ background: '#1e2330', borderRadius: '8px', padding: '0.75rem 1.25rem', flex: 1, minWidth: '140px' }}>
-          <div style={{ fontSize: '0.7rem', color: '#64748b', marginBottom: '0.25rem' }}>{t('liveTruckTrack.lastUpdated')}</div>
-          <div style={{ color: '#e2e8f0', fontSize: '0.85rem' }}>
-            {lastUpdated ? new Date(lastUpdated).toLocaleTimeString() : '—'}
+          <div style={{ fontSize: '0.7rem', color: '#64748b', marginBottom: '0.25rem' }}>Distance & Route</div>
+          <div style={{ color: '#e2e8f0', fontSize: '0.85rem', fontWeight: 600 }}>
+            {currentDistance !== null ? `${currentDistance.toFixed(1)} km left` : 'Calculating route...'}
           </div>
         </div>
       </div>
@@ -140,8 +268,8 @@ const LiveTruckTrack = () => {
       <div style={{ borderRadius: '12px', overflow: 'hidden', marginBottom: '1.25rem', border: '1px solid #1e2330' }}>
         <MapContainer
           center={location ? [location.lat, location.lng] : DEFAULT_CENTER}
-          zoom={14}
-          scrollWheelZoom={true}
+          zoom={location ? 12 : 5}
+          scrollWheelZoom={false}
           style={{ height: '420px', width: '100%' }}
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
@@ -156,6 +284,39 @@ const LiveTruckTrack = () => {
                 </Popup>
               </Marker>
             </>
+          )}
+
+          {destinationCoords && (
+            <>
+              <Marker position={[destinationCoords.lat, destinationCoords.lng]}>
+                <Popup>
+                  <strong>Destination Address</strong><br />
+                  {activeTrip?.order?.destination}
+                </Popup>
+              </Marker>
+              <Circle
+                center={[destinationCoords.lat, destinationCoords.lng]}
+                radius={2000}
+                pathOptions={{
+                  color: '#ef4444',
+                  fillColor: '#ef4444',
+                  fillOpacity: 0.1,
+                  dashArray: '6, 6',
+                  weight: 2
+                }}
+              />
+            </>
+          )}
+
+          {routeCoords.length > 0 && (
+            <Polyline
+              positions={routeCoords}
+              pathOptions={{
+                color: '#8b5cf6',
+                weight: 5,
+                opacity: 0.75,
+              }}
+            />
           )}
         </MapContainer>
         {!location && (

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { addExpense, getMyExpenses, getTrips, updateExpense, deleteExpense } from '../services/api';
+import { addExpense, getMyExpenses, getTrips, updateExpense, deleteExpense, ocrScanReceipt } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
@@ -45,6 +45,60 @@ const ExpenseForm = () => {
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [scanning, setScanning] = useState(false);
+
+  const handleOcrScan = async (presetOrImage, isPreset = true) => {
+    if (!selectedTripId) {
+      setError('Please select a trip before scanning receipts');
+      return;
+    }
+    setError('');
+    setSuccess('');
+    setScanning(true);
+
+    try {
+      const payload = isPreset 
+        ? { preset: presetOrImage } 
+        : { receiptImage: presetOrImage };
+
+      const response = await ocrScanReceipt(payload);
+      if (response?.data) {
+        const { fuelCost, tollCost, foodCost, maintenanceCost, notes } = response.data;
+        
+        setForm((prev) => ({
+          ...prev,
+          fuelCost: fuelCost !== 0 ? fuelCost : prev.fuelCost,
+          tollCost: tollCost !== 0 ? tollCost : prev.tollCost,
+          foodCost: foodCost !== 0 ? foodCost : prev.foodCost,
+          maintenanceCost: maintenanceCost !== 0 ? maintenanceCost : prev.maintenanceCost,
+          notes: notes || prev.notes,
+        }));
+        
+        if (isPreset) {
+          setSuccess('Demo preset fields populated successfully!');
+        } else {
+          setSuccess('Receipt scanned and fields populated successfully!');
+        }
+      } else {
+        setError('Failed to extract information from receipt.');
+      }
+    } catch (err) {
+      setError(err.message || 'OCR receipt scanning failed.');
+    } finally {
+      setScanning(false);
+    }
+  };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      handleOcrScan(reader.result, false);
+    };
+    reader.readAsDataURL(file);
+  };
 
   // ── load ──────────────────────────────────────────
   const load = async () => {
@@ -103,6 +157,8 @@ const ExpenseForm = () => {
 
   // ── When selected trip changes, pre-fill form if an expense already exists ──
   useEffect(() => {
+    setError('');
+    setSuccess('');
     if (!selectedTripId) {
       setForm(EMPTY_COSTS);
       return;
@@ -311,6 +367,142 @@ const ExpenseForm = () => {
               </div>
             )}
           </div>
+
+          {/* OCR Receipt Scanner Assistant */}
+          {selectedTrip && !formReadOnly && (
+            <div style={{
+              background: '#1e2330',
+              border: '1px solid #334155',
+              borderRadius: '8px',
+              padding: '1rem',
+              marginBottom: '1.5rem',
+            }}>
+              <div style={{
+                fontSize: '0.8rem',
+                fontWeight: 700,
+                color: '#06b6d4',
+                marginBottom: '0.5rem',
+                letterSpacing: '0.05em',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem'
+              }}>
+                <span>📷</span> RECEIPT SCANNING ASSISTANT
+              </div>
+              <p style={{ fontSize: '0.75rem', color: '#94a3b8', margin: '0 0 1rem 0' }}>
+                Quickly populate your costs by uploading a receipt photo or clicking one of the demo receipt presets.
+              </p>
+              
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1rem' }}>
+                <button
+                  type="button"
+                  className="approve-btn"
+                  style={{
+                    fontSize: '0.7rem',
+                    padding: '0.4rem 0.8rem',
+                    background: '#0284c7',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                  }}
+                  disabled={scanning}
+                  onClick={() => handleOcrScan('fuel')}
+                >
+                  ⛽ Fuel Demo (₹4500)
+                </button>
+                <button
+                  type="button"
+                  className="approve-btn"
+                  style={{
+                    fontSize: '0.7rem',
+                    padding: '0.4rem 0.8rem',
+                    background: '#0f766e',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                  }}
+                  disabled={scanning}
+                  onClick={() => handleOcrScan('toll')}
+                >
+                  🛣️ Toll Demo (₹850)
+                </button>
+                <button
+                  type="button"
+                  className="approve-btn"
+                  style={{
+                    fontSize: '0.7rem',
+                    padding: '0.4rem 0.8rem',
+                    background: '#b45309',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                  }}
+                  disabled={scanning}
+                  onClick={() => handleOcrScan('food')}
+                >
+                  🍲 Food Demo (₹350)
+                </button>
+                <button
+                  type="button"
+                  className="approve-btn"
+                  style={{
+                    fontSize: '0.7rem',
+                    padding: '0.4rem 0.8rem',
+                    background: '#6d28d9',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                  }}
+                  disabled={scanning}
+                  onClick={() => handleOcrScan('maintenance')}
+                >
+                  🔧 Repair Demo (₹1200)
+                </button>
+              </div>
+
+              {/* Upload block */}
+              <div style={{
+                border: '1px dashed #475569',
+                borderRadius: '6px',
+                padding: '0.75rem',
+                textAlign: 'center',
+                position: 'relative',
+                background: '#0f1117',
+                cursor: scanning ? 'not-allowed' : 'pointer'
+              }}>
+                {scanning ? (
+                  <div style={{ color: '#06b6d4', fontSize: '0.75rem', fontWeight: 600 }}>
+                    ⏳ Scanning receipt in progress... Please wait.
+                  </div>
+                ) : (
+                  <>
+                    <span style={{ fontSize: '1rem', display: 'block', marginBottom: '0.25rem' }}>📤</span>
+                    <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
+                      Click to upload receipt image
+                    </span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileUpload}
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        opacity: 0,
+                        cursor: 'pointer'
+                      }}
+                    />
+                  </>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* Cost fields */}
           <form onSubmit={handleSubmit}>

@@ -180,7 +180,7 @@ export const getTrips = () =>
 export const createTrip = (body) =>
   fetch(`${BASE_URL}/trips`, { method: 'POST', headers: getHeaders(), body: JSON.stringify(body) }).then(handleResponse);
 
-export const updateTripStatus = (id, status) =>
+export const updateTripStatus = (id, status, otp) =>
 {
   const tripId = typeof id === 'string' ? id.trim() : '';
   if (!isValidMongoId(tripId)) {
@@ -189,7 +189,14 @@ export const updateTripStatus = (id, status) =>
     return Promise.reject(error);
   }
 
-  return fetch(`${BASE_URL}/trips/${tripId}/status`, { method: 'PUT', headers: getHeaders(), body: JSON.stringify({ status }) }).then(handleResponse);
+  const body = { status };
+  if (otp !== undefined) body.otp = otp;
+
+  return fetch(`${BASE_URL}/trips/${tripId}/status`, { 
+    method: 'PUT', 
+    headers: getHeaders(), 
+    body: JSON.stringify(body) 
+  }).then(handleResponse);
 }
 
 export const updateTripDetails = (id, body) => {
@@ -258,6 +265,13 @@ export const deleteExpense = (id) => {
     headers: getHeaders(),
   }).then(handleResponse);
 };
+
+export const ocrScanReceipt = (body) =>
+  fetch(`${BASE_URL}/expenses/ocr`, {
+    method: 'POST',
+    headers: getHeaders(),
+    body: JSON.stringify(body),
+  }).then(handleResponse);
 
 // ── Reviews ───────────────────────────────────────────
 export const addReview = (body) =>
@@ -448,4 +462,34 @@ export const deleteBill = (id) => {
   const billId = typeof id === 'string' ? id.trim() : '';
   if (!isValidMongoId(billId)) return Promise.reject(new Error('Invalid bill id'));
   return fetch(`${BASE_URL}/billing/delete/${billId}`, { method: 'DELETE', headers: getHeaders() }).then(handleResponse);
+};
+
+// ── Maintenance ───────────────────────────────────────
+export const getMaintenanceLogs = () =>
+  fetch(`${BASE_URL}/maintenance`, { headers: getHeaders() }).then(handleResponse);
+
+export const createMaintenanceLog = (body) =>
+  fetch(`${BASE_URL}/maintenance`, {
+    method: 'POST',
+    headers: getHeaders(),
+    body: JSON.stringify(body),
+  }).then(handleResponse);
+
+export const completeMaintenanceLog = (id, body) => {
+  const logId = typeof id === 'string' ? id.trim() : '';
+  if (!isValidMongoId(logId)) return Promise.reject(new Error('Invalid maintenance log id'));
+  return fetch(`${BASE_URL}/maintenance/${logId}/complete`, {
+    method: 'PUT',
+    headers: getHeaders(),
+    body: JSON.stringify(body),
+  }).then(handleResponse);
+};
+
+export const deleteMaintenanceLog = (id) => {
+  const logId = typeof id === 'string' ? id.trim() : '';
+  if (!isValidMongoId(logId)) return Promise.reject(new Error('Invalid maintenance log id'));
+  return fetch(`${BASE_URL}/maintenance/${logId}`, {
+    method: 'DELETE',
+    headers: getHeaders(),
+  }).then(handleResponse);
 };

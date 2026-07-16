@@ -68,14 +68,19 @@ const Careers = () => {
         </Link>
         
         <div className="landing-nav-actions">
-          <Link to="/" className="landing-nav-link">Home</Link>
-          <Link to="/about" className="landing-nav-link">About</Link>
+          <Link to="/" className="landing-nav-link">{t('common.home')}</Link>
+          <Link to="/about" className="landing-nav-link">{t('landing.aboutUs')}</Link>
+          <Link to="/careers" className="landing-nav-link">{t('landing.careers')}</Link>
+          <Link to="/faq" className="landing-nav-link">{t('landing.faq')}</Link>
           <Link to="/features" className="landing-nav-link">{t('landing.features') || 'Features'}</Link>
+          <Link to="/how-it-works" className="landing-nav-link">{t('landing.howItWorks') || 'How It Works'}</Link>
+          <Link to="/#tracking-simulator" className="landing-nav-link">{t('landing.trackShipment')}</Link>
+          <Link to="/contact" className="landing-nav-link">{t('landing.contactUs')}</Link>
           <LanguageSelector />
           
           {user ? (
-            <button className="landing-btn-signup" onClick={handleGetStarted}>
-              {t('nav.dashboard')}
+            <button className="landing-btn-signup" onClick={() => navigate('/login')}>
+              {t('landing.signIn')}
             </button>
           ) : (
             <>
@@ -90,10 +95,10 @@ const Careers = () => {
       <section className="careers-hero-section">
         <div className="careers-hero-glow"></div>
         <div className="careers-container">
-          <h1 className="careers-main-title">Careers</h1>
-          <h2 className="careers-subtitle">Join Our Team</h2>
+          <h1 className="careers-main-title">{t('careersPage.title')}</h1>
+          <h2 className="careers-subtitle">{t('careersPage.subtitle')}</h2>
           <p className="careers-intro-text">
-            At <strong>Logistics Management System</strong>, we believe that great people drive great logistics. We are looking for dedicated professionals who are passionate about delivering exceptional service and ensuring smooth transportation operations. If you're ready to build your career in the logistics industry, we'd love to hear from you.
+            {t('careersPage.intro')}
           </p>
         </div>
       </section>
@@ -101,41 +106,41 @@ const Careers = () => {
       {/* Openings Section */}
       <section className="careers-openings-section">
         <div className="careers-container">
-          <h2 className="careers-section-title">Current Openings</h2>
+          <h2 className="careers-section-title">{t('careersPage.openingsTitle')}</h2>
           <div className="careers-openings-list">
             
             {/* Opening 1 */}
             <div className="careers-job-card">
               <div className="careers-job-header">
                 <div>
-                  <span className="careers-job-badge">Full-Time</span>
-                  <h3 className="careers-job-title">🚚 Truck Driver</h3>
+                  <span className="careers-job-badge">{t('careersPage.fullTime')}</span>
+                  <h3 className="careers-job-title">{t('careersPage.truckDriver')}</h3>
                   <div className="careers-job-meta">
-                    <span><FaMapMarkerAlt /> Remote / On-Road</span>
-                    <span>• Experience: 1+ Years</span>
+                    <span><FaMapMarkerAlt /> {t('careersPage.remoteOnRoad')}</span>
+                    <span>• {t('careersPage.experience1Year')}</span>
                   </div>
                 </div>
-                <button className="careers-apply-btn" onClick={() => openApplyModal('Truck Driver')}>Apply Now</button>
+                <button className="careers-apply-btn" onClick={() => openApplyModal(t('careersPage.truckDriver'))}>{t('careersPage.applyNow')}</button>
               </div>
               <div className="careers-job-body">
                 <div className="careers-job-col">
-                  <h4>Responsibilities</h4>
+                  <h4>{t('careersPage.responsibilities')}</h4>
                   <ul>
-                    <li>Deliver goods safely and on time.</li>
-                    <li>Follow assigned routes and delivery schedules.</li>
-                    <li>Update trip status through the Logistics Management System.</li>
-                    <li>Share live GPS location during deliveries.</li>
-                    <li>Record trip-related expenses such as fuel and tolls.</li>
-                    <li>Perform basic vehicle inspections before and after each trip.</li>
+                    <li>{t('careersPage.driverResp1')}</li>
+                    <li>{t('careersPage.driverResp2')}</li>
+                    <li>{t('careersPage.driverResp3')}</li>
+                    <li>{t('careersPage.driverResp4')}</li>
+                    <li>{t('careersPage.driverResp5')}</li>
+                    <li>{t('careersPage.driverResp6')}</li>
                   </ul>
                 </div>
                 <div className="careers-job-col">
-                  <h4>Requirements</h4>
+                  <h4>{t('careersPage.requirements')}</h4>
                   <ul>
-                    <li>Valid commercial driving license.</li>
-                    <li>Good knowledge of road safety and traffic regulations.</li>
-                    <li>Responsible, punctual, and customer-focused.</li>
-                    <li>Ability to use a smartphone for trip updates.</li>
+                    <li>{t('careersPage.driverReq1')}</li>
+                    <li>{t('careersPage.driverReq2')}</li>
+                    <li>{t('careersPage.driverReq3')}</li>
+                    <li>{t('careersPage.driverReq4')}</li>
                   </ul>
                 </div>
               </div>
@@ -145,33 +150,33 @@ const Careers = () => {
             <div className="careers-job-card">
               <div className="careers-job-header">
                 <div>
-                  <span className="careers-job-badge">Office / Remote</span>
-                  <h3 className="careers-job-title">🎧 Customer Support Executive</h3>
+                  <span className="careers-job-badge">{t('careersPage.officeRemote')}</span>
+                  <h3 className="careers-job-title">{t('careersPage.customerSupportExecutive')}</h3>
                   <div className="careers-job-meta">
-                    <span><FaMapMarkerAlt /> Jaipur Hub</span>
-                    <span>• Experience: Freshers / Experienced</span>
+                    <span><FaMapMarkerAlt /> {t('careersPage.jaipurHub')}</span>
+                    <span>• {t('careersPage.experienceFreshers')}</span>
                   </div>
                 </div>
-                <button className="careers-apply-btn" onClick={() => openApplyModal('Customer Support Executive')}>Apply Now</button>
+                <button className="careers-apply-btn" onClick={() => openApplyModal(t('careersPage.customerSupportExecutive'))}>{t('careersPage.applyNow')}</button>
               </div>
               <div className="careers-job-body">
                 <div className="careers-job-col">
-                  <h4>Responsibilities</h4>
+                  <h4>{t('careersPage.responsibilities')}</h4>
                   <ul>
-                    <li>Assist customers with shipment bookings and delivery updates.</li>
-                    <li>Respond to customer inquiries via phone, email, or chat.</li>
-                    <li>Resolve customer concerns in a professional manner.</li>
-                    <li>Coordinate with drivers and the operations team.</li>
-                    <li>Ensure a smooth and satisfying customer experience.</li>
+                    <li>{t('careersPage.supportResp1')}</li>
+                    <li>{t('careersPage.supportResp2')}</li>
+                    <li>{t('careersPage.supportResp3')}</li>
+                    <li>{t('careersPage.supportResp4')}</li>
+                    <li>{t('careersPage.supportResp5')}</li>
                   </ul>
                 </div>
                 <div className="careers-job-col">
-                  <h4>Requirements</h4>
+                  <h4>{t('careersPage.requirements')}</h4>
                   <ul>
-                    <li>Excellent communication and interpersonal skills.</li>
-                    <li>Basic computer knowledge.</li>
-                    <li>Strong problem-solving abilities.</li>
-                    <li>Ability to work in a fast-paced environment.</li>
+                    <li>{t('careersPage.supportReq1')}</li>
+                    <li>{t('careersPage.supportReq2')}</li>
+                    <li>{t('careersPage.supportReq3')}</li>
+                    <li>{t('careersPage.supportReq4')}</li>
                   </ul>
                 </div>
               </div>
@@ -184,27 +189,27 @@ const Careers = () => {
       {/* Why Join Us */}
       <section className="careers-why-section">
         <div className="careers-container">
-          <h2 className="careers-section-title">Why Join Us?</h2>
+          <h2 className="careers-section-title">{t('careersPage.whyTitle')}</h2>
           <div className="careers-why-grid">
             <div className="careers-why-card">
               <div className="careers-why-check">✓</div>
-              <p>Professional and supportive work environment.</p>
+              <p>{t('careersPage.why1')}</p>
             </div>
             <div className="careers-why-card">
               <div className="careers-why-check">✓</div>
-              <p>Opportunities for career growth and skill development.</p>
+              <p>{t('careersPage.why2')}</p>
             </div>
             <div className="careers-why-card">
               <div className="careers-why-check">✓</div>
-              <p>Modern technology-driven logistics operations.</p>
+              <p>{t('careersPage.why3')}</p>
             </div>
             <div className="careers-why-card">
               <div className="careers-why-check">✓</div>
-              <p>Performance-based rewards and recognition.</p>
+              <p>{t('careersPage.why4')}</p>
             </div>
             <div className="careers-why-card">
               <div className="careers-why-check">✓</div>
-              <p>Safe and collaborative workplace.</p>
+              <p>{t('careersPage.why5')}</p>
             </div>
           </div>
         </div>
@@ -213,13 +218,13 @@ const Careers = () => {
       {/* Apply Section */}
       <section className="careers-apply-section">
         <div className="careers-container careers-apply-box">
-          <h2 className="careers-apply-box-title">Apply Now</h2>
+          <h2 className="careers-apply-box-title">{t('careersPage.applyTitle')}</h2>
           <p className="careers-apply-text">
-            Interested candidates are welcome to apply by submitting their resume through our recruitment portal or contacting our HR team. We look forward to welcoming passionate individuals who want to grow with us and contribute to delivering reliable logistics services.
+            {t('careersPage.applyText')}
           </p>
           <div className="careers-contact-info-row">
             <div className="careers-info-badge">
-              <FaEnvelope /> recruitment@tmslogistics.com
+              <FaEnvelope /> {t('careersPage.recruitmentEmail')}
             </div>
             <div className="careers-info-badge">
               <FaPhoneAlt /> +91-9664372498
@@ -242,7 +247,7 @@ const Careers = () => {
           </div>
 
           <div>
-            <h4 className="landing-footer-title">Platform</h4>
+            <h4 className="landing-footer-title">{t('footer.platform')}</h4>
             <div className="landing-footer-links">
               <Link to="/features">{t('landing.features') || 'Features'}</Link>
               <Link to="/how-it-works">{t('landing.howItWorks') || 'How It Works'}</Link>
@@ -251,7 +256,7 @@ const Careers = () => {
           </div>
 
           <div>
-            <h4 className="landing-footer-title">{t('landing.company') || 'Company'}</h4>
+            <h4 className="landing-footer-title">{t('footer.company')}</h4>
             <div className="landing-footer-links">
               <Link to="/about">{t('landing.aboutUs') || 'About Us'}</Link>
               <Link to="/contact">{t('landing.contactUs') || 'Contact Us'}</Link>
@@ -261,19 +266,19 @@ const Careers = () => {
           </div>
 
           <div>
-            <h4 className="landing-footer-title">SECURE & RELIABLE</h4>
+            <h4 className="landing-footer-title">{t('footer.secureAndReliable')}</h4>
             <div className="landing-footer-links" style={{ color: 'var(--muted)', fontSize: '0.875rem', gap: '0.65rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                Secure Authentication
+                {t('footer.secureAuth')}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                Live GPS Tracking
+                {t('footer.liveGpsTracking')}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                Smart Trip Management
+                {t('footer.smartTripManagement')}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                Expense Monitoring
+                {t('footer.expenseMonitoring')}
               </div>
             </div>
           </div>
@@ -282,26 +287,26 @@ const Careers = () => {
             <h4 className="landing-footer-title">{t('landing.contactUs') || 'Contact Us'}</h4>
             <div className="landing-footer-links" style={{ color: 'var(--muted)', fontSize: '0.875rem', gap: '0.6rem' }}>
               <div>
-                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>Email</span>
+                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>{t('footer.email')}</span>
                 <a href="mailto:choudharysakshi828@gmail.com" style={{ color: 'var(--muted)' }}>choudharysakshi828@gmail.com</a>
               </div>
               <div>
-                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>Phone</span>
+                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>{t('footer.phone')}</span>
                 <a href="tel:+919664372498" style={{ color: 'var(--muted)' }}>+91-9664372498</a>
               </div>
               <div>
-                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>Address</span>
-                <span>Mansarovar, Jaipur</span>
+                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>{t('footer.address')}</span>
+                <span>{t('footer.addressValue')}</span>
               </div>
             </div>
           </div>
         </div>
 
         <div className="landing-footer-bottom">
-          <span>&copy; {new Date().getFullYear()} TMS Logistics Inc. All rights reserved.</span>
+          <span>&copy; {new Date().getFullYear()} TMS Logistics Inc. {t('footer.allRightsReserved')}</span>
           <span style={{ display: 'flex', gap: '1rem' }}>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
+            <Link to="/privacy-policy">{t('footer.privacyPolicy')}</Link>
+            <Link to="/terms-of-service">{t('footer.termsOfService')}</Link>
           </span>
         </div>
       </footer>
@@ -315,73 +320,73 @@ const Careers = () => {
               {appSubmitted ? (
                 <div className="landing-modal-success">
                   <div className="landing-modal-success-icon">✓</div>
-                  <h3 className="landing-modal-title">Application Submitted!</h3>
-                  <p className="landing-modal-subtitle">Thank you for applying, {applicantName}.</p>
+                  <h3 className="landing-modal-title">{t('careersPage.applyModalTitleSubmit')}</h3>
+                  <p className="landing-modal-subtitle">{t('careersPage.applyModalSubtitleSubmit')}{applicantName}.</p>
                   <p className="landing-modal-text" style={{ marginTop: '0.5rem' }}>
-                    We have received your application for the <strong>{selectedJob}</strong> position. Our HR team will review your profile and contact you soon.
+                    {t('careersPage.applyModalTextSubmit1')}<strong>{selectedJob}</strong>{t('careersPage.applyModalTextSubmit2')}
                   </p>
                   <button 
                     className="landing-search-btn" 
                     style={{ marginTop: '1.5rem', padding: '0.65rem 2rem' }}
                     onClick={closeApplyModal}
                   >
-                    Close
+                    {t('careersPage.applyModalClose')}
                   </button>
                 </div>
               ) : (
                 <>
                   <div className="landing-modal-header">
-                    <h3 className="landing-modal-title">Quick Apply</h3>
-                    <p className="landing-modal-subtitle">Applying for: {selectedJob}</p>
+                    <h3 className="landing-modal-title">{t('careersPage.applyModalTitleQuick')}</h3>
+                    <p className="landing-modal-subtitle">{t('careersPage.applyModalSubtitleQuick')}{selectedJob}</p>
                     <p className="landing-modal-text">
-                      Share your details and HR will reach out for the next steps.
+                      {t('careersPage.applyModalTextQuick')}
                     </p>
                   </div>
                   <form className="landing-modal-form" onSubmit={handleApplySubmit}>
                     <div className="landing-modal-group">
-                      <label className="landing-modal-label">Name</label>
+                      <label className="landing-modal-label">{t('careersPage.applyModalNameLabel')}</label>
                       <input 
                         type="text" 
                         className="landing-modal-input" 
                         required 
-                        placeholder="Enter your name"
+                        placeholder={t('careersPage.applyModalNamePlaceholder')}
                         value={applicantName}
                         onChange={(e) => setApplicantName(e.target.value)}
                       />
                     </div>
                     <div className="landing-modal-group">
-                      <label className="landing-modal-label">Email Address</label>
+                      <label className="landing-modal-label">{t('careersPage.applyModalEmailLabel')}</label>
                       <input 
                         type="email" 
                         className="landing-modal-input" 
                         required 
-                        placeholder="Enter your email"
+                        placeholder={t('careersPage.applyModalEmailPlaceholder')}
                         value={applicantEmail}
                         onChange={(e) => setApplicantEmail(e.target.value)}
                       />
                     </div>
                     <div className="landing-modal-group">
-                      <label className="landing-modal-label">Phone Number</label>
+                      <label className="landing-modal-label">{t('careersPage.applyModalPhoneLabel')}</label>
                       <input 
                         type="tel" 
                         className="landing-modal-input" 
                         required 
-                        placeholder="Enter your phone number"
+                        placeholder={t('careersPage.applyModalPhonePlaceholder')}
                         value={applicantPhone}
                         onChange={(e) => setApplicantPhone(e.target.value)}
                       />
                     </div>
                     <div className="landing-modal-group">
-                      <label className="landing-modal-label">Cover Letter / Notes</label>
+                      <label className="landing-modal-label">{t('careersPage.applyModalNotesLabel')}</label>
                       <textarea 
                         className="landing-modal-textarea" 
-                        placeholder="Tell us why you are a good fit..."
+                        placeholder={t('careersPage.applyModalNotesPlaceholder')}
                         value={applicantNotes}
                         onChange={(e) => setApplicantNotes(e.target.value)}
                       />
                     </div>
                     <button type="submit" className="landing-search-btn" style={{ marginTop: '0.5rem' }}>
-                      Submit Application
+                      {t('careersPage.applyModalSubmit')}
                     </button>
                   </form>
                 </>
