@@ -14,14 +14,14 @@ const CARDS = [
   { key: 'totalDrivers', labelKey: 'adminDashboard.totalDrivers', icon: <FaUser/>, color: '#8b5cf6' },
   { key: 'availableTrucks', labelKey: 'adminDashboard.availableTrucks', icon: <FaCheckCircle/>, color: '#10b981' },
   { key: 'assignedTrucks', labelKey: 'adminDashboard.assignedTrucks', icon: <HiOutlineLink/>, color: '#f59e0b' },
-  { key: 'totalOrders', labelKey: 'adminDashboard.totalOrders', icon: <FaBox/>, color: '#3b82f6' },
+  { key: 'totalOrders', labelKey: 'adminDashboard.totalOrders', icon: <FaBox/>, color: '#06b6d4' },
 ];
 
 const QUICK_ACTIONS = [
   { to: '/track', labelKey: 'adminDashboard.liveTruckMonitoring', icon: <FaMapMarkerAlt/>, color: '#06b6d4' },
   { to: '/admin/billing', labelKey: 'nav.billing', icon: <FaMoneyBillWave/>, color: '#22c55e' },
   { to: '/admin/users', labelKey: 'nav.users', icon: <MdPeople/>, color: '#10b981' },
-  { to: '/admin/orders', labelKey: 'nav.orders', icon: <FaBox/>, color: '#3b82f6' },
+  { to: '/admin/orders', labelKey: 'nav.orders', icon: <FaBox/>, color: '#06b6d4' },
   { to: '/admin/trucks', labelKey: 'nav.trucks', icon: <FaBox/>, color: '#10b981' },
   { to: '/admin/drivers', labelKey: 'nav.drivers', icon: <FaUser/>, color: '#8b5cf6' },
   { to: '/admin/assign', labelKey: 'nav.assignTruck', icon: <HiOutlineLink/>, color: '#f59e0b' },
@@ -30,7 +30,7 @@ const QUICK_ACTIONS = [
 ];
 
 const STATUS_COLOR = {
-  started: '#3b82f6',
+  started: '#06b6d4',
   'in-transit': '#8b5cf6',
   completed: '#10b981',
 };

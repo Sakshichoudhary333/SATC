@@ -1,6 +1,8 @@
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
+import { FaSun, FaMoon } from 'react-icons/fa';
 
 const PAGE_TITLE_KEYS = {
   '/admin': 'pages.adminDashboard',
@@ -24,6 +26,16 @@ const TopBar = () => {
   const { user, logout } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
   const path = window.location.pathname;
 
   const titleKey = PAGE_TITLE_KEYS[path];
@@ -42,6 +54,27 @@ const TopBar = () => {
         <h1 className="topbar-title">{title}</h1>
       </div>
       <div className="topbar-right">
+        <button 
+          onClick={toggleTheme} 
+          className="theme-toggle-btn" 
+          aria-label="Toggle Theme"
+          style={{
+            background: 'transparent',
+            border: '1.5px solid var(--border)',
+            color: 'var(--text)',
+            borderRadius: '8px',
+            padding: '0.4rem 0.65rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            transition: 'all 0.15s',
+            fontSize: '0.9rem'
+          }}
+        >
+          {theme === 'dark' ? <FaSun size={13} color="#f59e0b" /> : <FaMoon size={13} color="#0891b2" />}
+        </button>
+
         <button className="topbar-notif" title={t('common.notifications')}>
           <span>🔔</span>
           <span className="notif-dot" />

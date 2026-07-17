@@ -894,3 +894,9 @@
   }
 }
 
+.landing-demo-chip:hover {
+  background: var(--cyan) !important;
+  color: #121620 !important;
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
+}
+

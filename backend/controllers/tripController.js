@@ -189,7 +189,8 @@ export const updateTripStatus = async (req, res) => {
         const emailSubject = `SATC Delivery Verification OTP - Order #${populatedOrder._id.toString().slice(-6)}`;
         const emailText = `Hello ${populatedOrder.customer.name || 'Customer'},\n\nYour delivery verification OTP code is: ${generatedOtp}.\n\nPlease provide this code to the driver to complete your delivery.\n\nThank you,\nSATC Team`;
         
-        await sendEmail(populatedOrder.customer.email, emailSubject, emailText)
+        // Send email in background (non-blocking) to prevent blocking the driver's device response
+        sendEmail(populatedOrder.customer.email, emailSubject, emailText)
           .catch((err) => logger.error('Failed to send delivery OTP email', err));
       }
 

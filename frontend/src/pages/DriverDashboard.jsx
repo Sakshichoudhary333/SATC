@@ -7,16 +7,17 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import { formatDate } from '../utils/helpers';
 import { useLanguage } from '../context/LanguageContext';
+import { FaMapMarkerAlt } from 'react-icons/fa';
 
 const SOCKET_URL = 'https://satc-backend.onrender.com';
-const STATUS_COLOR = { started: '#3b82f6', 'in-transit': '#8b5cf6', completed: '#10b981' };
+const STATUS_COLOR = { started: '#06b6d4', 'in-transit': '#8b5cf6', completed: '#10b981' };
 const AUTO_COMPLETE_DISTANCE_KM = 0.5;
 
-const CopyButton = ({ truckId }) => {
+const CopyButton = ({ shareUrl }) => {
   const [copied, setCopied] = useState(false);
   const { t } = useLanguage();
   const copy = () => {
-    navigator.clipboard.writeText(`${window.location.origin}/track/truck/${truckId}`).then(() => {
+    navigator.clipboard.writeText(shareUrl).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     });
@@ -402,6 +403,9 @@ const DriverDashboard = () => {
     }
   };
 
+  const activeOrderId = activeTrip?.order?._id || (typeof activeTrip?.order === 'string' ? activeTrip.order : null);
+  const shareUrl = myTruck ? `${window.location.origin}/track/truck/${myTruck._id}${activeOrderId ? `?orderId=${activeOrderId}` : ''}` : '';
+
   if (loading) return <LoadingSpinner />;
 
   // Non-completed trips available for selection
@@ -413,6 +417,25 @@ const DriverDashboard = () => {
       <div className="dash-title-row">
         <h2 className="dash-title">{t('driverDashboard.assignedTripControl')}</h2>
       </div>
+
+      {/* GPS Location Sharing Banner */}
+      {(error || autoSharing) && (
+        <div className={`driver-gps-banner ${autoSharing ? 'active' : 'idle'} ${error ? 'has-error' : ''}`}>
+          <div className="driver-gps-banner-indicator"></div>
+          <div className="driver-gps-banner-content">
+            {error ? (
+              <div className="driver-gps-banner-error">
+                <strong>GPS Alert:</strong> {error}
+              </div>
+            ) : (
+              <div>
+                <strong>Live GPS Sharing is ACTIVE.</strong> Your location is being shared in real-time. Keep this page open.
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {error && <ErrorMessage message={error} />}
 
       <div className="driver-hero-grid">
@@ -447,10 +470,10 @@ const DriverDashboard = () => {
           </div>
 
           <div className="customer-tracker-actions">
-            <Link to="/track" className="approve-btn" style={{ background: '#06b6d4' }}>
+            <Link to="/track" className="approve-btn" style={{ background: 'var(--cyan)', color: '#ffffff' }}>
               {t('driverDashboard.openLiveTrack')}
             </Link>
-            <Link to="/expenses" className="approve-btn" style={{ background: 'transparent', border: '1px solid #334155' }}>
+            <Link to="/expenses" className="approve-btn" style={{ background: 'transparent', border: '1px solid var(--border)', color: 'var(--text)' }}>
               {t('driverDashboard.expenseLog')}
             </Link>
           </div>
@@ -462,7 +485,7 @@ const DriverDashboard = () => {
               {/* Auto GPS toggle */}
               <button
                 type="button"
-                className="approve-btn"
+                className="approve-btn driver-gps-toggle-btn"
                 style={{ width: '100%', background: autoSharing ? '#10b981' : '#8b5cf6' }}
                 onClick={toggleAutoSharing}
               >
@@ -481,32 +504,32 @@ const DriverDashboard = () => {
               )}
 
               {/* Divider */}
-              <div style={{ borderTop: '1px solid #1e2330', paddingTop: '0.6rem' }}>
+              <div style={{ borderTop: '1px solid var(--border)', paddingTop: '0.6rem' }}>
                 <div style={{ fontSize: '0.7rem', color: '#64748b', marginBottom: '0.4rem', letterSpacing: '0.08em' }}>
                   {t('driverDashboard.shareableLinkDesc')}
                 </div>
                 <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                   <input
                     readOnly
-                    value={`${window.location.origin}/track/truck/${myTruck._id}`}
+                    value={shareUrl}
                     style={{
                       flex: 1,
-                      background: '#1e2330',
-                      border: '1px solid #334155',
+                      background: 'var(--surface2)',
+                      border: '1px solid var(--border)',
                       borderRadius: '6px',
                       padding: '0.35rem 0.6rem',
-                      color: '#94a3b8',
+                      color: 'var(--text)',
                       fontSize: '0.75rem',
                     }}
                     onClick={(e) => e.target.select()}
                   />
-                  <CopyButton truckId={myTruck._id} />
+                  <CopyButton shareUrl={shareUrl} />
                 </div>
 
                 {/* WhatsApp + Copy share row */}
                 <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
                   <a
-                    href={`https://wa.me/?text=${encodeURIComponent(`Track my live location here: ${window.location.origin}/track/truck/${myTruck._id}`)}`}
+                    href={`https://wa.me/?text=${encodeURIComponent(`Track my live location here: ${shareUrl}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
@@ -564,8 +587,20 @@ const DriverDashboard = () => {
               <div className="driver-hero-title">
                 {t('driverDashboard.tripHash')}{selectedTrip._id.slice(-6)}
               </div>
-              <div className="driver-hero-sub">
-                {selectedTrip.order?.pickupLocation || '—'} → {selectedTrip.order?.destination || '—'}
+              <div className="driver-hero-sub" style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', alignItems: 'flex-start' }}>
+                <div>
+                  {selectedTrip.order?.pickupLocation || '—'} → {selectedTrip.order?.destination || '—'}
+                </div>
+                {selectedTrip.order?.destination && (
+                  <a
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(selectedTrip.order.destination)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="driver-navigate-btn"
+                  >
+                    <FaMapMarkerAlt /> {t('driverDashboard.navigate')}
+                  </a>
+                )}
               </div>
 
               <div className="customer-tracker-meta" style={{ marginTop: '1rem' }}>
@@ -589,12 +624,12 @@ const DriverDashboard = () => {
                 </div>
               </div>
 
-              <div className="customer-tracker-actions" style={{ marginBottom: 0 }}>
+              <div className="customer-tracker-actions driver-trip-actions" style={{ marginBottom: 0 }}>
                 {selectedTrip.status === 'started' && (
                   <button
                     type="button"
-                    className="approve-btn"
-                    style={{ background: '#3b82f6', fontSize: '0.75rem', padding: '4px 10px' }}
+                    className="approve-btn driver-action-btn"
+                    style={{ background: '#06b6d4' }}
                     disabled={updating === selectedTrip._id}
                     onClick={() => handleStartTrip(selectedTrip._id, selectedTrip.status)}
                   >
@@ -604,8 +639,8 @@ const DriverDashboard = () => {
                 {selectedTrip.status === 'in-transit' && (
                   <button
                     type="button"
-                    className="approve-btn"
-                    style={{ background: '#10b981', fontSize: '0.75rem', padding: '4px 10px' }}
+                    className="approve-btn driver-action-btn"
+                    style={{ background: '#10b981' }}
                     disabled={updating === selectedTrip._id}
                     onClick={() => handleCompleteTrip(selectedTrip._id, selectedTrip.status)}
                   >
@@ -615,8 +650,8 @@ const DriverDashboard = () => {
                 {selectedTrip.status === 'completed' && (
                   <button
                     type="button"
-                    className="approve-btn"
-                    style={{ background: STATUS_COLOR.completed, fontSize: '0.75rem', padding: '4px 10px' }}
+                    className="approve-btn driver-action-btn"
+                    style={{ background: STATUS_COLOR.completed }}
                     disabled
                   >
                     {t('driverDashboard.tripCompleted')}

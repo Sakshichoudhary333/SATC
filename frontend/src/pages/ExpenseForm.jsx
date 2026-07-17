@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { addExpense, getMyExpenses, getTrips, updateExpense, deleteExpense, ocrScanReceipt } from '../services/api';
+import { addExpense, getMyExpenses, getTrips, updateExpense, deleteExpense } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
@@ -45,60 +45,7 @@ const ExpenseForm = () => {
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  const [scanning, setScanning] = useState(false);
 
-  const handleOcrScan = async (presetOrImage, isPreset = true) => {
-    if (!selectedTripId) {
-      setError('Please select a trip before scanning receipts');
-      return;
-    }
-    setError('');
-    setSuccess('');
-    setScanning(true);
-
-    try {
-      const payload = isPreset 
-        ? { preset: presetOrImage } 
-        : { receiptImage: presetOrImage };
-
-      const response = await ocrScanReceipt(payload);
-      if (response?.data) {
-        const { fuelCost, tollCost, foodCost, maintenanceCost, notes } = response.data;
-        
-        setForm((prev) => ({
-          ...prev,
-          fuelCost: fuelCost !== 0 ? fuelCost : prev.fuelCost,
-          tollCost: tollCost !== 0 ? tollCost : prev.tollCost,
-          foodCost: foodCost !== 0 ? foodCost : prev.foodCost,
-          maintenanceCost: maintenanceCost !== 0 ? maintenanceCost : prev.maintenanceCost,
-          notes: notes || prev.notes,
-        }));
-        
-        if (isPreset) {
-          setSuccess('Demo preset fields populated successfully!');
-        } else {
-          setSuccess('Receipt scanned and fields populated successfully!');
-        }
-      } else {
-        setError('Failed to extract information from receipt.');
-      }
-    } catch (err) {
-      setError(err.message || 'OCR receipt scanning failed.');
-    } finally {
-      setScanning(false);
-    }
-  };
-
-  const handleFileUpload = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      handleOcrScan(reader.result, false);
-    };
-    reader.readAsDataURL(file);
-  };
 
   // ── load ──────────────────────────────────────────
   const load = async () => {
@@ -285,6 +232,14 @@ const ExpenseForm = () => {
   };
 
   const handleDelete = async (id) => {
+    const expense = expenses.find((e) => e._id === id);
+    if (expense) {
+      const trip = trips.find((tItem) => tItem._id === (expense.trip?._id || expense.trip));
+      if (trip && trip.status === 'completed') {
+        setError(t('expenses.cannotDeleteCompleted'));
+        return;
+      }
+    }
     if (!confirm(t('expenses.confirmDelete'))) return;
     setError('');
     try {
@@ -303,6 +258,13 @@ const ExpenseForm = () => {
     if (expense.approvalStatus === 'approved') return false;
     if (!trip || trip.status !== 'completed') return true; // active trip — always editable
     return !expense.postTripEditUsed; // completed trip — only if post-trip edit not yet used
+  };
+
+  const canDelete = (expense) => {
+    if (expense.approvalStatus === 'approved') return false;
+    const trip = trips.find((tItem) => tItem._id === (expense.trip?._id || expense.trip));
+    if (trip && trip.status === 'completed') return false; // Cannot delete expenses for completed trips
+    return true;
   };
 
   if (loading) return <LoadingSpinner />;
@@ -368,141 +330,7 @@ const ExpenseForm = () => {
             )}
           </div>
 
-          {/* OCR Receipt Scanner Assistant */}
-          {selectedTrip && !formReadOnly && (
-            <div style={{
-              background: '#1e2330',
-              border: '1px solid #334155',
-              borderRadius: '8px',
-              padding: '1rem',
-              marginBottom: '1.5rem',
-            }}>
-              <div style={{
-                fontSize: '0.8rem',
-                fontWeight: 700,
-                color: '#06b6d4',
-                marginBottom: '0.5rem',
-                letterSpacing: '0.05em',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem'
-              }}>
-                <span>📷</span> RECEIPT SCANNING ASSISTANT
-              </div>
-              <p style={{ fontSize: '0.75rem', color: '#94a3b8', margin: '0 0 1rem 0' }}>
-                Quickly populate your costs by uploading a receipt photo or clicking one of the demo receipt presets.
-              </p>
-              
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1rem' }}>
-                <button
-                  type="button"
-                  className="approve-btn"
-                  style={{
-                    fontSize: '0.7rem',
-                    padding: '0.4rem 0.8rem',
-                    background: '#0284c7',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                  }}
-                  disabled={scanning}
-                  onClick={() => handleOcrScan('fuel')}
-                >
-                  ⛽ Fuel Demo (₹4500)
-                </button>
-                <button
-                  type="button"
-                  className="approve-btn"
-                  style={{
-                    fontSize: '0.7rem',
-                    padding: '0.4rem 0.8rem',
-                    background: '#0f766e',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                  }}
-                  disabled={scanning}
-                  onClick={() => handleOcrScan('toll')}
-                >
-                  🛣️ Toll Demo (₹850)
-                </button>
-                <button
-                  type="button"
-                  className="approve-btn"
-                  style={{
-                    fontSize: '0.7rem',
-                    padding: '0.4rem 0.8rem',
-                    background: '#b45309',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                  }}
-                  disabled={scanning}
-                  onClick={() => handleOcrScan('food')}
-                >
-                  🍲 Food Demo (₹350)
-                </button>
-                <button
-                  type="button"
-                  className="approve-btn"
-                  style={{
-                    fontSize: '0.7rem',
-                    padding: '0.4rem 0.8rem',
-                    background: '#6d28d9',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                  }}
-                  disabled={scanning}
-                  onClick={() => handleOcrScan('maintenance')}
-                >
-                  🔧 Repair Demo (₹1200)
-                </button>
-              </div>
 
-              {/* Upload block */}
-              <div style={{
-                border: '1px dashed #475569',
-                borderRadius: '6px',
-                padding: '0.75rem',
-                textAlign: 'center',
-                position: 'relative',
-                background: '#0f1117',
-                cursor: scanning ? 'not-allowed' : 'pointer'
-              }}>
-                {scanning ? (
-                  <div style={{ color: '#06b6d4', fontSize: '0.75rem', fontWeight: 600 }}>
-                    ⏳ Scanning receipt in progress... Please wait.
-                  </div>
-                ) : (
-                  <>
-                    <span style={{ fontSize: '1rem', display: 'block', marginBottom: '0.25rem' }}>📤</span>
-                    <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
-                      Click to upload receipt image
-                    </span>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleFileUpload}
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        opacity: 0,
-                        cursor: 'pointer'
-                      }}
-                    />
-                  </>
-                )}
-              </div>
-            </div>
-          )}
 
           {/* Cost fields */}
           <form onSubmit={handleSubmit}>
@@ -598,26 +426,30 @@ const ExpenseForm = () => {
                     </td>
                     <td>{e.createdAt ? formatDate(e.createdAt) : '—'}</td>
                     <td>
-                      {canEdit(e) ? (
+                      {canEdit(e) || canDelete(e) ? (
                         <div style={{ display: 'flex', gap: '0.5rem' }}>
-                          <button
-                            className="approve-btn"
-                            style={{ padding: '0.3rem 0.75rem', fontSize: '0.8rem' }}
-                            onClick={() => {
-                              const tripId = (e.trip?._id || e.trip)?.toString();
-                              setSelectedTripId(tripId);
-                              window.scrollTo({ top: 0, behavior: 'smooth' });
-                            }}
-                          >
-                            {t('expenses.editBtn')}
-                          </button>
-                          <button
-                            className="reject-btn"
-                            style={{ padding: '0.3rem 0.75rem', fontSize: '0.8rem' }}
-                            onClick={() => handleDelete(e._id)}
-                          >
-                            {t('expenses.deleteBtn')}
-                          </button>
+                          {canEdit(e) && (
+                            <button
+                              className="approve-btn"
+                              style={{ padding: '0.3rem 0.75rem', fontSize: '0.8rem' }}
+                              onClick={() => {
+                                const tripId = (e.trip?._id || e.trip)?.toString();
+                                setSelectedTripId(tripId);
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                              }}
+                            >
+                              {t('expenses.editBtn')}
+                            </button>
+                          )}
+                          {canDelete(e) && (
+                            <button
+                              className="reject-btn"
+                              style={{ padding: '0.3rem 0.75rem', fontSize: '0.8rem' }}
+                              onClick={() => handleDelete(e._id)}
+                            >
+                              {t('expenses.deleteBtn')}
+                            </button>
+                          )}
                         </div>
                       ) : (
                         <span style={{ color: '#64748b', fontSize: '0.8rem' }}>{t('expenses.readOnly')}</span>

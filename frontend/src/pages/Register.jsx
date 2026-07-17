@@ -1,13 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import ErrorMessage from '../components/ErrorMessage';
 import { useLanguage } from '../context/LanguageContext';
+import { FaSun, FaMoon } from 'react-icons/fa';
 
 const Register = () => {
   const { register } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
+
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
 
   const [form, setForm] = useState({
     name: '',
@@ -59,6 +71,28 @@ const Register = () => {
         <Link to="/" style={{ color: 'var(--dim)', textDecoration: 'none', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.25rem', fontWeight: 600 }}>
           ← {t('auth.backToHome')}
         </Link>
+      </div>
+      <div style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', zIndex: 10 }}>
+        <button 
+          onClick={toggleTheme} 
+          className="theme-toggle-btn" 
+          aria-label="Toggle Theme"
+          style={{
+            background: 'transparent',
+            border: '1.5px solid var(--border)',
+            color: 'var(--text)',
+            borderRadius: '8px',
+            padding: '0.4rem 0.65rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            transition: 'all 0.15s',
+            fontSize: '0.9rem'
+          }}
+        >
+          {theme === 'dark' ? <FaSun size={14} color="#f59e0b" /> : <FaMoon size={14} color="#0891b2" />}
+        </button>
       </div>
       <div className="auth-left">
         <div className="auth-brand">{t('auth.brand')}</div>

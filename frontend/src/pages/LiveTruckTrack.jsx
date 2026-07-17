@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { MapContainer, Marker, Popup, TileLayer, useMap, Polyline, Circle } from 'react-leaflet';
 import L from 'leaflet';
@@ -46,6 +46,8 @@ const FlyTo = ({ lat, lng }) => {
 
 const LiveTruckTrack = () => {
   const { truckId } = useParams();
+  const [searchParams] = useSearchParams();
+  const orderId = searchParams.get('orderId');
   const [truck, setTruck] = useState(null);
   const [activeTrip, setActiveTrip] = useState(null);
   const [location, setLocation] = useState(null);
@@ -64,7 +66,7 @@ const LiveTruckTrack = () => {
     setLoading(true);
     Promise.all([
       getTruckById(truckId),
-      getTruckActiveTrip(truckId).catch(() => null)
+      getTruckActiveTrip(truckId, orderId).catch(() => null)
     ])
       .then(([truckData, tripData]) => {
         setTruck(truckData);
@@ -203,11 +205,22 @@ const LiveTruckTrack = () => {
         <h2 style={{ margin: 0, fontSize: '1.4rem', fontWeight: 700 }}>
           {truck ? `${t('admin.assignTruck.colTruck')} ${truck.truckNumber}` : t('liveTruckTrack.liveTracker')}
         </h2>
-        {truck?.driver?.name && (
-          <div style={{ color: '#94a3b8', fontSize: '0.9rem', marginTop: '0.25rem' }}>
-            {t('liveTruckTrack.driverLabel')}{truck.driver.name}
-          </div>
-        )}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem', marginTop: '0.5rem' }}>
+          {truck?.driver?.name && (
+            <div style={{ color: '#94a3b8', fontSize: '0.9rem' }}>
+              {t('liveTruckTrack.driverLabel')}{truck.driver.name}
+            </div>
+          )}
+          {activeTrip?.order && (
+            <div style={{ color: '#cbd5e1', fontSize: '0.85rem', background: '#1e293b', padding: '0.35rem 0.85rem', borderRadius: '9999px', border: '1px solid #334155', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span style={{ color: '#a78bfa', fontWeight: 500 }}>{t('liveTruckTrack.source')}:</span>
+              <span style={{ color: '#e2e8f0', fontWeight: 600 }}>{activeTrip.order.pickupLocation}</span>
+              <span style={{ color: '#64748b' }}>➔</span>
+              <span style={{ color: '#f472b6', fontWeight: 500 }}>{t('liveTruckTrack.destination')}:</span>
+              <span style={{ color: '#e2e8f0', fontWeight: 600 }}>{activeTrip.order.destination}</span>
+            </div>
+          )}
+        </div>
       </div>
 
       {error && (
@@ -242,13 +255,29 @@ const LiveTruckTrack = () => {
 
       {/* Stats bar */}
       <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
-        <div style={{ background: '#1e2330', borderRadius: '8px', padding: '0.75rem 1.25rem', flex: 1, minWidth: '140px' }}>
+        <div style={{ background: 'var(--surface2)', borderRadius: '8px', padding: '0.75rem 1.25rem', flex: 1, minWidth: '140px' }}>
           <div style={{ fontSize: '0.7rem', color: '#64748b', marginBottom: '0.25rem' }}>{t('liveTruckTrack.statusLabel')}</div>
           <div style={{ color: truck?.isAvailable ? '#10b981' : '#8b5cf6', fontWeight: 600 }}>
             {truck?.isAvailable ? t('liveTruckTrack.available') : t('liveTruckTrack.onTrip')}
           </div>
         </div>
-        <div style={{ background: '#1e2330', borderRadius: '8px', padding: '0.75rem 1.25rem', flex: 1, minWidth: '140px' }}>
+        {activeTrip?.order?.pickupLocation && (
+          <div style={{ background: 'var(--surface2)', borderRadius: '8px', padding: '0.75rem 1.25rem', flex: 1, minWidth: '140px' }}>
+            <div style={{ fontSize: '0.7rem', color: '#64748b', marginBottom: '0.25rem' }}>{t('liveTruckTrack.source')}</div>
+            <div style={{ color: '#a78bfa', fontWeight: 600, fontSize: '0.9rem' }}>
+              {activeTrip.order.pickupLocation}
+            </div>
+          </div>
+        )}
+        {activeTrip?.order?.destination && (
+          <div style={{ background: 'var(--surface2)', borderRadius: '8px', padding: '0.75rem 1.25rem', flex: 1, minWidth: '140px' }}>
+            <div style={{ fontSize: '0.7rem', color: '#64748b', marginBottom: '0.25rem' }}>{t('liveTruckTrack.destination')}</div>
+            <div style={{ color: '#f472b6', fontWeight: 600, fontSize: '0.9rem' }}>
+              {activeTrip.order.destination}
+            </div>
+          </div>
+        )}
+        <div style={{ background: 'var(--surface2)', borderRadius: '8px', padding: '0.75rem 1.25rem', flex: 1, minWidth: '140px' }}>
           <div style={{ fontSize: '0.7rem', color: '#64748b', marginBottom: '0.25rem' }}>{t('liveTruckTrack.liveLocation')}</div>
           <div style={{ color: '#06b6d4', fontWeight: 600, fontSize: '0.9rem' }}>
             {location
@@ -256,20 +285,20 @@ const LiveTruckTrack = () => {
               : t('liveTruckTrack.waitingGps')}
           </div>
         </div>
-        <div style={{ background: '#1e2330', borderRadius: '8px', padding: '0.75rem 1.25rem', flex: 1, minWidth: '140px' }}>
+        <div style={{ background: 'var(--surface2)', borderRadius: '8px', padding: '0.75rem 1.25rem', flex: 1, minWidth: '140px' }}>
           <div style={{ fontSize: '0.7rem', color: '#64748b', marginBottom: '0.25rem' }}>Distance & Route</div>
-          <div style={{ color: '#e2e8f0', fontSize: '0.85rem', fontWeight: 600 }}>
+          <div style={{ color: 'var(--text)', fontSize: '0.85rem', fontWeight: 600 }}>
             {currentDistance !== null ? `${currentDistance.toFixed(1)} km left` : 'Calculating route...'}
           </div>
         </div>
       </div>
 
       {/* Map */}
-      <div style={{ borderRadius: '12px', overflow: 'hidden', marginBottom: '1.25rem', border: '1px solid #1e2330' }}>
+      <div style={{ borderRadius: '12px', overflow: 'hidden', marginBottom: '1.25rem', border: '1px solid var(--border)' }}>
         <MapContainer
           center={location ? [location.lat, location.lng] : DEFAULT_CENTER}
           zoom={location ? 12 : 5}
-          scrollWheelZoom={false}
+          scrollWheelZoom={true}
           style={{ height: '420px', width: '100%' }}
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
@@ -320,14 +349,14 @@ const LiveTruckTrack = () => {
           )}
         </MapContainer>
         {!location && (
-          <div style={{ background: '#1e2330', padding: '1rem', textAlign: 'center', color: '#64748b', fontSize: '0.85rem' }}>
+          <div style={{ background: 'var(--surface2)', padding: '1rem', textAlign: 'center', color: '#64748b', fontSize: '0.85rem' }}>
             {t('liveTruckTrack.waitingDriverShare')}
           </div>
         )}
       </div>
 
       {/* Shareable link */}
-      <div style={{ background: '#1e2330', borderRadius: '10px', padding: '1rem 1.25rem' }}>
+      <div style={{ background: 'var(--surface2)', borderRadius: '10px', padding: '1rem 1.25rem' }}>
         <div style={{ fontSize: '0.7rem', color: '#64748b', marginBottom: '0.5rem', letterSpacing: '0.08em' }}>
           {t('liveTruckTrack.shareableLink')}
         </div>
@@ -337,11 +366,11 @@ const LiveTruckTrack = () => {
             value={shareUrl}
             style={{
               flex: 1,
-              background: '#0f1117',
-              border: '1px solid #334155',
+              background: 'var(--bg)',
+              border: '1px solid var(--border)',
               borderRadius: '6px',
               padding: '0.5rem 0.75rem',
-              color: '#94a3b8',
+              color: 'var(--text)',
               fontSize: '0.82rem',
               minWidth: '200px',
             }}

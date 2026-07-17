@@ -19,7 +19,7 @@ import { useLanguage } from '../context/LanguageContext';
 const SOCKET_URL = 'https://satc-backend.onrender.com';
 
 const STATUS_COLOR = {
-  started: '#3b82f6',
+  started: '#06b6d4',
   'in-transit': '#8b5cf6',
   completed: '#10b981',
 };

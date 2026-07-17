@@ -90,7 +90,7 @@ const TruckMap = ({ location, truckNumber, waiting = false }) => {
         key={mapKey}
         center={center}
         zoom={14}
-        scrollWheelZoom={false}
+        scrollWheelZoom={true}
         style={{ height: '260px', width: '100%' }}
       >
         {location ? <FlyToLocation location={location} /> : null}

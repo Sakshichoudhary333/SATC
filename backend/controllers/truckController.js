@@ -46,13 +46,18 @@ export const getTruckById = async (req, res) => {
 export const getTruckActiveTrip = async (req, res) => {
   try {
     const { id } = req.params;
+    const { orderId } = req.query;
     if (!id || !isValidObjectId(id)) {
       return res.status(400).json({ message: 'Invalid truck id' });
     }
 
-    // Find the most recent non-completed trip for this truck
+    // Find the trip for this truck (by specific orderId if provided)
     const Trip = (await import('../models/Trip.js')).default;
-    const trip = await Trip.findOne({ truck: id })
+    const query = { truck: id };
+    if (orderId && isValidObjectId(orderId)) {
+      query.order = orderId;
+    }
+    const trip = await Trip.findOne(query)
       .sort({ createdAt: -1 })
       .populate({
         path: 'order',
@@ -96,33 +101,35 @@ export const updateTruckLocation = async (req, res) => {
       lastUpdated: truck.lastUpdated,
     });
 
-    // Geofencing Check
-    try {
-      const Trip = (await import('../models/Trip.js')).default;
-      const activeTrip = await Trip.findOne({ truck: id, status: { $ne: 'completed' } })
-        .populate({
-          path: 'order',
-          select: 'destination pickupLocation',
-        });
+    // Geofencing Check (run asynchronously to avoid blocking the HTTP response)
+    setImmediate(async () => {
+      try {
+        const Trip = (await import('../models/Trip.js')).default;
+        const activeTrip = await Trip.findOne({ truck: id, status: { $ne: 'completed' } })
+          .populate({
+            path: 'order',
+            select: 'destination pickupLocation',
+          });
 
-      if (activeTrip && activeTrip.order?.destination) {
-        const destCoords = await geocodeAddress(activeTrip.order.destination);
-        if (destCoords) {
-          const distance = await getDistance(nextLat, nextLng, destCoords.lat, destCoords.lng);
-          if (distance <= 2.0) { // 2 km threshold
-            emitGeofenceAlert({
-              truckId: truck._id.toString(),
-              tripId: activeTrip._id.toString(),
-              distance: Number(distance.toFixed(2)),
-              destination: activeTrip.order.destination,
-              message: `Truck is near destination: within ${distance.toFixed(2)} km`,
-            });
+        if (activeTrip && activeTrip.order?.destination) {
+          const destCoords = await geocodeAddress(activeTrip.order.destination);
+          if (destCoords) {
+            const distance = await getDistance(nextLat, nextLng, destCoords.lat, destCoords.lng);
+            if (distance <= 2.0) { // 2 km threshold
+              emitGeofenceAlert({
+                truckId: truck._id.toString(),
+                tripId: activeTrip._id.toString(),
+                distance: Number(distance.toFixed(2)),
+                destination: activeTrip.order.destination,
+                message: `Truck is near destination: within ${distance.toFixed(2)} km`,
+              });
+            }
           }
         }
+      } catch (err) {
+        logger.error('Failed to run geofence check during location update', err);
       }
-    } catch (err) {
-      logger.error('Failed to run geofence check during location update', err);
-    }
+    });
 
     return res.json(truck);
   } catch (error) {

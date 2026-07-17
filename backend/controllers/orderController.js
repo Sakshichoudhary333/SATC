@@ -56,7 +56,28 @@ export const getMyOrders = async (req, res) => {
       .populate('driver', 'name mobile email licenseNumber experience')
       .populate('truck', 'truckNumber model capacity location lastUpdated isAvailable');
 
-    const tracked = await Promise.all(orders.map((order) => attachTracking(order)));
+    const orderIds = orders.map((o) => o._id);
+    const trips = await Trip.find({ order: { $in: orderIds } })
+      .populate('truck', 'truckNumber model capacity location lastUpdated isAvailable')
+      .populate('driver', 'name mobile email licenseNumber experience');
+
+    const tripMap = new Map();
+    for (const trip of trips) {
+      if (trip.order) {
+        tripMap.set(trip.order.toString(), trip);
+      }
+    }
+
+    const tracked = orders.map((orderDoc) => {
+      const order = orderDoc.toObject ? orderDoc.toObject() : orderDoc;
+      const trip = tripMap.get(order._id.toString()) || null;
+      return {
+        ...order,
+        trip: trip ? (trip.toObject ? trip.toObject() : trip) : null,
+        trackingStatus: trip?.status || order.status,
+      };
+    });
+
     res.json(tracked);
   } catch (error) {
     res.status(500).json({ message: error.message });

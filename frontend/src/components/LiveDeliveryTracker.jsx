@@ -1,5 +1,28 @@
 import { useEffect, useMemo, useState } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, Circle, useMap } from 'react-leaflet';
+import L from 'leaflet';
 import { getTruckETA } from '../services/api';
+import 'leaflet/dist/leaflet.css';
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
+
+const DEFAULT_CENTER = [20.5937, 78.9629];
+
+const FlyTo = ({ lat, lng }) => {
+  const map = useMap();
+  useEffect(() => {
+    map.setView([lat, lng], map.getZoom(), { animate: true });
+  }, [lat, lng, map]);
+  return null;
+};
 
 const isValidMongoId = (value) =>
   typeof value === 'string' && /^[a-fA-F0-9]{24}$/.test(value.trim());
@@ -20,27 +43,6 @@ const formatEta = (eta) => {
 const getEtaMinutes = (eta) => {
   if (!eta) return null;
   return (Number(eta.hours) || 0) * 60 + (Number(eta.minutes) || 0);
-};
-
-const buildRoutePath = (points) => points.map((p, index) => `${index === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
-
-const fitPointsToViewBox = (coords, width = 1000, height = 520, padding = 64) => {
-  if (!coords || coords.length === 0) return [];
-
-  const lats = coords.map((point) => point.lat);
-  const lngs = coords.map((point) => point.lng);
-  const minLat = Math.min(...lats);
-  const maxLat = Math.max(...lats);
-  const minLng = Math.min(...lngs);
-  const maxLng = Math.max(...lngs);
-
-  const latSpan = Math.max(maxLat - minLat, 0.00001);
-  const lngSpan = Math.max(maxLng - minLng, 0.00001);
-
-  return coords.map((point) => ({
-    x: padding + ((point.lng - minLng) / lngSpan) * (width - padding * 2),
-    y: height - padding - ((point.lat - minLat) / latSpan) * (height - padding * 2),
-  }));
 };
 
 const getStatusTone = (status) => {
@@ -68,17 +70,37 @@ const getTrackingStatus = (order, etaMinutes) => {
 
 const geocodeAddress = async (address) => {
   try {
-    const res = await fetch(
-      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`
-    );
-    const data = await res.json();
-    const first = data?.[0];
-    if (!first) return null;
+    const cleanAddress = address.trim();
+    
+    // Try multiple query strategies for better accuracy with ambiguous locations
+    const queryStrategies = [
+      cleanAddress, // Original address
+      cleanAddress.includes(', India') ? cleanAddress : `${cleanAddress}, India`, // With country
+    ];
 
-    return {
-      lat: Number.parseFloat(first.lat),
-      lng: Number.parseFloat(first.lon),
-    };
+    // For Indian locations, try with state context if address doesn't contain a state
+    const indianStates = ['Rajasthan', 'Maharashtra', 'Madhya Pradesh', 'Gujarat', 'Uttar Pradesh', 'Delhi', 'Karnataka', 'Tamil Nadu', 'Kerala', 'Punjab', 'Haryana', 'Bihar', 'West Bengal', 'Odisha', 'Assam'];
+    
+    if (!indianStates.some(state => cleanAddress.toLowerCase().includes(state.toLowerCase()))) {
+      queryStrategies.push(`${cleanAddress}, Rajasthan, India`);
+      queryStrategies.push(`${cleanAddress}, Rajasthan`);
+    }
+
+    for (const queryAddr of queryStrategies) {
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(queryAddr)}&format=json&limit=1`
+      );
+      const data = await res.json();
+      const first = data?.[0];
+      if (first) {
+        return {
+          lat: Number.parseFloat(first.lat),
+          lng: Number.parseFloat(first.lon),
+        };
+      }
+    }
+
+    return null;
   } catch {
     return null;
   }
@@ -117,34 +139,7 @@ const LiveDeliveryTracker = ({ order }) => {
   const trackingTone = getStatusTone(trackingStatus);
   const liveLastUpdated = order?.truck?.lastUpdated ? new Date(order.truck.lastUpdated).toLocaleString() : 'Waiting for GPS feed';
 
-  // Build the full route: pickup → destination (the static road path)
-  // Truck dot is overlaid separately on top
-  const showRoute = pickupCoords && destinationCoords && routeCoords && routeCoords.length > 1;
-  const routePointsForSvg = showRoute
-    ? fitPointsToViewBox(routeCoords)
-    : pickupCoords && destinationCoords
-      ? fitPointsToViewBox([pickupCoords, destinationCoords])
-      : [];
-
-  // Project the truck's live position onto the same coordinate space as the route
-  const allCoordsForViewBox = showRoute
-    ? routeCoords
-    : pickupCoords && destinationCoords
-      ? [pickupCoords, destinationCoords]
-      : [];
-
-  const truckSvgPoint = useMemo(() => {
-    if (!truckCoords || allCoordsForViewBox.length === 0) return null;
-    const allWithTruck = [...allCoordsForViewBox, truckCoords];
-    const projected = fitPointsToViewBox(allWithTruck);
-    // The truck is the last point we added
-    return projected[projected.length - 1];
-  }, [truckCoords?.lat, truckCoords?.lng, showRoute, pickupCoords, destinationCoords]);
-
-  const routePath = routePointsForSvg.length > 1 ? buildRoutePath(routePointsForSvg) : '';
-  const pickupSvgPoint = routePointsForSvg[0] || null;
-  const destSvgPoint = routePointsForSvg[routePointsForSvg.length - 1] || null;
-  const mapLabel = showRoute ? 'Route: Pickup → Destination (live truck position shown)' : 'Pickup and destination markers';
+  const mapLabel = truckCoords ? 'Live Route Tracking' : 'Route (Pickup → Destination)';
 
   // Geocode pickup
   useEffect(() => {
@@ -285,104 +280,78 @@ const LiveDeliveryTracker = ({ order }) => {
         </div>
       )}
 
-      <div className="tracker-map">
+      <div className="tracker-map" style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid var(--border)' }}>
         <div className="tracker-map-topline">
-          <span>Route visualization</span>
           <span>{mapLabel}</span>
+          <span>GPS: {truckCoords ? formatCoords(truckCoords) : 'Unavailable'}</span>
         </div>
 
-        {pickupCoords && destinationCoords ? (
-          <svg viewBox="0 0 1000 520" className="tracker-svg" role="img" aria-label="Delivery route map">
-            <defs>
-              <pattern id="trackerGrid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(148,163,184,0.12)" strokeWidth="1" />
-              </pattern>
-              <linearGradient id="trackerLine" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#06b6d4" />
-                <stop offset="100%" stopColor="#8b5cf6" />
-              </linearGradient>
-            </defs>
-            <rect width="1000" height="520" fill="rgba(15,17,23,0.88)" />
-            <rect width="1000" height="520" fill="url(#trackerGrid)" />
+        {pickupCoords || destinationCoords || truckCoords ? (
+          <MapContainer
+            center={truckCoords ? [truckCoords.lat, truckCoords.lng] : pickupCoords ? [pickupCoords.lat, pickupCoords.lng] : DEFAULT_CENTER}
+            zoom={truckCoords || pickupCoords ? 12 : 5}
+            scrollWheelZoom={true}
+            style={{ height: '380px', width: '100%' }}
+          >
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+            
+            {truckCoords && <FlyTo lat={truckCoords.lat} lng={truckCoords.lng} />}
+            
+            {pickupCoords && (
+              <Marker position={[pickupCoords.lat, pickupCoords.lng]}>
+                <Popup>
+                  <strong>Pickup</strong><br />
+                  {order?.pickupLocation || 'Pickup Point'}
+                </Popup>
+              </Marker>
+            )}
 
-            {/* Route line: pickup → destination */}
-            {routePath ? (
-              <path d={routePath} fill="none" stroke="url(#trackerLine)" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
-            ) : pickupSvgPoint && destSvgPoint ? (
-              <line
-                x1={pickupSvgPoint.x} y1={pickupSvgPoint.y}
-                x2={destSvgPoint.x} y2={destSvgPoint.y}
-                stroke="url(#trackerLine)" strokeWidth="6" strokeLinecap="round"
+            {destinationCoords && (
+              <Marker position={[destinationCoords.lat, destinationCoords.lng]}>
+                <Popup>
+                  <strong>Destination</strong><br />
+                  {order?.destination || 'Delivery Point'}
+                </Popup>
+              </Marker>
+            )}
+
+            {truckCoords && (
+              <Marker position={[truckCoords.lat, truckCoords.lng]}>
+                <Popup>
+                  <strong>Truck {order.truck?.truckNumber}</strong><br />
+                  Status: {trackingStatus}
+                </Popup>
+              </Marker>
+            )}
+
+            {destinationCoords && (
+              <Circle
+                center={[destinationCoords.lat, destinationCoords.lng]}
+                radius={2000}
+                pathOptions={{
+                  color: '#ef4444',
+                  fillColor: '#ef4444',
+                  fillOpacity: 0.08,
+                  dashArray: '6, 6',
+                  weight: 2
+                }}
               />
-            ) : null}
-
-            {/* Pickup marker */}
-            {pickupSvgPoint && (
-              <>
-                <circle cx={pickupSvgPoint.x} cy={pickupSvgPoint.y} r="14" fill="#06b6d4" opacity="0.25" />
-                <circle cx={pickupSvgPoint.x} cy={pickupSvgPoint.y} r="8" fill="#06b6d4" />
-                <rect x={pickupSvgPoint.x - 10} y={pickupSvgPoint.y - 13} width="20" height="20" rx="4" fill="#06b6d4" />
-                <text x={pickupSvgPoint.x} y={pickupSvgPoint.y + 2} fill="#0f1117" fontSize="13" fontWeight="900" textAnchor="middle" dominantBaseline="middle">P</text>
-                <text
-                  x={pickupSvgPoint.x}
-                  y={pickupSvgPoint.y - 22}
-                  fill="#06b6d4"
-                  fontSize="18"
-                  fontWeight="700"
-                  textAnchor="middle"
-                >
-                  {order?.pickupLocation || 'Pickup'}
-                </text>
-              </>
             )}
 
-            {/* Destination marker */}
-            {destSvgPoint && (
-              <>
-                <circle cx={destSvgPoint.x} cy={destSvgPoint.y} r="14" fill="#10b981" opacity="0.25" />
-                <circle cx={destSvgPoint.x} cy={destSvgPoint.y} r="8" fill="#10b981" />
-                <rect x={destSvgPoint.x - 10} y={destSvgPoint.y - 13} width="20" height="20" rx="4" fill="#10b981" />
-                <text x={destSvgPoint.x} y={destSvgPoint.y + 2} fill="#0f1117" fontSize="13" fontWeight="900" textAnchor="middle" dominantBaseline="middle">D</text>
-                <text
-                  x={destSvgPoint.x}
-                  y={destSvgPoint.y - 22}
-                  fill="#10b981"
-                  fontSize="18"
-                  fontWeight="700"
-                  textAnchor="middle"
-                >
-                  {order?.destination || 'Destination'}
-                </text>
-              </>
+            {routeCoords && routeCoords.length > 1 && (
+              <Polyline
+                positions={routeCoords.map(p => [p.lat, p.lng])}
+                pathOptions={{
+                  color: '#8b5cf6',
+                  weight: 5,
+                  opacity: 0.75,
+                }}
+              />
             )}
-
-            {/* Live truck marker */}
-            {truckSvgPoint && (
-              <>
-                <circle cx={truckSvgPoint.x} cy={truckSvgPoint.y} r="18" fill="#f59e0b" opacity="0.2" />
-                <circle cx={truckSvgPoint.x} cy={truckSvgPoint.y} r="10" fill="#f59e0b" />
-                <rect x={truckSvgPoint.x - 10} y={truckSvgPoint.y - 13} width="20" height="20" rx="4" fill="#f59e0b" />
-                <text x={truckSvgPoint.x} y={truckSvgPoint.y + 2} fill="#0f1117" fontSize="13" fontWeight="900" textAnchor="middle" dominantBaseline="middle">T</text>
-                <text
-                  x={truckSvgPoint.x}
-                  y={truckSvgPoint.y - 26}
-                  fill="#f59e0b"
-                  fontSize="18"
-                  fontWeight="700"
-                  textAnchor="middle"
-                >
-                  Truck
-                </text>
-              </>
-            )}
-
-            <text x="36" y="510" fill="#94a3b8" fontSize="20">
-              GPS {truckCoords ? formatCoords(truckCoords) : 'Unavailable'}
-            </text>
-          </svg>
+          </MapContainer>
         ) : (
-          <div className="tracker-empty">
-            Waiting for pickup and destination coordinates before rendering the route.
+          <div className="tracker-empty" style={{ height: '380px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--surface2)', color: '#64748b' }}>
+            Waiting for coordinates before rendering the map.
           </div>
         )}
       </div>

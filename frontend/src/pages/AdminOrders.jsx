@@ -8,7 +8,7 @@ const STATUS_COLOR = {
   pending: '#f59e0b',
   approved: '#10b981',
   rejected: '#ef4444',
-  assigned: '#3b82f6',
+  assigned: '#06b6d4',
   'in-transit': '#8b5cf6',
   completed: '#10b981',
 };

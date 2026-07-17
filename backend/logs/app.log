@@ -7105,3 +7105,993 @@
 {"timestamp":"2026-07-15T13:20:51.785Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/expenses/ocr","statusCode":200,"durationMs":1004}}
 {"timestamp":"2026-07-15T13:20:55.673Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/expenses/","statusCode":201,"durationMs":135}}
 {"timestamp":"2026-07-15T13:21:02.167Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/expenses/:id","statusCode":403,"durationMs":74}}
+{"timestamp":"2026-07-16T05:59:21.862Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-16T05:59:22.374Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-16T05:59:44.833Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":68}}
+{"timestamp":"2026-07-16T05:59:44.862Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":95}}
+{"timestamp":"2026-07-16T05:59:44.869Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":101}}
+{"timestamp":"2026-07-16T05:59:45.056Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":297}}
+{"timestamp":"2026-07-16T05:59:47.423Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":85}}
+{"timestamp":"2026-07-16T05:59:47.449Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":104}}
+{"timestamp":"2026-07-16T05:59:47.639Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":200,"durationMs":297}}
+{"timestamp":"2026-07-16T05:59:47.644Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":200,"durationMs":297}}
+{"timestamp":"2026-07-16T05:59:55.563Z","level":"info","message":"OCR Request received","meta":{"hasImage":false,"preset":"fuel"}}
+{"timestamp":"2026-07-16T05:59:56.564Z","level":"info","message":"OCR matched preset","meta":{"preset":"fuel"}}
+{"timestamp":"2026-07-16T05:59:56.568Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"POST","path":"/api/expenses/ocr","statusCode":200,"durationMs":1006,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T05:59:56.569Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/expenses/ocr","statusCode":200,"durationMs":1006}}
+{"timestamp":"2026-07-16T06:01:06.433Z","level":"error","message":"Unhandled application error","meta":{"method":"POST","path":"/api/expenses/ocr","error":{"name":"PayloadTooLargeError","message":"request entity too large","stack":"PayloadTooLargeError: request entity too large\n    at readStream (/Users/apple/SATC/backend/node_modules/raw-body/index.js:163:17)\n    at getRawBody (/Users/apple/SATC/backend/node_modules/raw-body/index.js:116:12)\n    at read (/Users/apple/SATC/backend/node_modules/body-parser/lib/read.js:113:3)\n    at jsonParser (/Users/apple/SATC/backend/node_modules/body-parser/lib/types/json.js:88:5)\n    at Layer.handleRequest (/Users/apple/SATC/backend/node_modules/router/lib/layer.js:152:17)\n    at trimPrefix (/Users/apple/SATC/backend/node_modules/router/index.js:342:13)\n    at /Users/apple/SATC/backend/node_modules/router/index.js:297:9\n    at processParams (/Users/apple/SATC/backend/node_modules/router/index.js:582:12)\n    at next (/Users/apple/SATC/backend/node_modules/router/index.js:291:5)\n    at cors (/Users/apple/SATC/backend/node_modules/cors/lib/index.js:188:7)"}}}
+{"timestamp":"2026-07-16T06:02:41.429Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":90}}
+{"timestamp":"2026-07-16T06:02:41.463Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":304,"durationMs":118}}
+{"timestamp":"2026-07-16T06:02:41.474Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":304,"durationMs":126}}
+{"timestamp":"2026-07-16T06:02:41.818Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":471}}
+{"timestamp":"2026-07-16T06:02:45.741Z","level":"error","message":"Unhandled application error","meta":{"method":"POST","path":"/api/expenses/ocr","error":{"name":"PayloadTooLargeError","message":"request entity too large","stack":"PayloadTooLargeError: request entity too large\n    at readStream (/Users/apple/SATC/backend/node_modules/raw-body/index.js:163:17)\n    at getRawBody (/Users/apple/SATC/backend/node_modules/raw-body/index.js:116:12)\n    at read (/Users/apple/SATC/backend/node_modules/body-parser/lib/read.js:113:3)\n    at jsonParser (/Users/apple/SATC/backend/node_modules/body-parser/lib/types/json.js:88:5)\n    at Layer.handleRequest (/Users/apple/SATC/backend/node_modules/router/lib/layer.js:152:17)\n    at trimPrefix (/Users/apple/SATC/backend/node_modules/router/index.js:342:13)\n    at /Users/apple/SATC/backend/node_modules/router/index.js:297:9\n    at processParams (/Users/apple/SATC/backend/node_modules/router/index.js:582:12)\n    at next (/Users/apple/SATC/backend/node_modules/router/index.js:291:5)\n    at cors (/Users/apple/SATC/backend/node_modules/cors/lib/index.js:188:7)"}}}
+{"timestamp":"2026-07-16T06:02:48.305Z","level":"info","message":"OCR Request received","meta":{"hasImage":false,"preset":"toll"}}
+{"timestamp":"2026-07-16T06:02:49.307Z","level":"info","message":"OCR matched preset","meta":{"preset":"toll"}}
+{"timestamp":"2026-07-16T06:02:49.309Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"POST","path":"/api/expenses/ocr","statusCode":200,"durationMs":1006,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T06:02:49.309Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/expenses/ocr","statusCode":200,"durationMs":1006}}
+{"timestamp":"2026-07-16T06:03:00.865Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/expenses/:id","statusCode":403,"durationMs":78}}
+{"timestamp":"2026-07-16T06:11:21.484Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":171}}
+{"timestamp":"2026-07-16T06:11:21.593Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":79}}
+{"timestamp":"2026-07-16T06:11:21.595Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":84}}
+{"timestamp":"2026-07-16T06:11:21.598Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":83}}
+{"timestamp":"2026-07-16T06:11:21.599Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":83}}
+{"timestamp":"2026-07-16T06:11:23.656Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":72}}
+{"timestamp":"2026-07-16T06:11:23.663Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":82}}
+{"timestamp":"2026-07-16T06:11:23.703Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":304,"durationMs":114}}
+{"timestamp":"2026-07-16T06:11:23.707Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":304,"durationMs":121}}
+{"timestamp":"2026-07-16T06:11:33.940Z","level":"info","message":"OCR Request received","meta":{"hasImage":false,"preset":"fuel"}}
+{"timestamp":"2026-07-16T06:11:34.941Z","level":"info","message":"OCR matched preset","meta":{"preset":"fuel"}}
+{"timestamp":"2026-07-16T06:11:34.942Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"POST","path":"/api/expenses/ocr","statusCode":200,"durationMs":1004,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T06:11:34.943Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/expenses/ocr","statusCode":200,"durationMs":1004}}
+{"timestamp":"2026-07-16T06:11:47.825Z","level":"info","message":"OCR Request received","meta":{"hasImage":false,"preset":"maintenance"}}
+{"timestamp":"2026-07-16T06:11:48.827Z","level":"info","message":"OCR matched preset","meta":{"preset":"maintenance"}}
+{"timestamp":"2026-07-16T06:11:48.829Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"POST","path":"/api/expenses/ocr","statusCode":200,"durationMs":1006,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T06:11:48.829Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/expenses/ocr","statusCode":200,"durationMs":1006}}
+{"timestamp":"2026-07-16T06:11:50.219Z","level":"info","message":"OCR Request received","meta":{"hasImage":false,"preset":"maintenance"}}
+{"timestamp":"2026-07-16T06:11:51.220Z","level":"info","message":"OCR matched preset","meta":{"preset":"maintenance"}}
+{"timestamp":"2026-07-16T06:11:51.222Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"POST","path":"/api/expenses/ocr","statusCode":200,"durationMs":1004,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T06:11:51.223Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/expenses/ocr","statusCode":200,"durationMs":1004}}
+{"timestamp":"2026-07-16T06:12:09.960Z","level":"info","message":"OCR Request received","meta":{"hasImage":false,"preset":"toll"}}
+{"timestamp":"2026-07-16T06:12:10.962Z","level":"info","message":"OCR matched preset","meta":{"preset":"toll"}}
+{"timestamp":"2026-07-16T06:12:10.962Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"POST","path":"/api/expenses/ocr","statusCode":200,"durationMs":1003,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T06:12:10.963Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/expenses/ocr","statusCode":200,"durationMs":1003}}
+{"timestamp":"2026-07-16T06:12:13.369Z","level":"info","message":"OCR Request received","meta":{"hasImage":false,"preset":"fuel"}}
+{"timestamp":"2026-07-16T06:12:14.371Z","level":"info","message":"OCR matched preset","meta":{"preset":"fuel"}}
+{"timestamp":"2026-07-16T06:12:14.373Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"POST","path":"/api/expenses/ocr","statusCode":200,"durationMs":1006,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T06:12:14.373Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/expenses/ocr","statusCode":200,"durationMs":1006}}
+{"timestamp":"2026-07-16T06:12:20.976Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/expenses/:id","statusCode":403,"durationMs":78}}
+{"timestamp":"2026-07-16T06:13:59.680Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":79}}
+{"timestamp":"2026-07-16T06:13:59.717Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":304,"durationMs":120}}
+{"timestamp":"2026-07-16T06:16:57.175Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":73}}
+{"timestamp":"2026-07-16T06:16:57.181Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":80}}
+{"timestamp":"2026-07-16T06:16:57.212Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":304,"durationMs":110}}
+{"timestamp":"2026-07-16T06:16:57.219Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":304,"durationMs":124}}
+{"timestamp":"2026-07-16T06:17:03.200Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/expenses/:id","statusCode":403,"durationMs":88}}
+{"timestamp":"2026-07-16T06:17:08.998Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/expenses/:id","statusCode":403,"durationMs":87}}
+{"timestamp":"2026-07-16T06:18:12.975Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":76}}
+{"timestamp":"2026-07-16T06:18:12.977Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":78}}
+{"timestamp":"2026-07-16T06:18:13.004Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":304,"durationMs":106}}
+{"timestamp":"2026-07-16T06:18:13.010Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":304,"durationMs":113}}
+{"timestamp":"2026-07-16T06:19:40.739Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":122}}
+{"timestamp":"2026-07-16T06:19:40.742Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":132}}
+{"timestamp":"2026-07-16T06:19:40.770Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":304,"durationMs":153}}
+{"timestamp":"2026-07-16T06:19:40.782Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":304,"durationMs":167}}
+{"timestamp":"2026-07-16T06:20:02.663Z","level":"http","message":"HTTP request completed","meta":{"method":"PUT","path":"/api/expenses/:id","statusCode":200,"durationMs":216}}
+{"timestamp":"2026-07-16T06:20:24.791Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":133}}
+{"timestamp":"2026-07-16T06:20:24.818Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":159}}
+{"timestamp":"2026-07-16T06:20:24.819Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":163}}
+{"timestamp":"2026-07-16T06:20:24.829Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":167}}
+{"timestamp":"2026-07-16T06:20:25.624Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":70}}
+{"timestamp":"2026-07-16T06:20:25.631Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":73}}
+{"timestamp":"2026-07-16T06:20:25.670Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":200,"durationMs":106}}
+{"timestamp":"2026-07-16T06:20:25.673Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":200,"durationMs":112}}
+{"timestamp":"2026-07-16T06:20:26.514Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":69}}
+{"timestamp":"2026-07-16T06:20:26.525Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":79}}
+{"timestamp":"2026-07-16T06:20:26.527Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":78}}
+{"timestamp":"2026-07-16T06:20:26.534Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":84}}
+{"timestamp":"2026-07-16T06:36:13.116Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-16T06:36:13.628Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-16T06:45:10.346Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":91}}
+{"timestamp":"2026-07-16T06:45:16.373Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":112}}
+{"timestamp":"2026-07-16T06:45:21.042Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":81}}
+{"timestamp":"2026-07-16T06:45:58.725Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":70}}
+{"timestamp":"2026-07-16T06:46:26.494Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":129}}
+{"timestamp":"2026-07-16T06:46:26.648Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":62}}
+{"timestamp":"2026-07-16T06:46:26.657Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":66}}
+{"timestamp":"2026-07-16T06:46:26.696Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":105}}
+{"timestamp":"2026-07-16T06:46:27.045Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":458}}
+{"timestamp":"2026-07-16T06:47:02.619Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":67}}
+{"timestamp":"2026-07-16T06:47:02.634Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":79}}
+{"timestamp":"2026-07-16T06:47:02.636Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":75}}
+{"timestamp":"2026-07-16T06:47:02.864Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":305}}
+{"timestamp":"2026-07-16T06:48:56.570Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":65}}
+{"timestamp":"2026-07-16T06:48:56.581Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":76}}
+{"timestamp":"2026-07-16T06:48:56.587Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":89}}
+{"timestamp":"2026-07-16T06:48:56.593Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":87}}
+{"timestamp":"2026-07-16T06:49:08.960Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":77}}
+{"timestamp":"2026-07-16T06:53:14.661Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":73}}
+{"timestamp":"2026-07-16T07:01:59.919Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":80}}
+{"timestamp":"2026-07-16T07:17:44.063Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":173}}
+{"timestamp":"2026-07-16T07:17:44.188Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":75}}
+{"timestamp":"2026-07-16T07:17:44.191Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":81}}
+{"timestamp":"2026-07-16T07:17:44.193Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":86}}
+{"timestamp":"2026-07-16T07:17:44.195Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":84}}
+{"timestamp":"2026-07-16T07:17:47.459Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":76}}
+{"timestamp":"2026-07-16T07:17:47.463Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":75}}
+{"timestamp":"2026-07-16T07:17:47.752Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":304,"durationMs":355}}
+{"timestamp":"2026-07-16T07:17:47.789Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":304,"durationMs":399}}
+{"timestamp":"2026-07-16T07:17:52.055Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":73}}
+{"timestamp":"2026-07-16T07:17:52.066Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":83}}
+{"timestamp":"2026-07-16T07:17:52.068Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":89}}
+{"timestamp":"2026-07-16T07:17:52.071Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":87}}
+{"timestamp":"2026-07-16T07:19:02.670Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":72}}
+{"timestamp":"2026-07-16T07:19:02.674Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":83}}
+{"timestamp":"2026-07-16T07:19:02.675Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":78}}
+{"timestamp":"2026-07-16T07:19:02.677Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":80}}
+{"timestamp":"2026-07-16T07:21:38.190Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":163}}
+{"timestamp":"2026-07-16T07:21:38.291Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":69}}
+{"timestamp":"2026-07-16T07:21:38.295Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":70}}
+{"timestamp":"2026-07-16T07:21:38.299Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":73}}
+{"timestamp":"2026-07-16T07:21:38.301Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":77}}
+{"timestamp":"2026-07-16T07:21:41.817Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":88}}
+{"timestamp":"2026-07-16T07:21:41.821Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":95}}
+{"timestamp":"2026-07-16T07:21:41.859Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":304,"durationMs":127}}
+{"timestamp":"2026-07-16T07:21:41.861Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":304,"durationMs":127}}
+{"timestamp":"2026-07-16T07:21:44.894Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":80}}
+{"timestamp":"2026-07-16T07:21:44.896Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":79}}
+{"timestamp":"2026-07-16T07:21:44.900Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":85}}
+{"timestamp":"2026-07-16T07:21:44.903Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":86}}
+{"timestamp":"2026-07-16T07:21:46.791Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":68}}
+{"timestamp":"2026-07-16T07:21:46.797Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":70}}
+{"timestamp":"2026-07-16T07:21:46.800Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":73}}
+{"timestamp":"2026-07-16T07:21:46.801Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":77}}
+{"timestamp":"2026-07-16T07:22:27.309Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":157}}
+{"timestamp":"2026-07-16T07:22:27.419Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":78}}
+{"timestamp":"2026-07-16T07:22:27.421Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/reviews/","statusCode":304,"durationMs":79}}
+{"timestamp":"2026-07-16T07:22:27.426Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/","statusCode":200,"durationMs":86}}
+{"timestamp":"2026-07-16T07:22:27.502Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":79}}
+{"timestamp":"2026-07-16T07:22:27.503Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/reviews/","statusCode":304,"durationMs":79}}
+{"timestamp":"2026-07-16T07:22:27.521Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/dashboard","statusCode":200,"durationMs":178}}
+{"timestamp":"2026-07-16T07:22:27.547Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/dashboard","statusCode":200,"durationMs":211}}
+{"timestamp":"2026-07-16T07:22:27.697Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/","statusCode":200,"durationMs":358}}
+{"timestamp":"2026-07-16T07:22:33.483Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/billing/all","statusCode":200,"durationMs":142}}
+{"timestamp":"2026-07-16T07:22:33.488Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/billing/all","statusCode":200,"durationMs":144}}
+{"timestamp":"2026-07-16T07:22:37.414Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/billing/delete/:id","statusCode":200,"durationMs":49}}
+{"timestamp":"2026-07-16T07:22:40.403Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/billing/delete/:id","statusCode":200,"durationMs":42}}
+{"timestamp":"2026-07-16T07:22:47.980Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/billing/delete/:id","statusCode":200,"durationMs":49}}
+{"timestamp":"2026-07-16T07:22:54.705Z","level":"http","message":"HTTP request completed","meta":{"method":"PUT","path":"/api/billing/pay/:id","statusCode":200,"durationMs":48}}
+{"timestamp":"2026-07-16T07:22:58.003Z","level":"http","message":"HTTP request completed","meta":{"method":"PUT","path":"/api/billing/pay/:id","statusCode":200,"durationMs":48}}
+{"timestamp":"2026-07-16T07:22:59.846Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/billing/delete/:id","statusCode":200,"durationMs":51}}
+{"timestamp":"2026-07-16T07:23:01.581Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/billing/delete/:id","statusCode":200,"durationMs":50}}
+{"timestamp":"2026-07-16T07:23:03.761Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/billing/delete/:id","statusCode":200,"durationMs":47}}
+{"timestamp":"2026-07-16T07:23:07.891Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/billing/delete/:id","statusCode":200,"durationMs":43}}
+{"timestamp":"2026-07-16T07:23:11.417Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/billing/delete/:id","statusCode":200,"durationMs":47}}
+{"timestamp":"2026-07-16T07:23:13.825Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/billing/delete/:id","statusCode":200,"durationMs":44}}
+{"timestamp":"2026-07-16T07:23:15.464Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/billing/delete/:id","statusCode":200,"durationMs":49}}
+{"timestamp":"2026-07-16T07:23:20.657Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/billing/delete/:id","statusCode":200,"durationMs":42}}
+{"timestamp":"2026-07-16T07:23:24.946Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/billing/delete/:id","statusCode":200,"durationMs":45}}
+{"timestamp":"2026-07-16T07:23:42.235Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/billing/delete/:id","statusCode":200,"durationMs":47}}
+{"timestamp":"2026-07-16T07:23:44.215Z","level":"http","message":"HTTP request completed","meta":{"method":"PUT","path":"/api/billing/pay/:id","statusCode":200,"durationMs":53}}
+{"timestamp":"2026-07-16T07:23:45.775Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/billing/delete/:id","statusCode":200,"durationMs":47}}
+{"timestamp":"2026-07-16T07:23:48.357Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/billing/delete/:id","statusCode":200,"durationMs":47}}
+{"timestamp":"2026-07-16T07:24:26.210Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/billing/all","statusCode":200,"durationMs":143}}
+{"timestamp":"2026-07-16T07:24:26.213Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/billing/all","statusCode":200,"durationMs":148}}
+{"timestamp":"2026-07-16T07:24:33.535Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":591}}
+{"timestamp":"2026-07-16T07:24:33.812Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":248}}
+{"timestamp":"2026-07-16T07:24:33.828Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":265}}
+{"timestamp":"2026-07-16T07:24:33.829Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":268}}
+{"timestamp":"2026-07-16T07:24:33.831Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":269}}
+{"timestamp":"2026-07-16T07:24:37.224Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":462}}
+{"timestamp":"2026-07-16T07:24:37.232Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":464}}
+{"timestamp":"2026-07-16T07:24:37.268Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":200,"durationMs":495}}
+{"timestamp":"2026-07-16T07:24:37.269Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":200,"durationMs":498}}
+{"timestamp":"2026-07-16T07:24:37.941Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":69}}
+{"timestamp":"2026-07-16T07:24:37.945Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":77}}
+{"timestamp":"2026-07-16T07:24:37.947Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":77}}
+{"timestamp":"2026-07-16T07:24:37.951Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":87}}
+{"timestamp":"2026-07-16T07:24:46.979Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":159}}
+{"timestamp":"2026-07-16T07:24:47.067Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":72}}
+{"timestamp":"2026-07-16T07:24:47.072Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":73}}
+{"timestamp":"2026-07-16T07:24:47.073Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":76}}
+{"timestamp":"2026-07-16T07:24:47.075Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":78}}
+{"timestamp":"2026-07-16T07:29:13.853Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-16T07:29:14.518Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-16T07:31:33.512Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":176}}
+{"timestamp":"2026-07-16T07:31:33.768Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/","statusCode":304,"durationMs":93}}
+{"timestamp":"2026-07-16T07:31:33.806Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":136}}
+{"timestamp":"2026-07-16T07:31:33.809Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/reviews/","statusCode":304,"durationMs":131}}
+{"timestamp":"2026-07-16T07:31:33.851Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":77}}
+{"timestamp":"2026-07-16T07:31:33.902Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/dashboard","statusCode":304,"durationMs":237}}
+{"timestamp":"2026-07-16T07:31:33.907Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/reviews/","statusCode":304,"durationMs":97}}
+{"timestamp":"2026-07-16T07:31:33.980Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/","statusCode":304,"durationMs":306}}
+{"timestamp":"2026-07-16T07:31:34.115Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/dashboard","statusCode":304,"durationMs":436}}
+{"timestamp":"2026-07-16T07:31:41.990Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/","statusCode":304,"durationMs":79}}
+{"timestamp":"2026-07-16T07:31:41.999Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/","statusCode":304,"durationMs":84}}
+{"timestamp":"2026-07-16T07:31:45.340Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/billing/all","statusCode":304,"durationMs":146}}
+{"timestamp":"2026-07-16T07:31:45.343Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/billing/all","statusCode":304,"durationMs":151}}
+{"timestamp":"2026-07-16T07:31:46.903Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/billing/delete/:id","statusCode":200,"durationMs":49}}
+{"timestamp":"2026-07-16T07:31:49.543Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/billing/delete/:id","statusCode":200,"durationMs":39}}
+{"timestamp":"2026-07-16T07:31:54.653Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/billing/delete/:id","statusCode":200,"durationMs":35}}
+{"timestamp":"2026-07-16T07:31:58.477Z","level":"http","message":"HTTP request completed","meta":{"method":"PUT","path":"/api/billing/pay/:id","statusCode":200,"durationMs":42}}
+{"timestamp":"2026-07-16T07:32:02.218Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/reviews/","statusCode":304,"durationMs":73}}
+{"timestamp":"2026-07-16T07:32:02.234Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/reviews/","statusCode":304,"durationMs":84}}
+{"timestamp":"2026-07-16T07:32:02.238Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/","statusCode":304,"durationMs":90}}
+{"timestamp":"2026-07-16T07:32:02.258Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/","statusCode":304,"durationMs":112}}
+{"timestamp":"2026-07-16T07:32:02.328Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":89}}
+{"timestamp":"2026-07-16T07:32:02.399Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/dashboard","statusCode":304,"durationMs":260}}
+{"timestamp":"2026-07-16T07:32:02.431Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/dashboard","statusCode":304,"durationMs":212}}
+{"timestamp":"2026-07-16T07:32:02.494Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":352}}
+{"timestamp":"2026-07-16T07:32:06.591Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":84}}
+{"timestamp":"2026-07-16T07:32:06.592Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":76}}
+{"timestamp":"2026-07-16T07:32:06.593Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":78}}
+{"timestamp":"2026-07-16T07:32:06.606Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":93}}
+{"timestamp":"2026-07-16T07:32:11.779Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/users","statusCode":200,"durationMs":79}}
+{"timestamp":"2026-07-16T07:32:11.781Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/users","statusCode":200,"durationMs":74}}
+{"timestamp":"2026-07-16T07:32:14.325Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/maintenance/","statusCode":200,"durationMs":50}}
+{"timestamp":"2026-07-16T07:32:14.326Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/maintenance/","statusCode":200,"durationMs":47}}
+{"timestamp":"2026-07-16T07:32:14.356Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":77}}
+{"timestamp":"2026-07-16T07:32:14.358Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":76}}
+{"timestamp":"2026-07-16T07:32:16.443Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/reviews/","statusCode":304,"durationMs":91}}
+{"timestamp":"2026-07-16T07:32:16.444Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/","statusCode":200,"durationMs":84}}
+{"timestamp":"2026-07-16T07:32:16.447Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/","statusCode":304,"durationMs":89}}
+{"timestamp":"2026-07-16T07:32:16.450Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/","statusCode":304,"durationMs":94}}
+{"timestamp":"2026-07-16T07:32:16.452Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/","statusCode":200,"durationMs":87}}
+{"timestamp":"2026-07-16T07:32:16.648Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/reviews/","statusCode":304,"durationMs":285}}
+{"timestamp":"2026-07-16T07:32:19.570Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/","statusCode":304,"durationMs":92}}
+{"timestamp":"2026-07-16T07:32:19.576Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":92}}
+{"timestamp":"2026-07-16T07:32:19.581Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":92}}
+{"timestamp":"2026-07-16T07:32:19.583Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":95}}
+{"timestamp":"2026-07-16T07:32:19.584Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/users","statusCode":304,"durationMs":99}}
+{"timestamp":"2026-07-16T07:32:19.586Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/","statusCode":304,"durationMs":105}}
+{"timestamp":"2026-07-16T07:32:19.640Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":67}}
+{"timestamp":"2026-07-16T07:32:19.658Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/users","statusCode":304,"durationMs":72}}
+{"timestamp":"2026-07-16T07:32:23.066Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":73}}
+{"timestamp":"2026-07-16T07:32:23.068Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/users","statusCode":304,"durationMs":71}}
+{"timestamp":"2026-07-16T07:32:23.068Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/users","statusCode":304,"durationMs":73}}
+{"timestamp":"2026-07-16T07:32:23.069Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":77}}
+{"timestamp":"2026-07-16T07:32:24.394Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/","statusCode":304,"durationMs":75}}
+{"timestamp":"2026-07-16T07:32:24.396Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/","statusCode":304,"durationMs":81}}
+{"timestamp":"2026-07-16T07:32:25.603Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/users","statusCode":304,"durationMs":72}}
+{"timestamp":"2026-07-16T07:32:25.604Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/users","statusCode":304,"durationMs":78}}
+{"timestamp":"2026-07-16T07:32:28.848Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/users","statusCode":304,"durationMs":76}}
+{"timestamp":"2026-07-16T07:32:28.850Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/users","statusCode":304,"durationMs":82}}
+{"timestamp":"2026-07-16T07:32:42.833Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/users","statusCode":304,"durationMs":81}}
+{"timestamp":"2026-07-16T07:32:42.835Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/users","statusCode":304,"durationMs":89}}
+{"timestamp":"2026-07-16T07:32:52.178Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":168}}
+{"timestamp":"2026-07-16T07:32:52.284Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":82}}
+{"timestamp":"2026-07-16T07:32:52.285Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":84}}
+{"timestamp":"2026-07-16T07:32:52.286Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":82}}
+{"timestamp":"2026-07-16T07:32:52.288Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":85}}
+{"timestamp":"2026-07-16T07:32:55.604Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":88}}
+{"timestamp":"2026-07-16T07:32:55.608Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":95}}
+{"timestamp":"2026-07-16T07:32:55.649Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":304,"durationMs":127}}
+{"timestamp":"2026-07-16T07:32:55.653Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":304,"durationMs":135}}
+{"timestamp":"2026-07-16T07:32:56.698Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":87}}
+{"timestamp":"2026-07-16T07:32:56.700Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":89}}
+{"timestamp":"2026-07-16T07:32:56.702Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":90}}
+{"timestamp":"2026-07-16T07:32:56.713Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":105}}
+{"timestamp":"2026-07-16T07:46:39.749Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":171}}
+{"timestamp":"2026-07-16T07:46:39.928Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":74}}
+{"timestamp":"2026-07-16T07:46:39.931Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":81}}
+{"timestamp":"2026-07-16T07:46:39.933Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":78}}
+{"timestamp":"2026-07-16T07:46:39.937Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":84}}
+{"timestamp":"2026-07-16T07:46:42.950Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":83}}
+{"timestamp":"2026-07-16T07:46:42.953Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":88}}
+{"timestamp":"2026-07-16T07:46:42.983Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":304,"durationMs":111}}
+{"timestamp":"2026-07-16T07:46:43.284Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":304,"durationMs":415}}
+{"timestamp":"2026-07-16T07:46:45.764Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":75}}
+{"timestamp":"2026-07-16T07:46:45.765Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":71}}
+{"timestamp":"2026-07-16T07:46:45.774Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":80}}
+{"timestamp":"2026-07-16T07:46:45.775Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":88}}
+{"timestamp":"2026-07-16T07:46:46.923Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":93}}
+{"timestamp":"2026-07-16T07:46:46.933Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":96}}
+{"timestamp":"2026-07-16T07:46:46.954Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":304,"durationMs":120}}
+{"timestamp":"2026-07-16T07:46:46.963Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":304,"durationMs":124}}
+{"timestamp":"2026-07-16T07:46:47.913Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":63}}
+{"timestamp":"2026-07-16T07:46:47.922Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":75}}
+{"timestamp":"2026-07-16T07:46:47.927Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":77}}
+{"timestamp":"2026-07-16T07:46:47.928Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":76}}
+{"timestamp":"2026-07-16T07:47:01.849Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":164}}
+{"timestamp":"2026-07-16T07:47:02.772Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":200,"durationMs":899}}
+{"timestamp":"2026-07-16T07:47:02.848Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":200,"durationMs":977}}
+{"timestamp":"2026-07-16T07:47:04.769Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.8828822671349,"lng":75.7992070468619},"destination":{"lat":28.6138954,"lng":77.2090057},"distanceKm":274.21,"eta":{"hours":4,"minutes":13}}}
+{"timestamp":"2026-07-16T07:47:04.770Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":714}}
+{"timestamp":"2026-07-16T07:47:07.948Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1083,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T07:47:07.949Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1083}}
+{"timestamp":"2026-07-16T07:47:08.021Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1159,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T07:47:08.022Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1159}}
+{"timestamp":"2026-07-16T07:47:08.276Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.8828822671349,"lng":75.7992070468619},"destination":{"lat":28.6138954,"lng":77.2090057},"distanceKm":274.21,"eta":{"hours":4,"minutes":13}}}
+{"timestamp":"2026-07-16T07:47:08.277Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":251}}
+{"timestamp":"2026-07-16T07:47:32.313Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.8828822671349,"lng":75.7992070468619},"destination":{"lat":28.6138954,"lng":77.2090057},"distanceKm":274.21,"eta":{"hours":4,"minutes":13}}}
+{"timestamp":"2026-07-16T07:47:32.315Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":707}}
+{"timestamp":"2026-07-16T07:51:17.912Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":248}}
+{"timestamp":"2026-07-16T07:51:18.816Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1146,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T07:51:18.816Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1146}}
+{"timestamp":"2026-07-16T07:51:19.349Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.8828822671349,"lng":75.7992070468619},"destination":{"lat":28.6138954,"lng":77.2090057},"distanceKm":274.21,"eta":{"hours":4,"minutes":13}}}
+{"timestamp":"2026-07-16T07:51:19.350Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1349,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T07:51:19.350Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1349}}
+{"timestamp":"2026-07-16T07:51:25.291Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":288}}
+{"timestamp":"2026-07-16T07:51:26.058Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1053,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T07:51:26.058Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1053}}
+{"timestamp":"2026-07-16T07:51:26.980Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.8828822671349,"lng":75.7992070468619},"destination":{"lat":28.6138954,"lng":77.2090057},"distanceKm":274.21,"eta":{"hours":4,"minutes":13}}}
+{"timestamp":"2026-07-16T07:51:26.981Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1606,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T07:51:26.981Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1606}}
+{"timestamp":"2026-07-16T07:51:27.514Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/:id","statusCode":200,"durationMs":148}}
+{"timestamp":"2026-07-16T07:51:27.515Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/:id","statusCode":200,"durationMs":145}}
+{"timestamp":"2026-07-16T07:51:27.837Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.8828822671349,"lng":75.7992070468619},"destination":{"lat":28.6138954,"lng":77.2090057},"distanceKm":274.21,"eta":{"hours":4,"minutes":13}}}
+{"timestamp":"2026-07-16T07:51:27.838Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":268}}
+{"timestamp":"2026-07-16T08:37:47.528Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-16T08:37:48.044Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-16T08:44:19.686Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-16T08:44:20.430Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-16T08:44:42.919Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1239,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T08:44:42.920Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1239}}
+{"timestamp":"2026-07-16T08:44:43.013Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1340,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T08:44:43.013Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1340}}
+{"timestamp":"2026-07-16T08:44:44.103Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.8828822671349,"lng":75.7992070468619},"destination":{"lat":28.6138954,"lng":77.2090057},"distanceKm":274.21,"eta":{"hours":4,"minutes":13}}}
+{"timestamp":"2026-07-16T08:44:44.105Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":686}}
+{"timestamp":"2026-07-16T09:02:39.453Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1145,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:02:39.454Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1145}}
+{"timestamp":"2026-07-16T09:02:39.523Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1209,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:02:39.523Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1209}}
+{"timestamp":"2026-07-16T09:02:40.899Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.8828822671349,"lng":75.7992070468619},"destination":{"lat":28.6138954,"lng":77.2090057},"distanceKm":274.21,"eta":{"hours":4,"minutes":13}}}
+{"timestamp":"2026-07-16T09:02:40.906Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":611}}
+{"timestamp":"2026-07-16T09:02:42.059Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":83}}
+{"timestamp":"2026-07-16T09:02:42.064Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":92}}
+{"timestamp":"2026-07-16T09:02:43.051Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1081,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:02:43.051Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1081}}
+{"timestamp":"2026-07-16T09:02:43.116Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1152,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:02:43.117Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1152}}
+{"timestamp":"2026-07-16T09:02:58.660Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":73}}
+{"timestamp":"2026-07-16T09:02:58.670Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":83}}
+{"timestamp":"2026-07-16T09:02:59.877Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":89}}
+{"timestamp":"2026-07-16T09:02:59.885Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":100}}
+{"timestamp":"2026-07-16T09:03:00.637Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":850}}
+{"timestamp":"2026-07-16T09:03:00.696Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":912}}
+{"timestamp":"2026-07-16T09:03:04.696Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":245}}
+{"timestamp":"2026-07-16T09:03:05.510Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1053,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:03:05.510Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1053}}
+{"timestamp":"2026-07-16T09:03:06.127Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.8828822671349,"lng":75.7992070468619},"destination":{"lat":28.6138954,"lng":77.2090057},"distanceKm":274.21,"eta":{"hours":4,"minutes":13}}}
+{"timestamp":"2026-07-16T09:03:06.128Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1357,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:03:06.129Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1357}}
+{"timestamp":"2026-07-16T09:03:06.710Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":83}}
+{"timestamp":"2026-07-16T09:03:06.717Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":88}}
+{"timestamp":"2026-07-16T09:03:06.851Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":227}}
+{"timestamp":"2026-07-16T09:03:07.811Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1191,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:03:07.812Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1191}}
+{"timestamp":"2026-07-16T09:03:13.244Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":245}}
+{"timestamp":"2026-07-16T09:03:14.047Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1051,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:03:14.047Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1051}}
+{"timestamp":"2026-07-16T09:03:14.650Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.8828822671349,"lng":75.7992070468619},"destination":{"lat":28.6138954,"lng":77.2090057},"distanceKm":274.21,"eta":{"hours":4,"minutes":13}}}
+{"timestamp":"2026-07-16T09:03:14.652Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1321,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:03:14.652Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1321}}
+{"timestamp":"2026-07-16T09:03:15.742Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":84}}
+{"timestamp":"2026-07-16T09:03:15.748Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":92}}
+{"timestamp":"2026-07-16T09:03:15.887Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":234}}
+{"timestamp":"2026-07-16T09:03:16.576Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":929}}
+{"timestamp":"2026-07-16T09:03:23.801Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":86}}
+{"timestamp":"2026-07-16T09:03:23.807Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":91}}
+{"timestamp":"2026-07-16T09:03:23.952Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":238}}
+{"timestamp":"2026-07-16T09:03:24.786Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1074,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:03:24.787Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1074}}
+{"timestamp":"2026-07-16T09:11:41.058Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-16T09:11:41.621Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-16T09:12:00.958Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1151,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:12:00.959Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1151}}
+{"timestamp":"2026-07-16T09:12:00.960Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1161,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:12:00.961Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1161}}
+{"timestamp":"2026-07-16T09:12:01.850Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.8828822671349,"lng":75.7992070468619},"destination":{"lat":28.6138954,"lng":77.2090057},"distanceKm":274.21,"eta":{"hours":4,"minutes":13}}}
+{"timestamp":"2026-07-16T09:12:01.853Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":677}}
+{"timestamp":"2026-07-16T09:12:19.730Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/orders/","statusCode":201,"durationMs":112}}
+{"timestamp":"2026-07-16T09:12:24.362Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":200,"durationMs":1119,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:12:24.362Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":200,"durationMs":1119}}
+{"timestamp":"2026-07-16T09:12:24.427Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":200,"durationMs":1188,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:12:24.427Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":200,"durationMs":1188}}
+{"timestamp":"2026-07-16T09:12:25.090Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.8828822671349,"lng":75.7992070468619},"destination":{"lat":28.6138954,"lng":77.2090057},"distanceKm":274.21,"eta":{"hours":4,"minutes":13}}}
+{"timestamp":"2026-07-16T09:12:25.092Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":648}}
+{"timestamp":"2026-07-16T09:12:40.284Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/orders/","statusCode":201,"durationMs":120}}
+{"timestamp":"2026-07-16T09:12:43.209Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":200,"durationMs":1146,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:12:43.209Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":200,"durationMs":1146}}
+{"timestamp":"2026-07-16T09:12:43.263Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":200,"durationMs":1203,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:12:43.264Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":200,"durationMs":1203}}
+{"timestamp":"2026-07-16T09:12:43.922Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.8828822671349,"lng":75.7992070468619},"destination":{"lat":28.6138954,"lng":77.2090057},"distanceKm":274.21,"eta":{"hours":4,"minutes":13}}}
+{"timestamp":"2026-07-16T09:12:43.923Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":630}}
+{"timestamp":"2026-07-16T09:12:52.286Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":86}}
+{"timestamp":"2026-07-16T09:12:52.291Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":93}}
+{"timestamp":"2026-07-16T09:12:53.276Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1083,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:12:53.277Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1083}}
+{"timestamp":"2026-07-16T09:12:53.360Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1163,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:12:53.360Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1163}}
+{"timestamp":"2026-07-16T09:12:55.925Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":91}}
+{"timestamp":"2026-07-16T09:12:55.934Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":96}}
+{"timestamp":"2026-07-16T09:12:56.081Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":245}}
+{"timestamp":"2026-07-16T09:12:56.918Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1086,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:12:56.919Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1086}}
+{"timestamp":"2026-07-16T09:12:58.041Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":251}}
+{"timestamp":"2026-07-16T09:12:58.882Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1095,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:12:58.882Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1095}}
+{"timestamp":"2026-07-16T09:12:59.522Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.8828822671349,"lng":75.7992070468619},"destination":{"lat":28.6138954,"lng":77.2090057},"distanceKm":274.21,"eta":{"hours":4,"minutes":13}}}
+{"timestamp":"2026-07-16T09:12:59.524Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1403,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:12:59.524Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1403}}
+{"timestamp":"2026-07-16T09:12:59.780Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":123}}
+{"timestamp":"2026-07-16T09:12:59.785Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":130}}
+{"timestamp":"2026-07-16T09:12:59.939Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":289}}
+{"timestamp":"2026-07-16T09:13:00.018Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":365}}
+{"timestamp":"2026-07-16T09:13:01.322Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":234}}
+{"timestamp":"2026-07-16T09:13:02.140Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1050,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:13:02.140Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1050}}
+{"timestamp":"2026-07-16T09:13:02.344Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.8828822671349,"lng":75.7992070468619},"destination":{"lat":28.6138954,"lng":77.2090057},"distanceKm":274.21,"eta":{"hours":4,"minutes":13}}}
+{"timestamp":"2026-07-16T09:13:02.346Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":941}}
+{"timestamp":"2026-07-16T09:13:03.987Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":83}}
+{"timestamp":"2026-07-16T09:13:03.992Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":91}}
+{"timestamp":"2026-07-16T09:13:04.128Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":221}}
+{"timestamp":"2026-07-16T09:13:05.008Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1098,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:13:05.008Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":1098}}
+{"timestamp":"2026-07-16T09:16:45.916Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-16T09:16:46.469Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-16T09:16:50.885Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-16T09:16:51.327Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-16T09:16:57.033Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-16T09:16:57.496Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-16T09:17:29.155Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":125}}
+{"timestamp":"2026-07-16T09:17:29.249Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":221}}
+{"timestamp":"2026-07-16T09:17:29.326Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":294}}
+{"timestamp":"2026-07-16T09:17:29.424Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":406}}
+{"timestamp":"2026-07-16T09:17:30.799Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":90}}
+{"timestamp":"2026-07-16T09:17:30.827Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":114}}
+{"timestamp":"2026-07-16T09:17:31.143Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":432}}
+{"timestamp":"2026-07-16T09:17:31.186Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":482}}
+{"timestamp":"2026-07-16T09:17:33.696Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":145}}
+{"timestamp":"2026-07-16T09:17:33.701Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":154}}
+{"timestamp":"2026-07-16T09:17:35.121Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.8828822671349,"lng":75.7992070468619},"destination":{"lat":28.6138954,"lng":77.2090057},"distanceKm":274.21,"eta":{"hours":4,"minutes":13}}}
+{"timestamp":"2026-07-16T09:17:35.122Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1202,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:17:35.122Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1202}}
+{"timestamp":"2026-07-16T09:17:39.289Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":161}}
+{"timestamp":"2026-07-16T09:17:39.292Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":167}}
+{"timestamp":"2026-07-16T09:17:42.414Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.8828822671349,"lng":75.7992070468619},"destination":{"lat":28.6138954,"lng":77.2090057},"distanceKm":274.21,"eta":{"hours":4,"minutes":13}}}
+{"timestamp":"2026-07-16T09:17:42.416Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":3057,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T09:17:42.416Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":3057}}
+{"timestamp":"2026-07-16T09:17:43.464Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":78}}
+{"timestamp":"2026-07-16T09:17:43.543Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":162}}
+{"timestamp":"2026-07-16T09:17:43.547Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":170}}
+{"timestamp":"2026-07-16T09:17:43.702Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":318}}
+{"timestamp":"2026-07-16T09:42:33.212Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-16T09:42:34.087Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-16T10:52:25.394Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-16T10:52:25.893Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-16T10:52:54.043Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":184}}
+{"timestamp":"2026-07-16T10:52:54.049Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":197}}
+{"timestamp":"2026-07-16T10:52:55.597Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.8828822671349,"lng":75.7992070468619},"destination":{"lat":28.6138954,"lng":77.2090057},"distanceKm":274.21,"eta":{"hours":4,"minutes":13}}}
+{"timestamp":"2026-07-16T10:52:55.599Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":685}}
+{"timestamp":"2026-07-16T10:53:04.111Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":172}}
+{"timestamp":"2026-07-16T10:53:04.259Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/","statusCode":304,"durationMs":113}}
+{"timestamp":"2026-07-16T10:53:04.280Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/","statusCode":304,"durationMs":131}}
+{"timestamp":"2026-07-16T10:53:04.347Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":87}}
+{"timestamp":"2026-07-16T10:53:04.348Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/dashboard","statusCode":200,"durationMs":205}}
+{"timestamp":"2026-07-16T10:53:04.357Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/dashboard","statusCode":200,"durationMs":207}}
+{"timestamp":"2026-07-16T10:53:04.374Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/reviews/","statusCode":304,"durationMs":91}}
+{"timestamp":"2026-07-16T10:53:04.450Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":303}}
+{"timestamp":"2026-07-16T10:53:04.451Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/reviews/","statusCode":304,"durationMs":300}}
+{"timestamp":"2026-07-16T10:53:05.832Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/","statusCode":200,"durationMs":86}}
+{"timestamp":"2026-07-16T10:53:05.839Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/","statusCode":200,"durationMs":90}}
+{"timestamp":"2026-07-16T10:53:09.071Z","level":"http","message":"HTTP request completed","meta":{"method":"PUT","path":"/api/admin/orders/:id/approve","statusCode":200,"durationMs":142}}
+{"timestamp":"2026-07-16T10:53:09.985Z","level":"http","message":"HTTP request completed","meta":{"method":"PUT","path":"/api/admin/orders/:id/approve","statusCode":200,"durationMs":125}}
+{"timestamp":"2026-07-16T10:53:23.650Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":79}}
+{"timestamp":"2026-07-16T10:53:23.651Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":79}}
+{"timestamp":"2026-07-16T10:53:23.652Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/users","statusCode":304,"durationMs":89}}
+{"timestamp":"2026-07-16T10:53:23.653Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/users","statusCode":304,"durationMs":84}}
+{"timestamp":"2026-07-16T10:53:30.381Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/admin/assign-truck","statusCode":200,"durationMs":246}}
+{"timestamp":"2026-07-16T10:53:30.474Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":200,"durationMs":76}}
+{"timestamp":"2026-07-16T10:53:30.477Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/users","statusCode":304,"durationMs":83}}
+{"timestamp":"2026-07-16T10:53:37.810Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/admin/assign-truck","statusCode":200,"durationMs":246}}
+{"timestamp":"2026-07-16T10:53:37.897Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":200,"durationMs":73}}
+{"timestamp":"2026-07-16T10:53:37.899Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/users","statusCode":304,"durationMs":79}}
+{"timestamp":"2026-07-16T10:53:42.351Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/","statusCode":200,"durationMs":87}}
+{"timestamp":"2026-07-16T10:53:42.357Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":96}}
+{"timestamp":"2026-07-16T10:53:42.358Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/users","statusCode":304,"durationMs":93}}
+{"timestamp":"2026-07-16T10:53:42.360Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/users","statusCode":304,"durationMs":94}}
+{"timestamp":"2026-07-16T10:53:42.361Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":102}}
+{"timestamp":"2026-07-16T10:53:42.462Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/","statusCode":200,"durationMs":99}}
+{"timestamp":"2026-07-16T10:53:42.469Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":107}}
+{"timestamp":"2026-07-16T10:53:42.565Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":303}}
+{"timestamp":"2026-07-16T10:53:56.319Z","level":"info","message":"Advance bill created for trip","meta":{"billId":"6a58b84465bc1705530480ac","tripId":"6a58b84465bc1705530480ab"}}
+{"timestamp":"2026-07-16T10:53:56.403Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/trips/","statusCode":201,"durationMs":701}}
+{"timestamp":"2026-07-16T10:53:56.495Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":200,"durationMs":74}}
+{"timestamp":"2026-07-16T10:53:56.497Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/users","statusCode":304,"durationMs":76}}
+{"timestamp":"2026-07-16T10:53:56.501Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/","statusCode":200,"durationMs":83}}
+{"timestamp":"2026-07-16T10:53:56.508Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":92}}
+{"timestamp":"2026-07-16T10:54:04.953Z","level":"info","message":"Advance bill created for trip","meta":{"billId":"6a58b84c65bc1705530480ae","tripId":"6a58b84c65bc1705530480ad"}}
+{"timestamp":"2026-07-16T10:54:05.028Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/trips/","statusCode":201,"durationMs":706}}
+{"timestamp":"2026-07-16T10:54:05.120Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":200,"durationMs":74}}
+{"timestamp":"2026-07-16T10:54:05.123Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/","statusCode":200,"durationMs":80}}
+{"timestamp":"2026-07-16T10:54:05.129Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":89}}
+{"timestamp":"2026-07-16T10:54:05.130Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/users","statusCode":304,"durationMs":83}}
+{"timestamp":"2026-07-16T10:54:21.513Z","level":"http","message":"HTTP request completed","meta":{"method":"PUT","path":"/api/trips/:id","statusCode":400,"durationMs":260}}
+{"timestamp":"2026-07-16T10:54:33.900Z","level":"http","message":"HTTP request completed","meta":{"method":"DELETE","path":"/api/trips/:id","statusCode":200,"durationMs":211}}
+{"timestamp":"2026-07-16T10:54:41.901Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/trips/","statusCode":400,"durationMs":252}}
+{"timestamp":"2026-07-16T10:54:45.879Z","level":"info","message":"Advance bill created for trip","meta":{"billId":"6a58b87565bc1705530480b0","tripId":"6a58b87565bc1705530480af"}}
+{"timestamp":"2026-07-16T10:54:45.956Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/trips/","statusCode":201,"durationMs":627}}
+{"timestamp":"2026-07-16T10:54:46.049Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/users","statusCode":304,"durationMs":74}}
+{"timestamp":"2026-07-16T10:54:46.052Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/","statusCode":200,"durationMs":80}}
+{"timestamp":"2026-07-16T10:54:46.058Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":90}}
+{"timestamp":"2026-07-16T10:54:46.060Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":200,"durationMs":86}}
+{"timestamp":"2026-07-16T10:54:50.924Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/users","statusCode":304,"durationMs":66}}
+{"timestamp":"2026-07-16T10:54:50.925Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":74}}
+{"timestamp":"2026-07-16T10:54:50.927Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":71}}
+{"timestamp":"2026-07-16T10:54:50.932Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/users","statusCode":304,"durationMs":69}}
+{"timestamp":"2026-07-16T10:54:55.230Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/billing/all","statusCode":200,"durationMs":177}}
+{"timestamp":"2026-07-16T10:54:55.232Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/billing/all","statusCode":200,"durationMs":177}}
+{"timestamp":"2026-07-16T10:54:57.670Z","level":"http","message":"HTTP request completed","meta":{"method":"PUT","path":"/api/billing/pay/:id","statusCode":200,"durationMs":53}}
+{"timestamp":"2026-07-16T10:54:58.882Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/billing/:id/invoice","statusCode":200,"durationMs":99}}
+{"timestamp":"2026-07-16T10:55:35.967Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":163}}
+{"timestamp":"2026-07-16T10:55:36.078Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":74}}
+{"timestamp":"2026-07-16T10:55:36.084Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":77}}
+{"timestamp":"2026-07-16T10:55:36.088Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":82}}
+{"timestamp":"2026-07-16T10:55:36.089Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":82}}
+{"timestamp":"2026-07-16T10:56:40.224Z","level":"http","message":"HTTP request completed","meta":{"method":"PUT","path":"/api/trips/:id/status","statusCode":200,"durationMs":164}}
+{"timestamp":"2026-07-16T10:56:44.258Z","level":"http","message":"HTTP request completed","meta":{"method":"PUT","path":"/api/trucks/:id/location","statusCode":200,"durationMs":83}}
+{"timestamp":"2026-07-16T10:56:44.343Z","level":"info","message":"Geocoding address from Nominatim","meta":{"address":"kota, India"}}
+{"timestamp":"2026-07-16T10:56:44.686Z","level":"http","message":"HTTP request completed","meta":{"method":"PUT","path":"/api/trucks/:id/location","statusCode":200,"durationMs":87}}
+{"timestamp":"2026-07-16T10:56:44.767Z","level":"info","message":"Geocoding address from Nominatim","meta":{"address":"kota, India"}}
+{"timestamp":"2026-07-16T10:56:44.852Z","level":"http","message":"HTTP request completed","meta":{"method":"PUT","path":"/api/trucks/:id/location","statusCode":200,"durationMs":77}}
+{"timestamp":"2026-07-16T10:56:44.939Z","level":"info","message":"Geocoding address from Nominatim","meta":{"address":"kota, India"}}
+{"timestamp":"2026-07-16T10:56:45.053Z","level":"info","message":"Geocoding success","meta":{"address":"kota","coords":{"lat":25.1737019,"lng":75.8574194}}}
+{"timestamp":"2026-07-16T10:56:45.055Z","level":"info","message":"Geocoding success","meta":{"address":"kota","coords":{"lat":25.1737019,"lng":75.8574194}}}
+{"timestamp":"2026-07-16T10:56:45.113Z","level":"info","message":"Geocoding success","meta":{"address":"kota","coords":{"lat":25.1737019,"lng":75.8574194}}}
+{"timestamp":"2026-07-16T10:56:45.189Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":200,"durationMs":65}}
+{"timestamp":"2026-07-16T10:56:45.203Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":200,"durationMs":77}}
+{"timestamp":"2026-07-16T10:56:45.207Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":78}}
+{"timestamp":"2026-07-16T10:56:45.209Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":82}}
+{"timestamp":"2026-07-16T10:56:48.298Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":92}}
+{"timestamp":"2026-07-16T10:56:48.302Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":92}}
+{"timestamp":"2026-07-16T10:56:48.304Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":96}}
+{"timestamp":"2026-07-16T10:56:48.307Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":94}}
+{"timestamp":"2026-07-16T10:56:52.540Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":79}}
+{"timestamp":"2026-07-16T10:56:52.542Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":77}}
+{"timestamp":"2026-07-16T10:56:52.810Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":200,"durationMs":344}}
+{"timestamp":"2026-07-16T10:56:52.815Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":200,"durationMs":352}}
+{"timestamp":"2026-07-16T10:56:59.869Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":82}}
+{"timestamp":"2026-07-16T10:56:59.940Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":68}}
+{"timestamp":"2026-07-16T10:57:01.198Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.882922716285698,"lng":75.79931064292552},"destination":{"lat":25.1737019,"lng":75.8574194},"distanceKm":248.11,"eta":{"hours":3,"minutes":49}}}
+{"timestamp":"2026-07-16T10:57:01.199Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":200,"durationMs":1212,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T10:57:01.199Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":200,"durationMs":1212}}
+{"timestamp":"2026-07-16T10:57:07.377Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":200,"durationMs":62}}
+{"timestamp":"2026-07-16T10:57:07.382Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":200,"durationMs":70}}
+{"timestamp":"2026-07-16T10:57:07.383Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":66}}
+{"timestamp":"2026-07-16T10:57:07.384Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":68}}
+{"timestamp":"2026-07-16T10:57:41.267Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":112}}
+{"timestamp":"2026-07-16T10:57:41.349Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":78}}
+{"timestamp":"2026-07-16T10:57:42.676Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.882922716285698,"lng":75.79931064292552},"destination":{"lat":25.1737019,"lng":75.8574194},"distanceKm":248.11,"eta":{"hours":3,"minutes":49}}}
+{"timestamp":"2026-07-16T10:57:42.677Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1281,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T10:57:42.677Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1281}}
+{"timestamp":"2026-07-16T10:57:58.007Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":71}}
+{"timestamp":"2026-07-16T10:57:58.009Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":75}}
+{"timestamp":"2026-07-16T10:57:58.010Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":72}}
+{"timestamp":"2026-07-16T10:57:58.011Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":79}}
+{"timestamp":"2026-07-16T10:58:09.273Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":77}}
+{"timestamp":"2026-07-16T10:58:09.276Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":82}}
+{"timestamp":"2026-07-16T10:58:09.279Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":85}}
+{"timestamp":"2026-07-16T10:58:09.282Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":91}}
+{"timestamp":"2026-07-16T10:59:31.268Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":76}}
+{"timestamp":"2026-07-16T10:59:31.273Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":89}}
+{"timestamp":"2026-07-16T10:59:31.274Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":84}}
+{"timestamp":"2026-07-16T10:59:31.275Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":82}}
+{"timestamp":"2026-07-16T10:59:31.427Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":70}}
+{"timestamp":"2026-07-16T10:59:31.433Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":73}}
+{"timestamp":"2026-07-16T10:59:31.435Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":81}}
+{"timestamp":"2026-07-16T10:59:31.437Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":78}}
+{"timestamp":"2026-07-16T10:59:58.674Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":85}}
+{"timestamp":"2026-07-16T10:59:58.677Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":93}}
+{"timestamp":"2026-07-16T10:59:58.681Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":94}}
+{"timestamp":"2026-07-16T10:59:58.684Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":94}}
+{"timestamp":"2026-07-16T11:00:05.841Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":77}}
+{"timestamp":"2026-07-16T11:00:05.917Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":74}}
+{"timestamp":"2026-07-16T11:00:06.620Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.882922716285698,"lng":75.79931064292552},"destination":{"lat":25.1737019,"lng":75.8574194},"distanceKm":248.11,"eta":{"hours":3,"minutes":49}}}
+{"timestamp":"2026-07-16T11:00:06.621Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":656}}
+{"timestamp":"2026-07-16T11:00:16.569Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":80}}
+{"timestamp":"2026-07-16T11:00:16.571Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":80}}
+{"timestamp":"2026-07-16T11:00:16.574Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":80}}
+{"timestamp":"2026-07-16T11:00:16.577Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":85}}
+{"timestamp":"2026-07-16T11:04:00.538Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-16T11:04:01.142Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-16T11:04:21.114Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":81}}
+{"timestamp":"2026-07-16T11:04:21.183Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":66}}
+{"timestamp":"2026-07-16T11:04:22.666Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.882922716285698,"lng":75.79931064292552},"destination":{"lat":25.1737019,"lng":75.8574194},"distanceKm":248.11,"eta":{"hours":3,"minutes":49}}}
+{"timestamp":"2026-07-16T11:04:22.668Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1339,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T11:04:22.670Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1339}}
+{"timestamp":"2026-07-16T11:05:40.664Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":86}}
+{"timestamp":"2026-07-16T11:05:40.752Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":85}}
+{"timestamp":"2026-07-16T11:05:41.479Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.882922716285698,"lng":75.79931064292552},"destination":{"lat":25.1737019,"lng":75.8574194},"distanceKm":248.11,"eta":{"hours":3,"minutes":49}}}
+{"timestamp":"2026-07-16T11:05:41.482Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":677}}
+{"timestamp":"2026-07-16T11:05:52.001Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":63}}
+{"timestamp":"2026-07-16T11:05:52.010Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":70}}
+{"timestamp":"2026-07-16T11:05:52.263Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":328}}
+{"timestamp":"2026-07-16T11:05:52.281Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":342}}
+{"timestamp":"2026-07-16T11:07:20.995Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":75}}
+{"timestamp":"2026-07-16T11:07:21.003Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":77}}
+{"timestamp":"2026-07-16T11:07:21.004Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":75}}
+{"timestamp":"2026-07-16T11:07:21.005Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":77}}
+{"timestamp":"2026-07-16T11:07:25.640Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":80}}
+{"timestamp":"2026-07-16T11:07:25.724Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":81}}
+{"timestamp":"2026-07-16T11:07:26.406Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.882922716285698,"lng":75.79931064292552},"destination":{"lat":25.1737019,"lng":75.8574194},"distanceKm":248.11,"eta":{"hours":3,"minutes":49}}}
+{"timestamp":"2026-07-16T11:07:26.408Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":637}}
+{"timestamp":"2026-07-16T11:07:28.296Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":61}}
+{"timestamp":"2026-07-16T11:07:28.304Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":70}}
+{"timestamp":"2026-07-16T11:07:28.306Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":74}}
+{"timestamp":"2026-07-16T11:07:28.307Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":76}}
+{"timestamp":"2026-07-16T11:07:42.536Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":65}}
+{"timestamp":"2026-07-16T11:07:42.538Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":67}}
+{"timestamp":"2026-07-16T11:07:42.542Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":72}}
+{"timestamp":"2026-07-16T11:07:42.855Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":389}}
+{"timestamp":"2026-07-16T11:08:00.045Z","level":"http","message":"HTTP request completed","meta":{"method":"PUT","path":"/api/trips/:id/status","statusCode":200,"durationMs":225}}
+{"timestamp":"2026-07-16T11:08:20.130Z","level":"info","message":"Trip completed","meta":{"tripId":"6a58b87565bc1705530480af"}}
+{"timestamp":"2026-07-16T11:08:20.360Z","level":"http","message":"HTTP request completed","meta":{"method":"PUT","path":"/api/trips/:id/status","statusCode":200,"durationMs":390}}
+{"timestamp":"2026-07-16T11:09:08.109Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":200,"durationMs":65}}
+{"timestamp":"2026-07-16T11:09:08.122Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":76}}
+{"timestamp":"2026-07-16T11:09:08.124Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":200,"durationMs":82}}
+{"timestamp":"2026-07-16T11:09:08.131Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":86}}
+{"timestamp":"2026-07-16T11:09:10.235Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":74}}
+{"timestamp":"2026-07-16T11:09:10.244Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":86}}
+{"timestamp":"2026-07-16T11:09:10.511Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":200,"durationMs":348}}
+{"timestamp":"2026-07-16T11:09:10.519Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/my","statusCode":200,"durationMs":354}}
+{"timestamp":"2026-07-16T11:09:11.391Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":88}}
+{"timestamp":"2026-07-16T11:09:11.396Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":92}}
+{"timestamp":"2026-07-16T11:09:11.399Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":304,"durationMs":92}}
+{"timestamp":"2026-07-16T11:09:11.401Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":95}}
+{"timestamp":"2026-07-16T11:09:58.527Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":204}}
+{"timestamp":"2026-07-16T11:09:58.721Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":200,"durationMs":155}}
+{"timestamp":"2026-07-16T11:09:58.724Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":200,"durationMs":159}}
+{"timestamp":"2026-07-16T11:09:59.491Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-16T11:09:59.493Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":200,"durationMs":699}}
+{"timestamp":"2026-07-16T11:10:08.799Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":83}}
+{"timestamp":"2026-07-16T11:10:08.804Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":90}}
+{"timestamp":"2026-07-16T11:10:08.881Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":169}}
+{"timestamp":"2026-07-16T11:10:08.884Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":175}}
+{"timestamp":"2026-07-16T11:10:26.527Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":174}}
+{"timestamp":"2026-07-16T11:10:26.538Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":189}}
+{"timestamp":"2026-07-16T11:10:27.253Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-16T11:10:27.255Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":643}}
+{"timestamp":"2026-07-16T11:10:32.534Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/:id","statusCode":200,"durationMs":140}}
+{"timestamp":"2026-07-16T11:10:32.543Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/:id","statusCode":200,"durationMs":152}}
+{"timestamp":"2026-07-16T11:10:33.255Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.882922716285698,"lng":75.79931064292552},"destination":{"lat":28.6138954,"lng":77.2090057},"distanceKm":274.55,"eta":{"hours":4,"minutes":13}}}
+{"timestamp":"2026-07-16T11:10:33.256Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":200,"durationMs":656}}
+{"timestamp":"2026-07-16T11:10:44.534Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":154}}
+{"timestamp":"2026-07-16T11:10:44.543Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":166}}
+{"timestamp":"2026-07-16T11:10:45.243Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-16T11:10:45.244Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":630}}
+{"timestamp":"2026-07-16T11:12:12.512Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":148}}
+{"timestamp":"2026-07-16T11:12:12.517Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":157}}
+{"timestamp":"2026-07-16T11:12:13.315Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-16T11:12:13.317Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":717}}
+{"timestamp":"2026-07-16T11:12:57.247Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":150}}
+{"timestamp":"2026-07-16T11:12:57.251Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":158}}
+{"timestamp":"2026-07-16T11:12:58.461Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-16T11:12:58.462Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1125,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T11:12:58.462Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1125}}
+{"timestamp":"2026-07-16T11:13:06.494Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a5474ed26062b88e6da5438","truckLocation":{"lat":26.882865530024542,"lng":75.79918177439443},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.87,"eta":{"hours":0,"minutes":4}}}
+{"timestamp":"2026-07-16T11:13:06.495Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":200,"durationMs":661}}
+{"timestamp":"2026-07-16T11:13:07.282Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/:id","statusCode":200,"durationMs":143}}
+{"timestamp":"2026-07-16T11:13:07.287Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/:id","statusCode":200,"durationMs":151}}
+{"timestamp":"2026-07-16T11:13:07.587Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a5474ed26062b88e6da5438","truckLocation":{"lat":26.882865530024542,"lng":75.79918177439443},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.87,"eta":{"hours":0,"minutes":4}}}
+{"timestamp":"2026-07-16T11:13:07.589Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":245}}
+{"timestamp":"2026-07-16T11:13:22.855Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":149}}
+{"timestamp":"2026-07-16T11:13:22.867Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":163}}
+{"timestamp":"2026-07-16T11:13:23.616Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-16T11:13:23.617Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":681}}
+{"timestamp":"2026-07-16T11:13:26.849Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.882922716285698,"lng":75.79931064292552},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":5.21,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-16T11:13:26.850Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":200,"durationMs":336}}
+{"timestamp":"2026-07-16T11:13:27.786Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.882922716285698,"lng":75.79931064292552},"destination":{"lat":28.3622661,"lng":75.6042342},"distanceKm":231.47,"eta":{"hours":3,"minutes":34}}}
+{"timestamp":"2026-07-16T11:13:27.787Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":200,"durationMs":1220,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T11:13:27.787Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":200,"durationMs":1220}}
+{"timestamp":"2026-07-16T11:13:32.844Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/:id","statusCode":200,"durationMs":150}}
+{"timestamp":"2026-07-16T11:13:32.849Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/:id","statusCode":200,"durationMs":158}}
+{"timestamp":"2026-07-16T11:13:34.051Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.882922716285698,"lng":75.79931064292552},"destination":{"lat":34.8709512,"lng":137.1608071},"distanceKm":6742.37,"eta":{"hours":103,"minutes":44}}}
+{"timestamp":"2026-07-16T11:13:34.052Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":200,"durationMs":1149,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T11:13:34.052Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":200,"durationMs":1149}}
+{"timestamp":"2026-07-16T11:14:12.067Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":153}}
+{"timestamp":"2026-07-16T11:14:12.075Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":165}}
+{"timestamp":"2026-07-16T11:14:13.374Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-16T11:14:13.375Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1225,"thresholdMs":1000}}
+{"timestamp":"2026-07-16T11:14:13.376Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1225}}
+{"timestamp":"2026-07-16T11:14:15.562Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a5474ed26062b88e6da5438","truckLocation":{"lat":26.882865530024542,"lng":75.79918177439443},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.87,"eta":{"hours":0,"minutes":4}}}
+{"timestamp":"2026-07-16T11:14:15.563Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":350}}
+{"timestamp":"2026-07-16T11:16:03.080Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a5474ed26062b88e6da5438","truckLocation":{"lat":26.882865530024542,"lng":75.79918177439443},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.87,"eta":{"hours":0,"minutes":4}}}
+{"timestamp":"2026-07-16T11:16:03.082Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":684}}
+{"timestamp":"2026-07-16T11:17:05.502Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":162}}
+{"timestamp":"2026-07-16T11:17:05.507Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":174}}
+{"timestamp":"2026-07-16T11:17:06.245Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-16T11:17:06.246Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":650}}
+{"timestamp":"2026-07-16T11:17:35.960Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":200,"durationMs":64}}
+{"timestamp":"2026-07-16T11:17:35.962Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":200,"durationMs":68}}
+{"timestamp":"2026-07-16T11:17:35.965Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":74}}
+{"timestamp":"2026-07-16T11:17:35.969Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":74}}
+{"timestamp":"2026-07-16T11:18:02.337Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":155}}
+{"timestamp":"2026-07-16T11:18:02.343Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":164}}
+{"timestamp":"2026-07-16T11:18:03.096Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-16T11:18:03.097Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":672}}
+{"timestamp":"2026-07-16T11:18:09.193Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":200,"durationMs":38}}
+{"timestamp":"2026-07-16T11:18:09.194Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":200,"durationMs":42}}
+{"timestamp":"2026-07-16T11:18:09.249Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":94}}
+{"timestamp":"2026-07-16T11:18:09.250Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":97}}
+{"timestamp":"2026-07-16T11:18:23.033Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":175}}
+{"timestamp":"2026-07-16T11:18:23.040Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":184}}
+{"timestamp":"2026-07-16T11:18:23.798Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-16T11:18:23.799Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":673}}
+{"timestamp":"2026-07-16T11:18:27.778Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":41}}
+{"timestamp":"2026-07-16T11:18:27.780Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":38}}
+{"timestamp":"2026-07-16T11:18:27.809Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":70}}
+{"timestamp":"2026-07-16T11:18:27.813Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":69}}
+{"timestamp":"2026-07-16T11:19:03.102Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":174}}
+{"timestamp":"2026-07-16T11:19:03.106Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":175}}
+{"timestamp":"2026-07-16T11:19:03.815Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-16T11:19:03.817Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":635}}
+{"timestamp":"2026-07-16T11:19:32.674Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":32}}
+{"timestamp":"2026-07-16T11:19:32.680Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":33}}
+{"timestamp":"2026-07-16T11:19:32.714Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":69}}
+{"timestamp":"2026-07-16T11:19:32.717Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":71}}
+{"timestamp":"2026-07-16T11:19:36.522Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":147}}
+{"timestamp":"2026-07-16T11:19:36.526Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":153}}
+{"timestamp":"2026-07-16T11:19:37.257Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-16T11:19:37.258Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":648}}
+{"timestamp":"2026-07-16T11:19:40.005Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":200,"durationMs":71}}
+{"timestamp":"2026-07-16T11:19:40.007Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":72}}
+{"timestamp":"2026-07-16T11:19:40.009Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":76}}
+{"timestamp":"2026-07-16T11:19:40.011Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":200,"durationMs":80}}
+{"timestamp":"2026-07-16T11:19:48.437Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":154}}
+{"timestamp":"2026-07-16T11:19:48.440Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":159}}
+{"timestamp":"2026-07-16T11:19:49.151Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-16T11:19:49.152Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":633}}
+{"timestamp":"2026-07-16T11:19:53.512Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":39}}
+{"timestamp":"2026-07-16T11:19:53.514Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":36}}
+{"timestamp":"2026-07-16T11:19:53.555Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":81}}
+{"timestamp":"2026-07-16T11:19:53.557Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":81}}
+{"timestamp":"2026-07-16T11:20:24.943Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":172}}
+{"timestamp":"2026-07-16T11:20:24.946Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":171}}
+{"timestamp":"2026-07-16T11:20:25.674Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-16T11:20:25.675Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":650}}
+{"timestamp":"2026-07-16T11:20:45.662Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":64}}
+{"timestamp":"2026-07-16T11:20:45.670Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":77}}
+{"timestamp":"2026-07-16T11:20:45.672Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":77}}
+{"timestamp":"2026-07-16T11:20:45.673Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":74}}
+{"timestamp":"2026-07-16T11:21:03.593Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":161}}
+{"timestamp":"2026-07-16T11:21:03.597Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":162}}
+{"timestamp":"2026-07-16T11:21:04.309Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-16T11:21:04.310Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":638}}
+{"timestamp":"2026-07-16T11:21:49.667Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/:id","statusCode":200,"durationMs":140}}
+{"timestamp":"2026-07-16T11:21:49.669Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/:id","statusCode":200,"durationMs":144}}
+{"timestamp":"2026-07-16T11:21:51.012Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a5474ed26062b88e6da5438","truckLocation":{"lat":26.882865530024542,"lng":75.79918177439443},"destination":{"lat":19.054999,"lng":72.8692035},"distanceKm":1109.6,"eta":{"hours":17,"minutes":4}}}
+{"timestamp":"2026-07-16T11:21:51.014Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":200,"durationMs":661}}
+{"timestamp":"2026-07-17T05:17:47.763Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-17T05:17:48.326Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-17T05:18:49.521Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":208}}
+{"timestamp":"2026-07-17T05:18:49.525Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":207}}
+{"timestamp":"2026-07-17T05:18:51.891Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:18:51.893Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":200,"durationMs":663}}
+{"timestamp":"2026-07-17T05:19:14.344Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":178}}
+{"timestamp":"2026-07-17T05:19:14.501Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":137}}
+{"timestamp":"2026-07-17T05:19:14.508Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":145}}
+{"timestamp":"2026-07-17T05:19:15.201Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:19:15.202Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":626}}
+{"timestamp":"2026-07-17T05:19:20.777Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/:id","statusCode":200,"durationMs":185}}
+{"timestamp":"2026-07-17T05:19:20.781Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/:id","statusCode":200,"durationMs":186}}
+{"timestamp":"2026-07-17T05:19:21.940Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a5474ed26062b88e6da5438","truckLocation":{"lat":26.882865530024542,"lng":75.79918177439443},"destination":{"lat":28.6138954,"lng":77.2090057},"distanceKm":274.21,"eta":{"hours":4,"minutes":13}}}
+{"timestamp":"2026-07-17T05:19:21.941Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":200,"durationMs":659}}
+{"timestamp":"2026-07-17T05:19:28.938Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":174}}
+{"timestamp":"2026-07-17T05:19:28.942Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":181}}
+{"timestamp":"2026-07-17T05:19:29.712Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:19:29.713Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":695}}
+{"timestamp":"2026-07-17T05:19:33.550Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":37}}
+{"timestamp":"2026-07-17T05:19:33.553Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":45}}
+{"timestamp":"2026-07-17T05:19:33.589Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":79}}
+{"timestamp":"2026-07-17T05:19:33.590Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":77}}
+{"timestamp":"2026-07-17T05:19:37.792Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":145}}
+{"timestamp":"2026-07-17T05:19:37.796Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":146}}
+{"timestamp":"2026-07-17T05:19:38.621Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:19:38.622Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":753}}
+{"timestamp":"2026-07-17T05:19:42.359Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":37}}
+{"timestamp":"2026-07-17T05:19:42.377Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":47}}
+{"timestamp":"2026-07-17T05:19:42.401Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":73}}
+{"timestamp":"2026-07-17T05:19:42.693Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":368}}
+{"timestamp":"2026-07-17T05:19:58.039Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":164}}
+{"timestamp":"2026-07-17T05:19:58.047Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":170}}
+{"timestamp":"2026-07-17T05:19:58.762Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:19:58.763Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":649}}
+{"timestamp":"2026-07-17T05:23:54.666Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-17T05:23:55.358Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-17T05:24:04.264Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-17T05:24:04.705Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-17T05:24:08.551Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-17T05:24:09.074Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-17T05:25:09.574Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":186}}
+{"timestamp":"2026-07-17T05:25:09.578Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":200}}
+{"timestamp":"2026-07-17T05:25:10.981Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:25:10.983Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":725}}
+{"timestamp":"2026-07-17T05:25:14.762Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":72}}
+{"timestamp":"2026-07-17T05:25:14.764Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":70}}
+{"timestamp":"2026-07-17T05:25:15.077Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":391}}
+{"timestamp":"2026-07-17T05:25:15.081Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":389}}
+{"timestamp":"2026-07-17T05:25:28.308Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":160}}
+{"timestamp":"2026-07-17T05:25:28.312Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":166}}
+{"timestamp":"2026-07-17T05:25:29.082Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:25:29.084Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":696}}
+{"timestamp":"2026-07-17T05:25:32.250Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":200,"durationMs":39}}
+{"timestamp":"2026-07-17T05:25:32.254Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":200,"durationMs":45}}
+{"timestamp":"2026-07-17T05:25:32.284Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":69}}
+{"timestamp":"2026-07-17T05:25:32.292Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":79}}
+{"timestamp":"2026-07-17T05:25:45.600Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":153}}
+{"timestamp":"2026-07-17T05:25:45.606Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":157}}
+{"timestamp":"2026-07-17T05:25:46.319Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:25:46.320Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":644}}
+{"timestamp":"2026-07-17T05:25:49.497Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/:id","statusCode":304,"durationMs":152}}
+{"timestamp":"2026-07-17T05:25:49.499Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/:id","statusCode":304,"durationMs":157}}
+{"timestamp":"2026-07-17T05:25:50.287Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.882922716285698,"lng":75.79931064292552},"destination":{"lat":28.6138954,"lng":77.2090057},"distanceKm":274.55,"eta":{"hours":4,"minutes":13}}}
+{"timestamp":"2026-07-17T05:25:50.288Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":244}}
+{"timestamp":"2026-07-17T05:26:41.045Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-17T05:26:41.583Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-17T05:26:47.503Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-17T05:26:48.024Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-17T05:29:40.380Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-17T05:29:40.884Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-17T05:30:05.584Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/:id","statusCode":304,"durationMs":143}}
+{"timestamp":"2026-07-17T05:30:05.591Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/:id","statusCode":304,"durationMs":160}}
+{"timestamp":"2026-07-17T05:30:06.519Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bba2aad1a0cb4311978a","truckLocation":{"lat":26.882922716285698,"lng":75.79931064292552},"destination":{"lat":28.6138954,"lng":77.2090057},"distanceKm":274.55,"eta":{"hours":4,"minutes":13}}}
+{"timestamp":"2026-07-17T05:30:06.520Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":668}}
+{"timestamp":"2026-07-17T05:30:18.850Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":157}}
+{"timestamp":"2026-07-17T05:30:18.854Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":154}}
+{"timestamp":"2026-07-17T05:30:19.675Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:30:19.677Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":707}}
+{"timestamp":"2026-07-17T05:30:24.091Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":33}}
+{"timestamp":"2026-07-17T05:30:24.096Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":39}}
+{"timestamp":"2026-07-17T05:30:24.133Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":74}}
+{"timestamp":"2026-07-17T05:30:24.347Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":292}}
+{"timestamp":"2026-07-17T05:30:52.436Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":155}}
+{"timestamp":"2026-07-17T05:30:52.441Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":164}}
+{"timestamp":"2026-07-17T05:30:53.175Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:30:53.177Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":658}}
+{"timestamp":"2026-07-17T05:30:56.878Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/","statusCode":304,"durationMs":68}}
+{"timestamp":"2026-07-17T05:30:56.944Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":63}}
+{"timestamp":"2026-07-17T05:31:03.291Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":38}}
+{"timestamp":"2026-07-17T05:31:03.293Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":39}}
+{"timestamp":"2026-07-17T05:31:03.319Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":68}}
+{"timestamp":"2026-07-17T05:31:03.612Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":357}}
+{"timestamp":"2026-07-17T05:31:14.463Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":174}}
+{"timestamp":"2026-07-17T05:31:14.466Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":174}}
+{"timestamp":"2026-07-17T05:31:15.203Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:31:15.205Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":664}}
+{"timestamp":"2026-07-17T05:31:19.865Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":63}}
+{"timestamp":"2026-07-17T05:31:19.867Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":69}}
+{"timestamp":"2026-07-17T05:31:19.868Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":67}}
+{"timestamp":"2026-07-17T05:31:19.871Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":71}}
+{"timestamp":"2026-07-17T05:31:56.175Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":149}}
+{"timestamp":"2026-07-17T05:31:56.182Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":160}}
+{"timestamp":"2026-07-17T05:31:56.897Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:31:56.899Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":645}}
+{"timestamp":"2026-07-17T05:32:03.243Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":64}}
+{"timestamp":"2026-07-17T05:32:03.244Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":68}}
+{"timestamp":"2026-07-17T05:32:03.250Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":67}}
+{"timestamp":"2026-07-17T05:32:03.251Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":67}}
+{"timestamp":"2026-07-17T05:33:25.391Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-17T05:33:25.901Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-17T05:33:31.658Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":162}}
+{"timestamp":"2026-07-17T05:33:31.662Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":175}}
+{"timestamp":"2026-07-17T05:33:32.482Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:33:32.484Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":696}}
+{"timestamp":"2026-07-17T05:35:36.442Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-17T05:35:36.926Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-17T05:35:59.800Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-17T05:36:00.266Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-17T05:36:57.672Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":161}}
+{"timestamp":"2026-07-17T05:36:57.676Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":158}}
+{"timestamp":"2026-07-17T05:36:58.607Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:36:58.609Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":677}}
+{"timestamp":"2026-07-17T05:37:00.260Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":45}}
+{"timestamp":"2026-07-17T05:37:00.263Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":45}}
+{"timestamp":"2026-07-17T05:37:00.295Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":76}}
+{"timestamp":"2026-07-17T05:37:00.574Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":358}}
+{"timestamp":"2026-07-17T05:37:09.925Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":142}}
+{"timestamp":"2026-07-17T05:37:09.936Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":150}}
+{"timestamp":"2026-07-17T05:37:10.628Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:37:10.629Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":631}}
+{"timestamp":"2026-07-17T05:37:15.288Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":76}}
+{"timestamp":"2026-07-17T05:37:15.292Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":78}}
+{"timestamp":"2026-07-17T05:37:15.294Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":83}}
+{"timestamp":"2026-07-17T05:37:15.475Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":259}}
+{"timestamp":"2026-07-17T05:46:10.656Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-17T05:46:11.246Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-17T05:46:30.097Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":157}}
+{"timestamp":"2026-07-17T05:46:30.106Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":158}}
+{"timestamp":"2026-07-17T05:46:31.341Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:46:31.342Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1027,"thresholdMs":1000}}
+{"timestamp":"2026-07-17T05:46:31.343Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1027}}
+{"timestamp":"2026-07-17T05:48:22.581Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-17T05:48:23.091Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-17T05:48:25.280Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":163}}
+{"timestamp":"2026-07-17T05:48:25.285Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":178}}
+{"timestamp":"2026-07-17T05:48:26.027Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:48:26.028Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":667}}
+{"timestamp":"2026-07-17T05:49:47.271Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":325}}
+{"timestamp":"2026-07-17T05:49:47.275Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":334}}
+{"timestamp":"2026-07-17T05:49:48.523Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:49:48.525Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1147,"thresholdMs":1000}}
+{"timestamp":"2026-07-17T05:49:48.525Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1147}}
+{"timestamp":"2026-07-17T05:49:49.961Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":115}}
+{"timestamp":"2026-07-17T05:49:49.964Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":119}}
+{"timestamp":"2026-07-17T05:49:49.965Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":127}}
+{"timestamp":"2026-07-17T05:49:50.275Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":433}}
+{"timestamp":"2026-07-17T05:49:53.767Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":150}}
+{"timestamp":"2026-07-17T05:49:53.770Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":156}}
+{"timestamp":"2026-07-17T05:49:54.608Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:49:54.609Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":772}}
+{"timestamp":"2026-07-17T05:49:56.842Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":64}}
+{"timestamp":"2026-07-17T05:49:56.843Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":70}}
+{"timestamp":"2026-07-17T05:49:56.848Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":71}}
+{"timestamp":"2026-07-17T05:49:56.850Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":75}}
+{"timestamp":"2026-07-17T05:49:58.966Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":144}}
+{"timestamp":"2026-07-17T05:49:58.980Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":161}}
+{"timestamp":"2026-07-17T05:49:59.935Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:49:59.935Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":901}}
+{"timestamp":"2026-07-17T05:50:02.123Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":36}}
+{"timestamp":"2026-07-17T05:50:02.125Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":35}}
+{"timestamp":"2026-07-17T05:50:02.161Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":73}}
+{"timestamp":"2026-07-17T05:50:02.162Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":76}}
+{"timestamp":"2026-07-17T05:50:05.340Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":147}}
+{"timestamp":"2026-07-17T05:50:05.344Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":155}}
+{"timestamp":"2026-07-17T05:50:06.064Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:50:06.065Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":658}}
+{"timestamp":"2026-07-17T05:50:10.454Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/:id","statusCode":200,"durationMs":137}}
+{"timestamp":"2026-07-17T05:50:10.461Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/:id","statusCode":200,"durationMs":146}}
+{"timestamp":"2026-07-17T05:50:12.050Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a5474ed26062b88e6da5438","truckLocation":{"lat":26.882865530024542,"lng":75.79918177439443},"destination":{"lat":30.0417376,"lng":79.089691},"distanceKm":626.87,"eta":{"hours":9,"minutes":39}}}
+{"timestamp":"2026-07-17T05:50:12.051Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":200,"durationMs":615}}
+{"timestamp":"2026-07-17T05:50:30.513Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":149}}
+{"timestamp":"2026-07-17T05:50:30.516Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":155}}
+{"timestamp":"2026-07-17T05:50:31.168Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:50:31.169Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":588}}
+{"timestamp":"2026-07-17T05:52:26.327Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":157}}
+{"timestamp":"2026-07-17T05:52:26.331Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":163}}
+{"timestamp":"2026-07-17T05:52:27.068Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:52:27.069Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":661}}
+{"timestamp":"2026-07-17T05:52:29.345Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":34}}
+{"timestamp":"2026-07-17T05:52:29.350Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":36}}
+{"timestamp":"2026-07-17T05:52:29.376Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":63}}
+{"timestamp":"2026-07-17T05:52:29.381Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":72}}
+{"timestamp":"2026-07-17T05:52:34.371Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":149}}
+{"timestamp":"2026-07-17T05:52:34.376Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":158}}
+{"timestamp":"2026-07-17T05:52:35.084Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:52:35.085Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":643}}
+{"timestamp":"2026-07-17T05:52:45.575Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":33}}
+{"timestamp":"2026-07-17T05:52:45.577Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":30}}
+{"timestamp":"2026-07-17T05:52:45.608Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":72}}
+{"timestamp":"2026-07-17T05:52:45.611Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":66}}
+{"timestamp":"2026-07-17T05:53:16.810Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":183}}
+{"timestamp":"2026-07-17T05:53:16.813Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":189}}
+{"timestamp":"2026-07-17T05:53:17.813Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:53:17.814Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":939}}
+{"timestamp":"2026-07-17T05:53:26.157Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":65}}
+{"timestamp":"2026-07-17T05:53:26.159Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":71}}
+{"timestamp":"2026-07-17T05:53:26.164Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":74}}
+{"timestamp":"2026-07-17T05:53:26.165Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":74}}
+{"timestamp":"2026-07-17T05:53:33.810Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":358}}
+{"timestamp":"2026-07-17T05:53:33.813Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":363}}
+{"timestamp":"2026-07-17T05:53:35.034Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:53:35.034Z","level":"warn","message":"Slow HTTP request detected","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1156,"thresholdMs":1000}}
+{"timestamp":"2026-07-17T05:53:35.034Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":1156}}
+{"timestamp":"2026-07-17T05:53:43.109Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":31}}
+{"timestamp":"2026-07-17T05:53:43.110Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":35}}
+{"timestamp":"2026-07-17T05:53:43.146Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":69}}
+{"timestamp":"2026-07-17T05:53:43.147Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":200,"durationMs":75}}
+{"timestamp":"2026-07-17T05:54:35.213Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":31}}
+{"timestamp":"2026-07-17T05:54:35.229Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id","statusCode":304,"durationMs":46}}
+{"timestamp":"2026-07-17T05:54:35.264Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":81}}
+{"timestamp":"2026-07-17T05:54:35.265Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/trip","statusCode":304,"durationMs":84}}
+{"timestamp":"2026-07-17T05:54:43.697Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":152}}
+{"timestamp":"2026-07-17T05:54:43.700Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":158}}
+{"timestamp":"2026-07-17T05:54:44.466Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:54:44.466Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":698}}
+{"timestamp":"2026-07-17T05:55:07.508Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":77}}
+{"timestamp":"2026-07-17T05:55:07.541Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":108}}
+{"timestamp":"2026-07-17T05:55:07.957Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":522}}
+{"timestamp":"2026-07-17T05:55:07.960Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":531}}
+{"timestamp":"2026-07-17T05:55:35.977Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":161}}
+{"timestamp":"2026-07-17T05:55:35.985Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":166}}
+{"timestamp":"2026-07-17T05:55:36.775Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882886820170974,"lng":75.7988995832804},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.9,"eta":{"hours":0,"minutes":5}}}
+{"timestamp":"2026-07-17T05:55:36.776Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":736}}

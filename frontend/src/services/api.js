@@ -87,10 +87,14 @@ export const getTruckById = (id) => {
   return fetch(`${BASE_URL}/trucks/${truckId}`).then(handleResponse); // public — no auth header
 };
 
-export const getTruckActiveTrip = (id) => {
+export const getTruckActiveTrip = (id, orderId) => {
   const truckId = typeof id === 'string' ? id.trim() : '';
   if (!isValidMongoId(truckId)) return Promise.reject(new Error('Invalid truck id'));
-  return fetch(`${BASE_URL}/trucks/${truckId}/trip`).then(handleResponse); // public — no auth header
+  let url = `${BASE_URL}/trucks/${truckId}/trip`;
+  if (orderId && isValidMongoId(orderId)) {
+    url += `?orderId=${orderId}`;
+  }
+  return fetch(url).then(handleResponse); // public — no auth header
 };
 
 export const getPublicTrucks = () => {

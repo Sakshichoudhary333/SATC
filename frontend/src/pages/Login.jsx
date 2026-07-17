@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import ErrorMessage from '../components/ErrorMessage';
 import { useLanguage } from '../context/LanguageContext';
 import LanguageSelector from '../components/LanguageSelector';
+import { FaSun, FaMoon } from 'react-icons/fa';
 
 const Login = () => {
   const { login, setSession } = useAuth();
@@ -12,6 +13,17 @@ const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -51,8 +63,28 @@ const Login = () => {
           ← {t('auth.backToHome')}
         </Link>
       </div>
-      <div style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', zIndex: 10 }}>
+      <div style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', zIndex: 10, display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
         <LanguageSelector />
+        <button 
+          onClick={toggleTheme} 
+          className="theme-toggle-btn" 
+          aria-label="Toggle Theme"
+          style={{
+            background: 'transparent',
+            border: '1.5px solid var(--border)',
+            color: 'var(--text)',
+            borderRadius: '8px',
+            padding: '0.4rem 0.65rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            transition: 'all 0.15s',
+            fontSize: '0.9rem'
+          }}
+        >
+          {theme === 'dark' ? <FaSun size={14} color="#f59e0b" /> : <FaMoon size={14} color="#0891b2" />}
+        </button>
       </div>
       <div className="auth-left">
         <div className="auth-brand">{t('auth.brand')}</div>

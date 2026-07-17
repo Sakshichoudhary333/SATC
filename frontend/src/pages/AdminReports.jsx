@@ -65,7 +65,7 @@ const AdminReports = () => {
       }}>
         {/* Net Profit Card */}
         <div style={{
-          background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%)',
+          background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(6, 182, 212, 0.15) 100%)',
           border: '1px solid rgba(6, 182, 212, 0.3)',
           borderRadius: '10px',
           padding: '1.25rem',

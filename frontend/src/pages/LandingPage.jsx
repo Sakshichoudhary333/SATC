@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
-import LanguageSelector from '../components/LanguageSelector';
+import PublicHeader from '../components/PublicHeader';
+import PublicFooter from '../components/PublicFooter';
 import { getTruckById, getTruckActiveTrip, getPublicTrucks, getTruckETA } from '../services/api';
 import { 
   FaTruck, 
@@ -62,10 +63,23 @@ const LandingPage = () => {
   const { t } = useLanguage();
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { hash } = useLocation();
   const [trackId, setTrackId] = useState('');
   const [simulatedData, setSimulatedData] = useState(null);
   const [searchError, setSearchError] = useState('');
   const [activeTab, setActiveTab] = useState('how-it-works');
+
+  // Scroll to hash element if present (e.g. #tracking-simulator)
+  useEffect(() => {
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 120);
+      }
+    }
+  }, [hash]);
 
 
   // Load default simulation on mount
@@ -97,6 +111,9 @@ const LandingPage = () => {
     }
     const cleanQueryLower = cleanQuery.toLowerCase();
 
+    const orderIdMatch = query.match(/[?&]orderId=([a-fA-F0-9]{24})/);
+    const orderIdParam = orderIdMatch ? orderIdMatch[1] : null;
+
     // 2. Fetch all trucks via public endpoint to support prefix matching (truncated IDs) or license numbers
     try {
       const trucksList = await getPublicTrucks();
@@ -114,7 +131,7 @@ const LandingPage = () => {
         let realDistance = null;
         let realEtaStr = 'Calculating...';
         try {
-          tripData = await getTruckActiveTrip(matchedTruck._id);
+          tripData = await getTruckActiveTrip(matchedTruck._id, orderIdParam);
           if (tripData && tripData.status === 'in-transit' && tripData.order?.destination) {
             try {
               let queryAddr = tripData.order.destination.trim();
@@ -152,6 +169,7 @@ const LandingPage = () => {
         const realData = {
           id: matchedTruck.truckNumber || matchedTruck._id,
           realId: matchedTruck._id,
+          orderId: tripData?.order?._id || (typeof tripData?.order === 'string' ? tripData.order : null),
           origin: tripData?.order?.pickupLocation || 'Awaiting Dispatch Point',
           destination: tripData?.order?.destination || 'Awaiting Delivery Point',
           status: isCompleted ? 'delivered' : 'transit',
@@ -183,7 +201,7 @@ const LandingPage = () => {
         let realDistance = null;
         let realEtaStr = 'Calculating...';
         try {
-          tripData = await getTruckActiveTrip(cleanQuery);
+          tripData = await getTruckActiveTrip(cleanQuery, orderIdParam);
           if (tripData && tripData.status === 'in-transit' && tripData.order?.destination) {
             try {
               let queryAddr = tripData.order.destination.trim();
@@ -221,6 +239,7 @@ const LandingPage = () => {
         const realData = {
           id: truckData.truckNumber || truckData._id,
           realId: truckData._id,
+          orderId: tripData?.order?._id || (typeof tripData?.order === 'string' ? tripData.order : null),
           origin: tripData?.order?.pickupLocation || 'Awaiting Dispatch Point',
           destination: tripData?.order?.destination || 'Awaiting Delivery Point',
           status: isCompleted ? 'delivered' : 'transit',
@@ -239,30 +258,12 @@ const LandingPage = () => {
         setSimulatedData(realData);
         return;
       } catch (err) {
-        setSearchError('Truck not found in database. Showing simulation fallback.');
+        // ID search failed, fall through to error handling
       }
     }
 
-    // 4. Fallback simulation (default for non-matching inputs)
-    const randomSeed = cleanQuery.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    const isDelivered = randomSeed % 2 === 0;
-    const generated = {
-      id: cleanQuery.toUpperCase(),
-      origin: randomSeed % 3 === 0 ? 'Kolkata Depot' : randomSeed % 3 === 1 ? 'Hyderabad Zone A' : 'Pune Hub',
-      destination: randomSeed % 2 === 0 ? 'Ahmedabad Plaza' : 'Kochi Terminus',
-      status: isDelivered ? 'delivered' : 'transit',
-      location: isDelivered ? 'Destination Warehouse' : 'State Highway 9, Sector ' + (randomSeed % 10 + 1),
-      speed: isDelivered ? '0 km/h (Parked)' : (50 + (randomSeed % 30)) + ' km/h',
-      distance: isDelivered ? 0 : (50 + (randomSeed % 250)),
-      eta: isDelivered ? 'Completed' : (1 + (randomSeed % 12)) + ' hours remaining',
-      steps: [
-        { key: 'placed', time: 'Date: 2 days ago', state: 'completed' },
-        { key: 'assigned', time: 'Date: 1 day ago', state: 'completed' },
-        { key: 'transit', time: isDelivered ? 'Date: Yesterday' : 'Active tracking...', state: isDelivered ? 'completed' : 'active' },
-        { key: 'delivered', time: isDelivered ? 'Date: Today' : 'Scheduled soon', state: isDelivered ? 'completed' : 'pending' }
-      ]
-    };
-    setSimulatedData(generated);
+    setSimulatedData(null);
+    setSearchError(t('landing.notFound'));
   };
 
   const getStepTitle = (key) => {
@@ -291,36 +292,7 @@ const LandingPage = () => {
   return (
     <div className="landing-container">
       {/* Navigation Header */}
-      <header className="landing-header">
-        <div className="landing-logo">
-          <FaTruck size={26} color="var(--cyan)" />
-          TMS<span>Logistics</span>
-        </div>
-        
-        <div className="landing-nav-actions">
-          <Link to="/" className="landing-nav-link">{t('common.home')}</Link>
-          <Link to="/about" className="landing-nav-link">{t('landing.aboutUs')}</Link>
-          <Link to="/careers" className="landing-nav-link">{t('landing.careers')}</Link>
-          <Link to="/faq" className="landing-nav-link">{t('landing.faq')}</Link>
-          <Link to="/features" className="landing-nav-link">{t('landing.features') || 'Features'}</Link>
-          <Link to="/how-it-works" className="landing-nav-link">{t('landing.howItWorks') || 'How It Works'}</Link>
-          <Link to="/#tracking-simulator" className="landing-nav-link">{t('landing.trackShipment')}</Link>
-          <Link to="/contact" className="landing-nav-link">{t('landing.contactUs')}</Link>
-          
-          <LanguageSelector />
-          
-          {user ? (
-            <button className="landing-btn-signup" onClick={() => navigate('/login')}>
-              {t('landing.signIn')}
-            </button>
-          ) : (
-            <>
-              <Link to="/login" className="landing-btn-login">{t('landing.signIn')}</Link>
-              <button className="landing-btn-signup" onClick={handleGetStarted}>{t('landing.getStarted')}</button>
-            </>
-          )}
-        </div>
-      </header>
+      <PublicHeader />
 
       {/* Hero Section */}
       <section className="landing-hero">
@@ -366,6 +338,54 @@ const LandingPage = () => {
               </button>
             </form>
 
+            <div className="landing-demo-chips" style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginBottom: '1.25rem', marginTop: '-0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
+              <span style={{ fontSize: '0.8rem', color: 'var(--dim)', fontWeight: 500 }}>
+                {t('landing.tryDemo')}
+              </span>
+              <button 
+                type="button"
+                className="landing-demo-chip"
+                onClick={() => {
+                  setTrackId('tms-882');
+                  setSimulatedData(MOCK_TRACKING_DATA['tms-882']);
+                }}
+                style={{ 
+                  background: 'rgba(6, 182, 212, 0.1)', 
+                  border: '1px solid rgba(6, 182, 212, 0.3)', 
+                  color: 'var(--cyan)', 
+                  fontSize: '0.75rem', 
+                  padding: '3px 10px', 
+                  borderRadius: '16px', 
+                  cursor: 'pointer',
+                  fontWeight: 600,
+                  transition: 'all 0.2s'
+                }}
+              >
+                tms-882 (In-Transit)
+              </button>
+              <button 
+                type="button"
+                className="landing-demo-chip"
+                onClick={() => {
+                  setTrackId('tms-104');
+                  setSimulatedData(MOCK_TRACKING_DATA['tms-104']);
+                }}
+                style={{ 
+                  background: 'rgba(6, 182, 212, 0.1)', 
+                  border: '1px solid rgba(6, 182, 212, 0.3)', 
+                  color: 'var(--cyan)', 
+                  fontSize: '0.75rem', 
+                  padding: '3px 10px', 
+                  borderRadius: '16px', 
+                  cursor: 'pointer',
+                  fontWeight: 600,
+                  transition: 'all 0.2s'
+                }}
+              >
+                tms-104 (Delivered)
+              </button>
+            </div>
+
             {searchError && (
               <div style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid #ef4444', color: '#f87171', borderRadius: '8px', padding: '0.75rem', marginBottom: '1rem', fontSize: '0.85rem', textAlign: 'center' }}>
                 ⚠️ {searchError}
@@ -379,6 +399,28 @@ const LandingPage = () => {
                   <span style={{ fontSize: '0.8rem', color: simulatedData.status === 'delivered' ? '#10b981' : 'var(--cyan)' }}>
                     ● {simulatedData.status === 'delivered' ? t('landing.mockDelivered') : t('landing.mockTransit')}
                   </span>
+                </div>
+
+                {/* Source & Destination */}
+                <div style={{ 
+                  background: 'rgba(255, 255, 255, 0.02)', 
+                  border: '1px solid var(--border)', 
+                  borderRadius: '8px', 
+                  padding: '0.75rem', 
+                  marginBottom: '1rem',
+                  fontSize: '0.8rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '0.5rem'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem' }}>
+                    <span style={{ color: 'var(--dim)', fontWeight: 600, minWidth: '75px' }}>{t('liveTruckTrack.source')}:</span>
+                    <span style={{ color: 'var(--text)', fontWeight: 600, textAlign: 'right', wordBreak: 'break-word' }}>{simulatedData.origin}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem', borderTop: '1px dashed var(--border)', paddingTop: '0.5rem' }}>
+                    <span style={{ color: 'var(--dim)', fontWeight: 600, minWidth: '75px' }}>{t('liveTruckTrack.destination')}:</span>
+                    <span style={{ color: 'var(--text)', fontWeight: 600, textAlign: 'right', wordBreak: 'break-word' }}>{simulatedData.destination}</span>
+                  </div>
                 </div>
 
                 <div className="landing-timeline">
@@ -417,7 +459,7 @@ const LandingPage = () => {
                 {simulatedData.isReal && (
                   <div style={{ marginTop: '1.25rem' }}>
                     <Link 
-                      to={`/track/truck/${simulatedData.realId}`} 
+                      to={`/track/truck/${simulatedData.realId}${simulatedData.orderId ? `?orderId=${simulatedData.orderId}` : ''}`} 
                       className="landing-search-btn" 
                       style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}
                     >
@@ -448,9 +490,9 @@ const LandingPage = () => {
             <div className="landing-stat-label">{t('landing.statActive')}</div>
           </div>
           <div className="landing-stat-card">
-            <div className="landing-stat-icon">⚡</div>
-            <div className="landing-stat-num">&lt; 150ms</div>
-            <div className="landing-stat-label">{t('landing.statPing')}</div>
+            <div className="landing-stat-icon">⏱️</div>
+            <div className="landing-stat-num">99.9%</div>
+            <div className="landing-stat-label">{t('landing.statOnTime')}</div>
           </div>
           <div className="landing-stat-card">
             <div className="landing-stat-icon">⭐</div>
@@ -531,83 +573,7 @@ const LandingPage = () => {
       </section>
 
       {/* Footer */}
-      <footer className="landing-footer">
-        <div className="landing-footer-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
-          <div className="landing-footer-brand">
-            <div className="landing-logo">
-              <FaTruck size={22} color="var(--cyan)" />
-              TMS<span>Logistics</span>
-            </div>
-            <p className="landing-footer-desc">
-              {t('auth.tagline')}
-            </p>
-          </div>
-
-          <div>
-            <h4 className="landing-footer-title">{t('footer.platform')}</h4>
-            <div className="landing-footer-links">
-              <Link to="/features">{t('landing.features') || 'Features'}</Link>
-              <Link to="/how-it-works">{t('landing.howItWorks') || 'How It Works'}</Link>
-              <Link to="/#tracking-simulator">{t('landing.trackShipment')}</Link>
-            </div>
-          </div>
-
-          <div>
-            <h4 className="landing-footer-title">{t('footer.company')}</h4>
-            <div className="landing-footer-links">
-              <Link to="/about">{t('landing.aboutUs') || 'About Us'}</Link>
-              <Link to="/contact">{t('landing.contactUs') || 'Contact Us'}</Link>
-              <Link to="/careers">{t('landing.careers') || 'Careers'}</Link>
-              <Link to="/faq">{t('landing.faq') || 'FAQ'}</Link>
-            </div>
-          </div>
-
-          <div>
-            <h4 className="landing-footer-title">{t('footer.secureAndReliable')}</h4>
-            <div className="landing-footer-links" style={{ color: 'var(--muted)', fontSize: '0.875rem', gap: '0.65rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                {t('footer.secureAuth')}
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                {t('footer.liveGpsTracking')}
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                {t('footer.smartTripManagement')}
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                {t('footer.expenseMonitoring')}
-              </div>
-            </div>
-          </div>
-
-          <div id="contact-details">
-            <h4 className="landing-footer-title">{t('landing.contactUs') || 'Contact Us'}</h4>
-            <div className="landing-footer-links" style={{ color: 'var(--muted)', fontSize: '0.875rem', gap: '0.6rem' }}>
-              <div>
-                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>{t('footer.email')}</span>
-                <a href="mailto:choudharysakshi828@gmail.com" style={{ color: 'var(--muted)' }}>choudharysakshi828@gmail.com</a>
-              </div>
-              <div>
-                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>{t('footer.phone')}</span>
-                <a href="tel:+919664372498" style={{ color: 'var(--muted)' }}>+91-9664372498</a>
-              </div>
-              <div>
-                <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--dim)', fontWeight: 700 }}>{t('footer.address')}</span>
-                <span>{t('footer.addressValue')}</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <div className="landing-footer-bottom">
-          <span>&copy; {new Date().getFullYear()} TMS Logistics Inc. {t('footer.allRightsReserved')}</span>
-          <span style={{ display: 'flex', gap: '1rem' }}>
-            <Link to="/privacy-policy">{t('footer.privacyPolicy')}</Link>
-            <Link to="/terms-of-service">{t('footer.termsOfService')}</Link>
-          </span>
-        </div>
-      </footer>
+      <PublicFooter />
     </div>
   );
 };

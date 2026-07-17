@@ -211,7 +211,7 @@ const AdminUsers = () => {
           </div>
         </div>
         <div className="admin-stat-card">
-          <div className="admin-stat-icon" style={{ background: '#3b82f622', color: '#3b82f6' }}>▣</div>
+          <div className="admin-stat-icon" style={{ background: '#06b6d422', color: '#06b6d4' }}>▣</div>
           <div className="admin-stat-info">
             <div className="admin-stat-val">{stats.admins}</div>
             <div className="admin-stat-label">{t('admin.users.adminsOnPage')}</div>

@@ -14,8 +14,8 @@ const STATUS_COLOR = {
   pending: '#f59e0b',
   approved: '#06b6d4',
   rejected: '#ef4444',
-  assigned: '#3b82f6',
-  started: '#3b82f6',
+  assigned: '#06b6d4',
+  started: '#06b6d4',
   'in-transit': '#8b5cf6',
   completed: '#10b981',
 };
@@ -121,26 +121,6 @@ const CustomerDashboard = () => {
         <div className="dark-card-label">{t('customerDashboard.liveDelivery')}</div>
         {spotlightOrder?.truck ? (
           <>
-            {getDeliveryStatus(spotlightOrder) === 'completed' && (
-              <div style={{
-                background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(5, 150, 105, 0.12) 100%)',
-                border: '1px solid #10b981',
-                borderRadius: '8px',
-                padding: '1.2rem 1.5rem',
-                marginBottom: '1.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '1rem',
-              }}>
-                <span style={{ fontSize: '1.75rem' }}>🎉</span>
-                <div>
-                  <div style={{ fontWeight: 700, color: '#10b981', textTransform: 'uppercase', letterSpacing: '0.05em', fontSize: '0.9rem' }}>Order Delivered Successfully</div>
-                  <div style={{ fontSize: '0.85rem', color: '#cbd5e1', marginTop: '0.25rem', lineHeight: '1.4' }}>
-                    Your shipment has been verified and safely delivered. A confirmation receipt has been sent to your email. Thank you for choosing SATC Logistics!
-                  </div>
-                </div>
-              </div>
-            )}
             <div className="customer-tracker-meta">
               <div className="customer-tracker-kv">
                 <span className="customer-tracker-label">{t('customerDashboard.assignedTruck')}</span>
@@ -233,6 +213,7 @@ const CustomerDashboard = () => {
               <th>{t('customerDashboard.dropCol')}</th>
               <th>{t('customerDashboard.orderStatusCol')}</th>
               <th>{t('customerDashboard.deliveryStatusCol')}</th>
+              <th>{t('customerDashboard.driverCol')}</th>
               <th>{t('customerDashboard.dateCol')}</th>
               <th>{t('customerDashboard.actionCol')}</th>
             </tr>
@@ -246,7 +227,12 @@ const CustomerDashboard = () => {
                 <Fragment key={order._id}>
                   <tr
                     style={{ cursor: trackable ? 'pointer' : 'default' }}
-                    onClick={() => trackable && setSelectedOrderId(order._id)}
+                    onClick={() => {
+                      if (trackable) {
+                        setSelectedOrderId(order._id);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }
+                    }}
                   >
                     <td><code style={{ color: '#06b6d4' }}>{order._id.slice(-6)}</code></td>
                     <td>{order.pickupLocation}</td>
@@ -273,25 +259,32 @@ const CustomerDashboard = () => {
                         {deliveryStatus.charAt(0).toUpperCase() + deliveryStatus.slice(1)}
                       </span>
                     </td>
+                    <td style={{ color: '#cbd5e1', fontWeight: 500 }}>
+                      {order.driver?.name || order.trip?.driver?.name || (
+                        <span style={{ color: '#64748b', fontStyle: 'italic' }}>{t('customerDashboard.unassigned')}</span>
+                      )}
+                    </td>
                     <td>{formatDate(order.createdAt)}</td>
                     <td onClick={(e) => e.stopPropagation()}>
-                      {order.truck && (
-                        <button
-                          type="button"
+                      {order.truck && order.status !== 'completed' && (
+                        <Link
+                          to={`/track/truck/${order.truck._id}?orderId=${order._id}`}
                           className="approve-btn"
-                          style={{ marginRight: '6px', padding: '0.3rem 0.75rem', background: '#8b5cf6' }}
-                          onClick={() => setSelectedOrderId(order._id)}
+                          style={{ marginRight: '6px', padding: '0.3rem 0.75rem', background: '#8b5cf6', textDecoration: 'none', display: 'inline-block' }}
+                          onClick={(e) => e.stopPropagation()}
                         >
                           {t('customerDashboard.trackBtn')}
-                        </button>
+                        </Link>
                       )}
-                      <Link
-                        to={`/order/${order._id}`}
-                        className="approve-btn"
-                        style={{ marginRight: '6px', padding: '0.3rem 0.75rem' }}
-                      >
-                        {t('customerDashboard.viewBtn')}
-                      </Link>
+                      {order.status !== 'completed' && (
+                        <Link
+                          to={`/order/${order._id}`}
+                          className="approve-btn"
+                          style={{ marginRight: '6px', padding: '0.3rem 0.75rem' }}
+                        >
+                          {t('customerDashboard.viewBtn')}
+                        </Link>
+                      )}
                       {order.status === 'completed' && (
                         <Link
                           to={`/review/${order._id}`}

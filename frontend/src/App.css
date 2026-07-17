@@ -1735,3 +1735,522 @@ code { background: var(--surface2); padding: 2px 6px; border-radius: 4px; font-s
   gap: 8px;
   text-decoration: none;
 }
+
+/* ── Light Mode Custom Properties ────────────────── */
+[data-theme='light'] {
+  --bg:        #f8fafc;
+  --surface:   #ffffff;
+  --surface2:  #f1f5f9;
+  --border:    #cbd5e1;
+  --text:      #0f172a;
+  --muted:     #475569;
+  --dim:       #64748b;
+  --cyan:      #0891b2; /* Cyan-600 for contrast */
+  --cyan-dark: #0e7490; /* Cyan-700 */
+}
+
+/* ── Light Mode UI Element Overrides ─────────────── */
+[data-theme='light'] .landing-header {
+  background: rgba(255, 255, 255, 0.85);
+  border-bottom: 1px solid rgba(203, 213, 225, 0.5);
+}
+
+[data-theme='light'] .landing-glass-card {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(203, 213, 225, 0.5);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='light'] .landing-tracker-result {
+  background: rgba(241, 245, 249, 0.7);
+  border: 1px solid rgba(203, 213, 225, 0.6);
+}
+
+[data-theme='light'] .landing-footer {
+  background: rgba(241, 245, 249, 0.98);
+  border-top: 1px solid rgba(203, 213, 225, 0.8);
+}
+
+[data-theme='light'] .landing-workflow-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: var(--border);
+}
+
+[data-theme='light'] .landing-modal-container {
+  background: #ffffff;
+  border: 1px solid rgba(6, 182, 212, 0.25);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='light'] .landing-modal-input,
+[data-theme='light'] .landing-modal-textarea {
+  background: #ffffff;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+[data-theme='light'] .about-main-title,
+[data-theme='light'] .faq-main-title,
+[data-theme='light'] .careers-main-title,
+[data-theme='light'] .feat-main-title,
+[data-theme='light'] .hiw-main-title,
+[data-theme='light'] .contact-title,
+[data-theme='light'] .landing-gradient-text,
+[data-theme='light'] .landing-modal-title {
+  background: linear-gradient(135deg, var(--text) 0%, var(--cyan) 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+[data-theme='light'] .landing-hero {
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(6, 182, 212, 0.03) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.02) 0%, transparent 40%);
+}
+
+.theme-toggle-btn:hover {
+  border-color: var(--cyan) !important;
+  color: var(--cyan) !important;
+}
+
+/* ── Light Mode Subpages Styling Overrides ───────── */
+
+/* How It Works page */
+[data-theme='light'] .hiw-steps-section {
+  background: rgba(241, 245, 249, 0.5);
+}
+[data-theme='light'] .hiw-timeline-circle {
+  background: #ffffff;
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);
+}
+[data-theme='light'] .hiw-step-num {
+  color: var(--text);
+}
+[data-theme='light'] .hiw-timeline-item:hover .hiw-step-num {
+  color: #ffffff;
+}
+[data-theme='light'] .hiw-step-card {
+  background: #ffffff;
+  border-color: var(--border);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+[data-theme='light'] .hiw-timeline-item:hover .hiw-step-card {
+  background: #ffffff;
+  box-shadow: 0 8px 25px rgba(6, 182, 212, 0.08);
+}
+[data-theme='light'] .hiw-step-title {
+  color: var(--text);
+}
+[data-theme='light'] .hiw-step-desc {
+  color: var(--muted);
+}
+
+/* About Us page */
+[data-theme='light'] .about-card {
+  background: #ffffff;
+  border-color: var(--border);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+[data-theme='light'] .about-card:hover {
+  background: #ffffff;
+  box-shadow: 0 10px 20px rgba(6, 182, 212, 0.08);
+}
+[data-theme='light'] .about-card h3 {
+  color: var(--text);
+}
+[data-theme='light'] .about-card p {
+  color: var(--muted);
+}
+[data-theme='light'] .about-mission-card {
+  background: #ffffff;
+  border-color: var(--border);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+[data-theme='light'] .about-icon-header h2 {
+  color: var(--text);
+}
+[data-theme='light'] .about-mission-card p {
+  color: var(--muted);
+}
+
+/* Careers page */
+[data-theme='light'] .careers-section-title {
+  color: var(--text);
+}
+[data-theme='light'] .careers-openings-section {
+  background: rgba(241, 245, 249, 0.5);
+}
+[data-theme='light'] .careers-job-card {
+  background: #ffffff;
+  border-color: var(--border);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+[data-theme='light'] .careers-job-card:hover {
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(6, 182, 212, 0.08);
+}
+[data-theme='light'] .careers-job-title {
+  color: var(--text);
+}
+[data-theme='light'] .careers-job-desc {
+  color: var(--muted);
+}
+[data-theme='light'] .careers-job-meta span {
+  color: var(--dim);
+}
+
+/* FAQ page */
+[data-theme='light'] .faq-search-input {
+  background: #ffffff;
+  color: var(--text);
+}
+[data-theme='light'] .faq-search-input:focus {
+  background: #ffffff;
+}
+[data-theme='light'] .faq-item {
+  background: #ffffff;
+  border-color: var(--border);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+[data-theme='light'] .faq-item:hover,
+[data-theme='light'] .faq-item.active {
+  background: #ffffff;
+  box-shadow: 0 5px 15px rgba(6, 182, 212, 0.08);
+}
+[data-theme='light'] .faq-question-btn {
+  color: var(--text);
+}
+[data-theme='light'] .faq-answer {
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+}
+
+/* Features page */
+[data-theme='light'] .feat-services-section {
+  background: rgba(241, 245, 249, 0.5);
+}
+[data-theme='light'] .feat-card {
+  background: #ffffff;
+  border-color: var(--border);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+[data-theme='light'] .feat-card:hover {
+  background: #ffffff;
+  box-shadow: 0 10px 25px rgba(6, 182, 212, 0.08);
+}
+[data-theme='light'] .feat-card h3 {
+  color: var(--text);
+}
+[data-theme='light'] .feat-card p {
+  color: var(--muted);
+}
+[data-theme='light'] .feat-section-title {
+  color: var(--text);
+}
+
+/* Contact Us page */
+[data-theme='light'] .contact-subtitle {
+  color: var(--text);
+}
+[data-theme='light'] .contact-form-input,
+[data-theme='light'] .contact-form-textarea {
+  background: #ffffff;
+  color: var(--text);
+}
+[data-theme='light'] .contact-form-input:focus,
+[data-theme='light'] .contact-form-textarea:focus {
+  background: #ffffff;
+}
+
+/* ── Light Mode Extra Layout Overrides ───────────── */
+
+/* About Us Extra */
+[data-theme='light'] .about-offer-section {
+  background: rgba(241, 245, 249, 0.5);
+}
+[data-theme='light'] .about-section-title {
+  color: var(--text);
+}
+[data-theme='light'] .about-why-item {
+  background: #ffffff;
+  border-color: var(--border);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+}
+[data-theme='light'] .about-why-item:hover {
+  background: #ffffff;
+  border-color: var(--cyan);
+  box-shadow: 0 6px 15px rgba(6, 182, 212, 0.05);
+}
+
+/* Careers Extra */
+[data-theme='light'] .careers-why-card {
+  background: #ffffff;
+  border-color: var(--border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+[data-theme='light'] .careers-why-card:hover {
+  background: #ffffff;
+  border-color: var(--cyan);
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.05);
+}
+[data-theme='light'] .careers-apply-box {
+  background: #ffffff;
+  border-color: var(--border);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+}
+[data-theme='light'] .careers-apply-box-title {
+  color: var(--text);
+}
+[data-theme='light'] .careers-info-badge {
+  background: rgba(241, 245, 249, 0.8);
+  border-color: var(--border);
+}
+
+/* Contact Us Extra */
+[data-theme='light'] .contact-form-card {
+  background: #ffffff;
+  border-color: var(--border);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+}
+
+/* Features Extra */
+[data-theme='light'] .feat-why-item {
+  background: #ffffff;
+  border-color: var(--border);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+}
+[data-theme='light'] .feat-why-item:hover {
+  background: #ffffff;
+  border-color: var(--cyan);
+  box-shadow: 0 6px 15px rgba(6, 182, 212, 0.05);
+}
+
+/* Landing Page Extra */
+[data-theme='light'] .landing-workflow-card {
+  background: #ffffff;
+  border-color: var(--border);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+[data-theme='light'] .landing-workflow-card:hover {
+  background: #ffffff;
+  border-color: var(--cyan);
+  box-shadow: 0 8px 25px rgba(6, 182, 212, 0.06);
+}
+[data-theme='light'] .landing-modal-overlay {
+  background: rgba(248, 250, 252, 0.85);
+  backdrop-filter: blur(8px);
+}
+[data-theme='light'] .landing-feature-card:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.04);
+}
+[data-theme='light'] .landing-header {
+  border-bottom: 1px solid rgba(203, 213, 225, 0.8) !important;
+}
+
+[data-theme='light'] .landing-features-section {
+  background: rgba(241, 245, 249, 0.6) !important;
+  border-top-color: var(--border) !important;
+  border-bottom-color: var(--border) !important;
+}
+
+[data-theme='light'] .landing-search-btn,
+[data-theme='light'] .landing-btn-signup,
+[data-theme='light'] .landing-demo-chip:hover {
+  color: #ffffff !important;
+}
+
+[data-theme='light'] .landing-hero-btn-primary {
+  color: #ffffff !important;
+}
+
+[data-theme='light'] .landing-hero-btn-secondary {
+  background: #ffffff !important;
+  border: 1.5px solid var(--border) !important;
+  color: var(--text) !important;
+}
+
+[data-theme='light'] .landing-hero-btn-secondary:hover {
+  background: var(--surface2) !important;
+  border-color: var(--cyan) !important;
+}
+
+[data-theme='light'] .customer-tracker-kv {
+  background: var(--surface2) !important;
+  border-color: var(--border) !important;
+}
+
+/* ── Driver Dashboard Usability Improvements ── */
+
+/* GPS Banner */
+.driver-gps-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.driver-gps-banner.idle {
+  background: rgba(30, 41, 59, 0.4);
+  border-color: rgba(148, 163, 184, 0.2);
+  color: var(--muted);
+}
+
+.driver-gps-banner.idle .driver-gps-banner-indicator {
+  width: 10px;
+  height: 10px;
+  background: var(--muted);
+  border-radius: 50%;
+}
+
+.driver-gps-banner.active {
+  background: rgba(16, 185, 129, 0.08);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: #a7f3d0;
+}
+
+.driver-gps-banner.active .driver-gps-banner-indicator {
+  width: 10px;
+  height: 10px;
+  background: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulse-gps-dot 1.8s infinite;
+}
+
+.driver-gps-banner.has-error {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+}
+
+.driver-gps-banner.has-error .driver-gps-banner-indicator {
+  width: 10px;
+  height: 10px;
+  background: #ef4444;
+  border-radius: 50%;
+}
+
+@keyframes pulse-gps-dot {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+/* Navigate in Map button */
+.driver-navigate-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  padding: 0.65rem 1.15rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 6px;
+  text-decoration: none;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.driver-navigate-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  color: #ffffff;
+}
+
+.driver-navigate-btn svg {
+  font-size: 0.95rem;
+}
+
+/* Driver action button styling (large, touch-friendly) */
+.driver-action-btn {
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  padding: 0.75rem 1.5rem !important;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.driver-action-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+}
+
+.driver-gps-toggle-btn {
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  padding: 0.75rem 1.25rem !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+/* Light theme overrides for driver enhancements */
+[data-theme='light'] .driver-gps-banner.idle {
+  background: #f1f5f9;
+  border-color: rgba(148, 163, 184, 0.4);
+  color: #475569;
+}
+
+[data-theme='light'] .driver-gps-banner.active {
+  background: rgba(16, 185, 129, 0.05);
+  border-color: rgba(16, 185, 129, 0.4);
+  color: #065f46;
+}
+
+[data-theme='light'] .driver-gps-banner.has-error {
+  background: rgba(239, 68, 68, 0.05);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #991b1b;
+}
+
+/* Mobile-first adjustments for Driver Dashboard */
+@media (max-width: 768px) {
+  .driver-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  
+  .driver-trip-actions {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.75rem;
+  }
+  
+  .driver-action-btn {
+    width: 100% !important;
+    text-align: center;
+  }
+  
+  .driver-navigate-btn {
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
+}

@@ -181,6 +181,15 @@ export const deleteUser = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
+    // Clean up references to prevent orphaned assignments and permanently locked trucks
+    if (user.role === 'driver') {
+      await Truck.updateMany({ driver: id }, { $set: { driver: null, isAvailable: true } });
+      await Trip.updateMany({ driver: id }, { $set: { driver: null } });
+      await Order.updateMany({ driver: id }, { $set: { driver: null } });
+    } else if (user.role === 'customer') {
+      await Order.updateMany({ customer: id }, { $set: { customer: null } });
+    }
+
     await user.deleteOne();
     res.json({ message: "User deleted successfully" });
   } catch (error) {
