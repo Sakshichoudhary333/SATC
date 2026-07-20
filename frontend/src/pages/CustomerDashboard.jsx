@@ -94,6 +94,19 @@ const CustomerDashboard = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!socketRef.current || orders.length === 0) return;
+
+    orders.forEach((order) => {
+      if (order.truck?._id) {
+        socketRef.current.emit('joinTruck', { truckId: order.truck._id });
+      }
+      if (order.trip?._id) {
+        socketRef.current.emit('joinTrip', { tripId: order.trip._id });
+      }
+    });
+  }, [orders]);
+
   const selectedOrder = useMemo(
     () => orders.find((order) => order._id === selectedOrderId) || null,
     [orders, selectedOrderId]

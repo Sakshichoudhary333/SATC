@@ -44,6 +44,10 @@ const expenseSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    receiptImage: {
+      type: String,
+      default: null,
+    },
   },
   { timestamps: true }
 );

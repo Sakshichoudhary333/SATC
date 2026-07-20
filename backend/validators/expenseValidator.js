@@ -28,5 +28,9 @@ export const validateAddExpense = [
     .trim()
     .isLength({ max: 500 }).withMessage('Notes must be at most 500 characters'),
 
+  body('receiptImage')
+    .optional()
+    .isString().withMessage('Receipt image must be a string'),
+
   handleValidation,
 ];

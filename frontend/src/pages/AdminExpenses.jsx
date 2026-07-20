@@ -16,6 +16,7 @@ const AdminExpenses = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [actionLoading, setActionLoading] = useState(null);
+  const [activeReceiptUrl, setActiveReceiptUrl] = useState(null);
   const { t } = useLanguage();
 
   useEffect(() => {
@@ -63,6 +64,7 @@ const AdminExpenses = () => {
               <th>{t('admin.expenses.colTotal')}</th>
               <th>{t('admin.expenses.colStatus')}</th>
               <th>{t('admin.expenses.colDate')}</th>
+              <th>{t('admin.expenses.colReceipt')}</th>
               <th>{t('admin.expenses.colAction')}</th>
             </tr>
           </thead>
@@ -88,6 +90,20 @@ const AdminExpenses = () => {
                     </span>
                   </td>
                   <td>{e.createdAt ? formatDate(e.createdAt) : '—'}</td>
+                  <td>
+                    {e.receiptImage ? (
+                      <button
+                        type="button"
+                        className="approve-btn"
+                        style={{ padding: '0.3rem 0.75rem', fontSize: '0.8rem', background: 'var(--surface2)', border: '1px solid var(--border)' }}
+                        onClick={() => setActiveReceiptUrl(e.receiptImage)}
+                      >
+                        {t('admin.expenses.viewReceipt') || 'View'}
+                      </button>
+                    ) : (
+                      <span style={{ color: 'var(--dim)', fontSize: '0.8rem' }}>{t('admin.expenses.noReceipt') || '—'}</span>
+                    )}
+                  </td>
                   <td>
                     <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                       {isPending && (
@@ -122,7 +138,7 @@ const AdminExpenses = () => {
             })}
             {expenses.length === 0 && (
               <tr>
-                <td colSpan={10} style={{ textAlign: 'center', color: '#64748b', padding: '2rem' }}>
+                <td colSpan={11} style={{ textAlign: 'center', color: '#64748b', padding: '2rem' }}>
                   {t('admin.expenses.noExpensesFound')}
                 </td>
               </tr>
@@ -130,6 +146,26 @@ const AdminExpenses = () => {
           </tbody>
         </table>
       </div>
+
+      {/* Full-screen Receipt Modal Viewer */}
+      {activeReceiptUrl && (
+        <div className="receipt-modal-overlay" onClick={() => setActiveReceiptUrl(null)}>
+          <div className="receipt-modal-content" onClick={(e) => e.stopPropagation()}>
+            <img
+              src={activeReceiptUrl}
+              alt="Fuel Expense Receipt"
+              className="receipt-modal-img"
+            />
+            <button
+              type="button"
+              className="receipt-modal-close-btn"
+              onClick={() => setActiveReceiptUrl(null)}
+            >
+              {t('common.close') || 'Close'}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

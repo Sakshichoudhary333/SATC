@@ -20,7 +20,7 @@ const sortTripsForExpenses = (trips = []) =>
 
 const normalizeExpense = (entry) => entry?.expense || entry || null;
 
-const EMPTY_COSTS = { fuelCost: '', tollCost: '', foodCost: '', maintenanceCost: '', notes: '' };
+const EMPTY_COSTS = { fuelCost: '', tollCost: '', foodCost: '', maintenanceCost: '', notes: '', receiptImage: '' };
 
 const STATUS_COLOR = {
   pending: '#f59e0b',
@@ -45,6 +45,9 @@ const ExpenseForm = () => {
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+
+  const [receiptPreview, setReceiptPreview] = useState('');
+  const [activeReceiptUrl, setActiveReceiptUrl] = useState(null);
 
 
   // ── load ──────────────────────────────────────────
@@ -108,6 +111,7 @@ const ExpenseForm = () => {
     setSuccess('');
     if (!selectedTripId) {
       setForm(EMPTY_COSTS);
+      setReceiptPreview('');
       return;
     }
     const existing = expenses.find(
@@ -120,9 +124,12 @@ const ExpenseForm = () => {
         foodCost: existing.foodCost ?? '',
         maintenanceCost: existing.maintenanceCost ?? '',
         notes: existing.notes ?? '',
+        receiptImage: existing.receiptImage ?? '',
       });
+      setReceiptPreview(existing.receiptImage ?? '');
     } else {
       setForm(EMPTY_COSTS);
+      setReceiptPreview('');
     }
   }, [selectedTripId, expenses]);
 
@@ -150,6 +157,22 @@ const ExpenseForm = () => {
   };
 
   const handleChange = (e) => setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setReceiptPreview(reader.result);
+      setForm((prev) => ({ ...prev, receiptImage: reader.result }));
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleRemoveReceipt = () => {
+    setReceiptPreview('');
+    setForm((prev) => ({ ...prev, receiptImage: '' }));
+  };
 
   const validateForm = () => {
     for (const key of COST_FIELDS) {
@@ -184,6 +207,7 @@ const ExpenseForm = () => {
       foodCost: Number(form.foodCost) || 0,
       maintenanceCost: Number(form.maintenanceCost) || 0,
       notes: form.notes,
+      receiptImage: form.receiptImage || '',
     };
 
     try {
@@ -205,6 +229,9 @@ const ExpenseForm = () => {
         }
 
         setSuccess(t('expenses.successUpdate'));
+        alert(t('expenses.successUpdate') || 'Expense updated successfully!');
+        setSelectedTripId('');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         // Create new record for this trip
         const created = await addExpense({ trip: selectedTripId, ...payload });
@@ -223,6 +250,9 @@ const ExpenseForm = () => {
         });
 
         setSuccess(t('expenses.successRecord'));
+        alert(t('expenses.successRecord') || 'Expense recorded successfully!');
+        setSelectedTripId('');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     } catch (err) {
       setError(err.message || 'Failed to save expense');
@@ -365,6 +395,38 @@ const ExpenseForm = () => {
               />
             </div>
 
+            <div className="dark-form-group">
+              <label>{t('expenses.receiptImageLabel')}</label>
+              <input
+                key={selectedTripId}
+                type="file"
+                accept="image/*"
+                className="dark-input"
+                onChange={handleFileChange}
+                disabled={formReadOnly}
+              />
+              {receiptPreview && (
+                <div className="receipt-preview-container">
+                  <div className="receipt-preview-img-wrapper">
+                    <img
+                      src={receiptPreview}
+                      alt="Receipt Preview"
+                      className="receipt-preview-img"
+                    />
+                    {!formReadOnly && (
+                      <button
+                        type="button"
+                        onClick={handleRemoveReceipt}
+                        className="receipt-remove-btn"
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+
             {!formReadOnly && (
               <button
                 type="submit"
@@ -401,6 +463,7 @@ const ExpenseForm = () => {
                   <th>{t('expenses.totalCol')}</th>
                   <th>{t('expenses.statusCol')}</th>
                   <th>{t('expenses.dateCol')}</th>
+                  <th>{t('admin.expenses.colReceipt') || 'RECEIPT'}</th>
                   <th>{t('expenses.actionsCol')}</th>
                 </tr>
               </thead>
@@ -426,12 +489,26 @@ const ExpenseForm = () => {
                     </td>
                     <td>{e.createdAt ? formatDate(e.createdAt) : '—'}</td>
                     <td>
+                      {e.receiptImage ? (
+                        <button
+                          type="button"
+                          className="approve-btn"
+                          style={{ padding: '0.3rem 0.75rem', fontSize: '0.8rem', background: 'var(--surface2)', border: '1px solid var(--border)' }}
+                          onClick={() => setActiveReceiptUrl(e.receiptImage)}
+                        >
+                          {t('expenses.viewReceipt') || 'View'}
+                        </button>
+                      ) : (
+                        <span style={{ color: 'var(--dim)', fontSize: '0.8rem' }}>{t('expenses.noReceipt') || '—'}</span>
+                      )}
+                    </td>
+                    <td>
                       {canEdit(e) || canDelete(e) ? (
-                        <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'nowrap' }}>
                           {canEdit(e) && (
                             <button
                               className="approve-btn"
-                              style={{ padding: '0.3rem 0.75rem', fontSize: '0.8rem' }}
+                              style={{ padding: '0.3rem 0.75rem', fontSize: '0.8rem', background: '#3b82f6', whiteSpace: 'nowrap' }}
                               onClick={() => {
                                 const tripId = (e.trip?._id || e.trip)?.toString();
                                 setSelectedTripId(tripId);
@@ -444,7 +521,7 @@ const ExpenseForm = () => {
                           {canDelete(e) && (
                             <button
                               className="reject-btn"
-                              style={{ padding: '0.3rem 0.75rem', fontSize: '0.8rem' }}
+                              style={{ padding: '0.3rem 0.75rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }}
                               onClick={() => handleDelete(e._id)}
                             >
                               {t('expenses.deleteBtn')}
@@ -461,6 +538,26 @@ const ExpenseForm = () => {
             </table>
           </div>
         </>
+      )}
+
+      {/* Full-screen Receipt Modal Viewer */}
+      {activeReceiptUrl && (
+        <div className="receipt-modal-overlay" onClick={() => setActiveReceiptUrl(null)}>
+          <div className="receipt-modal-content" onClick={(e) => e.stopPropagation()}>
+            <img
+              src={activeReceiptUrl}
+              alt="Fuel Expense Receipt"
+              className="receipt-modal-img"
+            />
+            <button
+              type="button"
+              className="receipt-modal-close-btn"
+              onClick={() => setActiveReceiptUrl(null)}
+            >
+              {t('common.close') || 'Close'}
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

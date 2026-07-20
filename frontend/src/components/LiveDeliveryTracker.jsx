@@ -227,6 +227,39 @@ const LiveDeliveryTracker = ({ order }) => {
           ? 'Truck is actively moving toward the destination.'
           : 'Waiting for assignment and live GPS updates.';
 
+  if (trackingStatus === 'Delivered') {
+    return (
+      <div className="tracker-shell delivered-state" style={{ textAlign: 'center', padding: '2.5rem 1.5rem' }}>
+        <div style={{ margin: '0 auto 1rem', width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(16, 185, 129, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#10b981', fontSize: '2rem' }}>
+          ✓
+        </div>
+        <h3 className="tracker-title" style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.4rem' }}>
+          Order #{order?._id?.slice(-6)} Delivered
+        </h3>
+        <p style={{ color: 'var(--muted)', fontSize: '0.88rem', marginBottom: '1.5rem' }}>
+          Your delivery has been completed successfully. Thank you for choosing SATC!
+        </p>
+
+        <div className="tracker-foot" style={{ borderTop: '1px solid var(--border)', paddingTop: '1.25rem', textAlign: 'left' }}>
+          <div>
+            <span className="tracker-label">Pickup</span>
+            <div className="tracker-foot-value">{order?.pickupLocation || 'Unavailable'}</div>
+          </div>
+          <div>
+            <span className="tracker-label">Destination</span>
+            <div className="tracker-foot-value">{order?.destination || 'Unavailable'}</div>
+          </div>
+          <div>
+            <span className="tracker-label">Completed At</span>
+            <div className="tracker-foot-value">
+              {order?.updatedAt ? new Date(order.updatedAt).toLocaleString() : 'Recently'}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="tracker-shell">
       <div className="tracker-head">

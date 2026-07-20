@@ -141,6 +141,10 @@ const LiveTruckTrack = () => {
     const socket = io(SOCKET_URL);
     socketRef.current = socket;
 
+    if (truckId) {
+      socket.emit('joinTruck', { truckId });
+    }
+
     const handleLocation = ({ truckId: tid, lat, lng, lastUpdated: ts }) => {
       if (tid !== truckId) return;
       const parsedLat = Number(lat);

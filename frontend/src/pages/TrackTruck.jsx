@@ -132,23 +132,27 @@ const TrackTruck = () => {
         if (user?.role === 'customer') {
           const [orders, trips] = await Promise.all([getMyOrders(), getTrips()]);
 
-          // Build a map of truckId → trip so we can get the driver from the trip
-          const tripByTruckId = {};
+          // Build a map of truckId → active trip
+          const activeTripByTruckId = {};
           (Array.isArray(trips) ? trips : []).forEach((trip) => {
             const truckId = trip.truck?._id || trip.truck;
-            if (truckId) tripByTruckId[String(truckId)] = trip;
+            if (truckId && (trip.status === 'started' || trip.status === 'in-transit')) {
+              activeTripByTruckId[String(truckId)] = trip;
+            }
           });
 
+          // Only track trucks associated with active customer orders
           const rawTrucks = (Array.isArray(orders) ? orders : [])
+            .filter((order) => order.status !== 'completed' && order.status !== 'rejected')
             .map((order) => order.truck)
             .filter(Boolean);
 
           const merged = uniqueTrucks(rawTrucks).map((truck) => {
-            const trip = tripByTruckId[String(truck._id)];
+            const activeTrip = activeTripByTruckId[String(truck._id)];
             return {
               ...truck,
-              // Prefer driver from the trip (fully populated) over the truck field
-              driver: trip?.driver || truck.driver || null,
+              driver: activeTrip?.driver || truck.driver || null,
+              activeTrip: activeTrip || null,
             };
           });
 
@@ -168,11 +172,13 @@ const TrackTruck = () => {
         const [data, trips] = await Promise.all([getTrucks(), getTrips()]);
         const trucksData = Array.isArray(data) ? data : [];
 
-        // Build trip lookup by truckId to fill in driver if missing on truck doc
-        const tripByTruckId = {};
+        // Build active trip lookup by truckId
+        const activeTripByTruckId = {};
         (Array.isArray(trips) ? trips : []).forEach((trip) => {
           const truckId = trip.truck?._id || trip.truck;
-          if (truckId) tripByTruckId[String(truckId)] = trip;
+          if (truckId && (trip.status === 'started' || trip.status === 'in-transit')) {
+            activeTripByTruckId[String(truckId)] = trip;
+          }
         });
 
         const filtered =
@@ -181,10 +187,11 @@ const TrackTruck = () => {
             : trucksData;
 
         const merged = filtered.map((truck) => {
-          const trip = tripByTruckId[String(truck._id)];
+          const activeTrip = activeTripByTruckId[String(truck._id)];
           return {
             ...truck,
-            driver: truck.driver || trip?.driver || null,
+            driver: truck.driver || activeTrip?.driver || null,
+            activeTrip: activeTrip || null,
           };
         });
 
@@ -243,6 +250,16 @@ const TrackTruck = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!socketRef.current || trucks.length === 0) return;
+
+    trucks.forEach((truck) => {
+      if (truck._id) {
+        socketRef.current.emit('joinTruck', { truckId: truck._id });
+      }
+    });
+  }, [trucks]);
+
   const trucksWithLocations = useMemo(
     () =>
       trucks.map((truck) => ({
@@ -294,8 +311,8 @@ const TrackTruck = () => {
               </div>
               <div className="dark-info-row">
                 <span>{t('trackTruck.statusLabel')}</span>
-                <span style={{ color: truck.isAvailable ? '#10b981' : '#f59e0b' }}>
-                  {truck.isAvailable ? t('trackTruck.availableStatus') : t('trackTruck.onTripStatus')}
+                <span style={{ color: truck.activeTrip ? '#f59e0b' : '#10b981' }}>
+                  {truck.activeTrip ? t('trackTruck.onTripStatus') : t('trackTruck.availableStatus')}
                 </span>
               </div>
 

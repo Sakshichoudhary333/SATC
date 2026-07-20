@@ -128,6 +128,10 @@ const DriverDashboard = () => {
     const socket = io(SOCKET_URL);
     socketRef.current = socket;
 
+    if (myTruck?._id) {
+      socket.emit('joinTruck', { truckId: myTruck._id });
+    }
+
     const handleLocation = ({ truckId, lat, lng, lastUpdated }) => {
       if (!truckId || !myTruck || truckId !== myTruck._id) return;
 

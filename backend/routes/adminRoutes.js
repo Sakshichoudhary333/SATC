@@ -53,6 +53,6 @@ router.put("/orders/:id/approve", authMiddleware, isAdmin, approveOrder);
 router.put("/orders/:id/reject", authMiddleware, isAdmin, rejectOrder);
 
 // ➤ Create Admin
-router.post("/create-admin", authMiddleware, createAdmin);
+router.post("/create-admin", authMiddleware, isAdmin, createAdmin);
 
 export default router;

@@ -39,6 +39,13 @@ const OrderDetails = () => {
 
     socketRef.current = io(SOCKET_URL);
 
+    if (order.truck?._id) {
+      socketRef.current.emit('joinTruck', { truckId: order.truck._id });
+    }
+    if (order.trip?._id) {
+      socketRef.current.emit('joinTrip', { tripId: order.trip._id });
+    }
+
     socketRef.current.on('locationUpdated', ({ truckId, lat, lng, lastUpdated }) => {
       if (truckId === order.truck?._id) {
         setOrder((prev) =>

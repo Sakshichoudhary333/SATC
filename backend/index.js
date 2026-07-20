@@ -15,7 +15,6 @@ import reviewRoutes from './routes/reviewRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import otpRoutes from './routes/otpRoutes.js';
 import userRoutes from './routes/userRoutes.js';
-import locationRoutes from './routes/locationRoutes.js';
 import billingRoutes from './routes/billingRoutes.js';
 import maintenanceRoutes from './routes/maintenanceRoutes.js';
 
@@ -46,7 +45,7 @@ initSocket(server);
 // MIDDLEWARE
 // ========================
 app.use(cors());
-app.use(express.json({ limit: '10kb' }));
+app.use(express.json({ limit: '10mb' }));
 app.use(requestLogger);
 
 // Sanitize req.body and req.params against NoSQL injection ($ and . operators)
@@ -78,7 +77,6 @@ app.use('/api/reviews', reviewRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/otp', otpRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/location', locationRoutes);
 app.use('/api/billing', billingRoutes);
 app.use('/api/maintenance', maintenanceRoutes);
 

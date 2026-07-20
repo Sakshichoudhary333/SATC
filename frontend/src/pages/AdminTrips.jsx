@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { io } from 'socket.io-client';
 import {
   cancelTrip,
@@ -35,6 +35,7 @@ const AdminTrips = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const { t } = useLanguage();
+  const socketRef = useRef(null);
 
   // Create form
   const [form, setForm] = useState(EMPTY_FORM);
@@ -80,6 +81,7 @@ const AdminTrips = () => {
   // ── Socket: live truck locations ───────────────────
   useEffect(() => {
     const socket = io(SOCKET_URL);
+    socketRef.current = socket;
 
     const handleLocation = ({ truckId, lat, lng, lastUpdated }) => {
       if (!truckId) return;
@@ -104,8 +106,23 @@ const AdminTrips = () => {
       socket.off('truckLocationUpdated', handleLocation);
       socket.off('tripStatusUpdated', handleTripStatus);
       socket.disconnect();
+      socketRef.current = null;
     };
   }, []);
+
+  useEffect(() => {
+    if (!socketRef.current || trips.length === 0) return;
+
+    trips.forEach((trip) => {
+      const truckId = trip.truck?._id || trip.truck;
+      if (truckId) {
+        socketRef.current.emit('joinTruck', { truckId });
+      }
+      if (trip._id) {
+        socketRef.current.emit('joinTrip', { tripId: trip._id });
+      }
+    });
+  }, [trips]);
 
   // ── Derived ────────────────────────────────────────
   const pendingOrders = useMemo(() => {

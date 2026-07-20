@@ -14,6 +14,7 @@ export const addExpense = async (req, res) => {
       foodCost,
       maintenanceCost,
       notes,
+      receiptImage,
     } = req.body;
 
     if (!trip || !isValidObjectId(trip)) {
@@ -44,6 +45,7 @@ export const addExpense = async (req, res) => {
       foodCost: Number(foodCost) || 0,
       maintenanceCost: Number(maintenanceCost) || 0,
       notes,
+      receiptImage: receiptImage || null,
     });
 
     res.status(201).json({
@@ -150,6 +152,7 @@ export const updateExpense = async (req, res) => {
       foodCost,
       maintenanceCost,
       notes,
+      receiptImage,
     } = req.body;
 
     if (!isValidObjectId(id)) {
@@ -189,6 +192,7 @@ export const updateExpense = async (req, res) => {
     expense.foodCost = Number(foodCost) || 0;
     expense.maintenanceCost = Number(maintenanceCost) || 0;
     if (notes !== undefined) expense.notes = notes;
+    if (receiptImage !== undefined) expense.receiptImage = receiptImage;
 
     await expense.save();
 
