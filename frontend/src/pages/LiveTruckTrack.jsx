@@ -3,7 +3,7 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { MapContainer, Marker, Popup, TileLayer, useMap, Polyline, Circle } from 'react-leaflet';
 import L from 'leaflet';
-import { getTruckById, getTruckActiveTrip } from '../services/api';
+import { getTruckById, getTruckActiveTrip, SOCKET_URL } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useLanguage } from '../context/LanguageContext';
 import 'leaflet/dist/leaflet.css';
@@ -17,8 +17,6 @@ L.Icon.Default.mergeOptions({
   iconUrl: markerIcon,
   shadowUrl: markerShadow,
 });
-
-const SOCKET_URL = 'https://satc-backend.onrender.com';
 const DEFAULT_CENTER = [20.5937, 78.9629];
 
 // Helper to calculate distance in km

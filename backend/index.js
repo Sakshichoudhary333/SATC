@@ -3,6 +3,8 @@ import http from 'http';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 import connectDB from './config/db.js';
 
@@ -26,6 +28,9 @@ import { logger } from './utils/logger.js';
 import { initTransporter } from './config/email.js';
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const isProduction = process.env.NODE_ENV === 'production';
 const requiredEnv = ['MONGO_URI', 'JWT_SECRET'];
@@ -76,7 +81,23 @@ app.use((req, res, next) => {
 });
 
 app.use(cors({
-  origin: allowedOrigins.length ? allowedOrigins : (isProduction ? false : true),
+  origin: (origin, callback) => {
+    if (!origin) {
+      return callback(null, true);
+    }
+    if (allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    // Allow any Vercel subdomain if Vercel is in allowedOrigins
+    if (origin.endsWith('.vercel.app')) {
+      const hasVercelWhitelisted = allowedOrigins.some(o => o.includes('vercel.app'));
+      if (hasVercelWhitelisted) {
+        return callback(null, true);
+      }
+    }
+    logger.warn(`CORS blocked request from origin: ${origin}`);
+    callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
 }));
 app.use(globalLimiter);
@@ -116,12 +137,8 @@ app.use('/api/billing', billingRoutes);
 app.use('/api/maintenance', maintenanceRoutes);
 
 // ========================
-// TEST ROUTES
+// TEST & FRONTEND ROUTES
 // ========================
-app.get('/', (_req, res) => {
-  res.send('🚚 Truck Management System API Running');
-});
-
 app.get('/healthz', (_req, res) => {
   res.status(200).json({
     status: 'ok',
@@ -129,6 +146,22 @@ app.get('/healthz', (_req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+if (isProduction) {
+  const frontendBuildPath = path.join(__dirname, '../frontend/dist');
+  app.use(express.static(frontendBuildPath));
+
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api') || req.path.startsWith('/healthz')) {
+      return next();
+    }
+    res.sendFile(path.join(frontendBuildPath, 'index.html'));
+  });
+} else {
+  app.get('/', (_req, res) => {
+    res.send('🚚 Truck Management System API Running');
+  });
+}
 
 // ========================
 // ERROR HANDLER

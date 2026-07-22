@@ -1,14 +1,12 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { io } from 'socket.io-client';
-import { getMyOrders } from '../services/api';
+import { getMyOrders, SOCKET_URL } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import LiveDeliveryTracker from '../components/LiveDeliveryTracker';
 import { formatDate } from '../utils/helpers';
 import { useLanguage } from '../context/LanguageContext';
-
-const SOCKET_URL = 'https://satc-backend.onrender.com';
 
 const STATUS_COLOR = {
   pending: '#f59e0b',

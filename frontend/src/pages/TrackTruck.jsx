@@ -3,7 +3,7 @@ import { io } from 'socket.io-client';
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { useAuth } from '../context/AuthContext';
-import { getMyOrders, getTrucks, getTrips } from '../services/api';
+import { getMyOrders, getTrucks, getTrips, SOCKET_URL } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import { useLanguage } from '../context/LanguageContext';
@@ -11,8 +11,6 @@ import 'leaflet/dist/leaflet.css';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-
-const SOCKET_URL = 'https://satc-backend.onrender.com';
 const DEFAULT_CENTER = [20.5937, 78.9629];
 
 delete L.Icon.Default.prototype._getIconUrl;

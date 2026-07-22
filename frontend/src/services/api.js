@@ -4,6 +4,10 @@ const API_BASE_URL =
   (import.meta.env.DEV ? 'http://localhost:5001/api' : '/api');
 const BASE_URL = API_BASE_URL.replace(/\/$/, '');
 
+export const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 
+  (import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace(/\/api\/?$/, '') : 
+  (import.meta.env.DEV ? 'http://localhost:5001' : window.location.origin));
+
 export const getApiBaseUrl = () => BASE_URL;
 
 const getHeaders = () => ({

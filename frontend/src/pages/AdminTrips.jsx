@@ -9,14 +9,13 @@ import {
   getUsers,
   updateTripDetails,
   updateTripStatus,
+  SOCKET_URL,
 } from '../services/api';
 
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import { formatDate } from '../utils/helpers';
 import { useLanguage } from '../context/LanguageContext';
-
-const SOCKET_URL = 'https://satc-backend.onrender.com';
 
 const STATUS_COLOR = {
   started: '#06b6d4',

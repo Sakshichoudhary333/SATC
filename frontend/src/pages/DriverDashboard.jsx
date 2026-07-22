@@ -2,14 +2,12 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { useAuth } from '../context/AuthContext';
-import { getTrips, updateTripStatus, getTrucks, updateTruckLocation } from '../services/api';
+import { getTrips, updateTripStatus, getTrucks, updateTruckLocation, SOCKET_URL } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import { formatDate } from '../utils/helpers';
 import { useLanguage } from '../context/LanguageContext';
 import { FaMapMarkerAlt } from 'react-icons/fa';
-
-const SOCKET_URL = 'https://satc-backend.onrender.com';
 const STATUS_COLOR = { started: '#06b6d4', 'in-transit': '#8b5cf6', completed: '#10b981' };
 const AUTO_COMPLETE_DISTANCE_KM = 0.5;
 

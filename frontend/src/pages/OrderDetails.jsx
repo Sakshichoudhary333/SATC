@@ -5,10 +5,8 @@ import { io } from 'socket.io-client';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import LiveDeliveryTracker from '../components/LiveDeliveryTracker';
-import { getOrderById } from '../services/api';
+import { getOrderById, SOCKET_URL } from '../services/api';
 import { useLanguage } from '../context/LanguageContext';
-
-const SOCKET_URL = 'https://satc-backend.onrender.com';
 
 const isValidMongoId = (value) =>
   typeof value === 'string' && /^[a-fA-F0-9]{24}$/.test(value.trim());
