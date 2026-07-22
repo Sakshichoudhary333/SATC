@@ -3,7 +3,6 @@ import { getMaintenanceLogs, createMaintenanceLog, completeMaintenanceLog, delet
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import { formatDate } from '../utils/helpers';
-import { useLanguage } from '../context/LanguageContext';
 
 const AdminMaintenance = () => {
   const [logs, setLogs] = useState([]);
@@ -12,8 +11,6 @@ const AdminMaintenance = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const { t } = useLanguage();
-
   // Form states
   const [selectedTruckId, setSelectedTruckId] = useState('');
   const [serviceType, setServiceType] = useState('Oil Change');

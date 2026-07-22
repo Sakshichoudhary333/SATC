@@ -38,7 +38,7 @@ const maintenanceLogSchema = new mongoose.Schema(
 );
 
 // Pre-save hook to automatically calculate overdue status
-maintenanceLogSchema.pre('save', function (next) {
+maintenanceLogSchema.pre('save', function () {
   if (this.status !== 'completed') {
     if (new Date() > new Date(this.nextDueDate)) {
       this.status = 'overdue';
@@ -46,7 +46,6 @@ maintenanceLogSchema.pre('save', function (next) {
       this.status = 'scheduled';
     }
   }
-  next();
 });
 
 export default mongoose.model('MaintenanceLog', maintenanceLogSchema);

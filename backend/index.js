@@ -2,6 +2,7 @@ import express from 'express';
 import http from 'http';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import rateLimit from 'express-rate-limit';
 
 import connectDB from './config/db.js';
 
@@ -26,6 +27,16 @@ import { initTransporter } from './config/email.js';
 
 dotenv.config();
 
+const isProduction = process.env.NODE_ENV === 'production';
+const requiredEnv = ['MONGO_URI', 'JWT_SECRET'];
+const missingRequiredEnv = isProduction
+  ? requiredEnv.filter((key) => !process.env[key])
+  : [];
+
+if (missingRequiredEnv.length) {
+  throw new Error(`Missing required production environment variables: ${missingRequiredEnv.join(', ')}`);
+}
+
 connectDB();
 
 // Initialize email transporter once at startup (non-blocking)
@@ -35,6 +46,18 @@ initTransporter().catch((err) =>
 
 const app = express();
 const server = http.createServer(app);
+const allowedOrigins = (process.env.CORS_ORIGIN || '')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+const jsonBodyLimit = process.env.JSON_BODY_LIMIT || '1mb';
+const globalLimiter = rateLimit({
+  windowMs: Number(process.env.GLOBAL_RATE_LIMIT_WINDOW_MS || 15 * 60 * 1000),
+  max: Number(process.env.GLOBAL_RATE_LIMIT_MAX || (isProduction ? 300 : 2000)),
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: 'Too many requests, please try again later.' },
+});
 
 app.set('trust proxy', 1);
 app.disable('x-powered-by');
@@ -44,8 +67,20 @@ initSocket(server);
 // ========================
 // MIDDLEWARE
 // ========================
-app.use(cors());
-app.use(express.json({ limit: '10mb' }));
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy', 'geolocation=(self), microphone=(), camera=()');
+  next();
+});
+
+app.use(cors({
+  origin: allowedOrigins.length ? allowedOrigins : (isProduction ? false : true),
+  credentials: true,
+}));
+app.use(globalLimiter);
+app.use(express.json({ limit: jsonBodyLimit }));
 app.use(requestLogger);
 
 // Sanitize req.body and req.params against NoSQL injection ($ and . operators)
@@ -85,6 +120,14 @@ app.use('/api/maintenance', maintenanceRoutes);
 // ========================
 app.get('/', (_req, res) => {
   res.send('🚚 Truck Management System API Running');
+});
+
+app.get('/healthz', (_req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString(),
+  });
 });
 
 // ========================

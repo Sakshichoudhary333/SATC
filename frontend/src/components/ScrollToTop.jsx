@@ -10,22 +10,20 @@ const ScrollToTop = () => {
       const scrollToElement = () => {
         const element = document.getElementById(elementId);
         if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
           return true;
         }
         return false;
       };
 
-      // Try immediately
       if (!scrollToElement()) {
-        // Poll for element in case it hasn't mounted yet
         let count = 0;
         const interval = setInterval(() => {
-          if (scrollToElement() || count > 50) {
+          if (scrollToElement() || count > 30) {
             clearInterval(interval);
           }
           count++;
-        }, 100);
+        }, 80);
         return () => clearInterval(interval);
       }
     } else {

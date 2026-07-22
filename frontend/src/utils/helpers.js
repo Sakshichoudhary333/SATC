@@ -16,3 +16,14 @@ export const statusColor = (status) => {
 
 export const capitalize = (str) =>
   str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
+
+export const scrollToElementById = (elementId, behavior = 'smooth') => {
+  if (typeof document === 'undefined' || !elementId) return false;
+
+  const cleanId = String(elementId).replace(/^#\/?/, '');
+  const element = document.getElementById(cleanId);
+  if (!element) return false;
+
+  element.scrollIntoView({ behavior, block: 'start' });
+  return true;
+};

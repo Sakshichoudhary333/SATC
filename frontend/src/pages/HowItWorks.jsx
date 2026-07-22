@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaTruck, FaPlusCircle, FaUserCheck, FaMapMarkerAlt, FaRoute, FaCheckCircle, FaChartLine } from 'react-icons/fa';
+import { FaPlusCircle, FaUserCheck, FaMapMarkerAlt, FaRoute, FaCheckCircle, FaChartLine } from 'react-icons/fa';
 import { useLanguage } from '../context/LanguageContext';
 import PublicHeader from '../components/PublicHeader';
 import PublicFooter from '../components/PublicFooter';

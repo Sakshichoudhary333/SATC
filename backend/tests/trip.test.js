@@ -244,4 +244,59 @@ describe('PUT /api/trips/:id/status', () => {
     expect(res.status).toBe(400);
     expect(res.body.message).toMatch(/invalid trip status/i);
   });
+
+  test('TC-25a | completing trip without OTP returns otpRequired: true', async () => {
+    const trip = await Trip.create({
+      order: orderId,
+      truck: truckId,
+      driver: driverId,
+      status: 'in-transit',
+    });
+
+    const res = await request(app)
+      .put(`/api/trips/${trip._id}/status`)
+      .set('Authorization', `Bearer ${driverToken}`)
+      .send({ status: 'completed' });
+
+    expect(res.status).toBe(200);
+    expect(res.body.otpRequired).toBe(true);
+  });
+
+  test('TC-25b | completing trip with invalid OTP returns 400', async () => {
+    const trip = await Trip.create({
+      order: orderId,
+      truck: truckId,
+      driver: driverId,
+      status: 'in-transit',
+      deliveryOtp: '123456',
+      deliveryOtpExpiry: new Date(Date.now() + 10000),
+    });
+
+    const res = await request(app)
+      .put(`/api/trips/${trip._id}/status`)
+      .set('Authorization', `Bearer ${driverToken}`)
+      .send({ status: 'completed', otp: '999999' });
+
+    expect(res.status).toBe(400);
+    expect(res.body.message).toMatch(/invalid/i);
+  });
+
+  test('TC-25c | completing trip with valid OTP successfully completes trip', async () => {
+    const trip = await Trip.create({
+      order: orderId,
+      truck: truckId,
+      driver: driverId,
+      status: 'in-transit',
+      deliveryOtp: '123456',
+      deliveryOtpExpiry: new Date(Date.now() + 10000),
+    });
+
+    const res = await request(app)
+      .put(`/api/trips/${trip._id}/status`)
+      .set('Authorization', `Bearer ${driverToken}`)
+      .send({ status: 'completed', otp: '123456' });
+
+    expect(res.status).toBe(200);
+    expect(res.body.status).toBe('completed');
+  });
 });

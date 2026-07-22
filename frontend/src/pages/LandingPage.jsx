@@ -22,6 +22,7 @@ import {
   MdOutlineSupportAgent 
 } from 'react-icons/md';
 import './LandingPage.css';
+import { scrollToElementById } from '../utils/helpers';
 
 // Mock database for tracking simulation
 const MOCK_TRACKING_DATA = {
@@ -65,27 +66,20 @@ const LandingPage = () => {
   const navigate = useNavigate();
   const { hash } = useLocation();
   const [trackId, setTrackId] = useState('');
-  const [simulatedData, setSimulatedData] = useState(null);
+  const [simulatedData, setSimulatedData] = useState(MOCK_TRACKING_DATA['tms-882']);
   const [searchError, setSearchError] = useState('');
-  const [activeTab, setActiveTab] = useState('how-it-works');
 
   // Scroll to hash element if present (e.g. #tracking-simulator)
   useEffect(() => {
     if (hash) {
-      const element = document.querySelector(hash);
-      if (element) {
-        setTimeout(() => {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }, 120);
-      }
+      const elementId = hash.replace(/^#\/?/, '');
+      const timer = setTimeout(() => {
+        scrollToElementById(elementId);
+      }, 120);
+      return () => clearTimeout(timer);
     }
   }, [hash]);
 
-
-  // Load default simulation on mount
-  useEffect(() => {
-    setSimulatedData(MOCK_TRACKING_DATA['tms-882']);
-  }, []);
 
   const handleTrackSubmit = async (e) => {
     e.preventDefault();
@@ -257,7 +251,7 @@ const LandingPage = () => {
         };
         setSimulatedData(realData);
         return;
-      } catch (err) {
+      } catch {
         // ID search failed, fall through to error handling
       }
     }
@@ -289,6 +283,13 @@ const LandingPage = () => {
     }
   };
 
+  const handleTrackShipmentClick = (e) => {
+    e.preventDefault();
+    if (!scrollToElementById('tracking-simulator')) {
+      navigate('/#tracking-simulator');
+    }
+  };
+
   return (
     <div className="landing-container">
       {/* Navigation Header */}
@@ -310,7 +311,7 @@ const LandingPage = () => {
             <button className="landing-hero-btn-primary" onClick={handleGetStarted}>
               {t('landing.getStarted')} <FaArrowRight size={14} />
             </button>
-            <Link to="/#tracking-simulator" className="landing-hero-btn-secondary">
+            <Link to="/#tracking-simulator" className="landing-hero-btn-secondary" onClick={handleTrackShipmentClick}>
               {t('landing.trackShipment')}
             </Link>
           </div>

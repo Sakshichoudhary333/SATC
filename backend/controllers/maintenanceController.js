@@ -1,6 +1,7 @@
 import MaintenanceLog from '../models/MaintenanceLog.js';
 import Truck from '../models/Truck.js';
 import mongoose from 'mongoose';
+import { logger } from '../utils/logger.js';
 
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
@@ -22,18 +23,38 @@ export const createMaintenanceLog = async (req, res) => {
       return res.status(400).json({ message: 'serviceType and nextDueDate are required' });
     }
 
+    const parsedServiceDate = serviceDate ? new Date(serviceDate) : new Date();
+    const parsedNextDueDate = new Date(nextDueDate);
+
+    if (Number.isNaN(parsedServiceDate.getTime())) {
+      return res.status(400).json({ message: 'Invalid serviceDate' });
+    }
+
+    if (Number.isNaN(parsedNextDueDate.getTime())) {
+      return res.status(400).json({ message: 'Invalid nextDueDate' });
+    }
+
     const log = await MaintenanceLog.create({
       truck: truckId,
       serviceType,
-      serviceDate: serviceDate || new Date(),
-      nextDueDate,
+      serviceDate: parsedServiceDate,
+      nextDueDate: parsedNextDueDate,
       cost: Number(cost) || 0,
       notes,
     });
 
+    if (truck.status !== 'maintenance') {
+      await Truck.updateOne({ _id: truckId }, { $set: { status: 'maintenance' } });
+    }
+
     const populated = await log.populate('truck');
     res.status(201).json(populated);
   } catch (error) {
+    logger.error('Failed to create maintenance log', {
+      message: error.message,
+      stack: error.stack,
+      body: req.body,
+    });
     res.status(500).json({ message: 'Failed to create maintenance log', error: error.message });
   }
 };
@@ -86,9 +107,21 @@ export const completeMaintenanceLog = async (req, res) => {
     if (notes !== undefined) log.notes = notes;
 
     await log.save();
+
+    const truck = await Truck.findById(log.truck);
+    if (truck && truck.status !== 'available') {
+      await Truck.updateOne({ _id: truck._id }, { $set: { status: 'available' } });
+    }
+
     const populated = await log.populate('truck');
     res.status(200).json(populated);
   } catch (error) {
+    logger.error('Failed to complete maintenance service', {
+      message: error.message,
+      stack: error.stack,
+      params: req.params,
+      body: req.body,
+    });
     res.status(500).json({ message: 'Failed to complete maintenance service', error: error.message });
   }
 };
@@ -110,6 +143,11 @@ export const deleteMaintenanceLog = async (req, res) => {
     await log.deleteOne();
     res.status(200).json({ message: 'Maintenance log deleted successfully' });
   } catch (error) {
+    logger.error('Failed to delete maintenance log', {
+      message: error.message,
+      stack: error.stack,
+      params: req.params,
+    });
     res.status(500).json({ message: 'Failed to delete maintenance log', error: error.message });
   }
 };

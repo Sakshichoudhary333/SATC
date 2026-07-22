@@ -2,11 +2,15 @@ import { Server } from 'socket.io';
 import { logger } from '../utils/logger.js';
 
 let io;
+const allowedOrigins = (process.env.CORS_ORIGIN || '')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
 export const initSocket = (server) => {
   io = new Server(server, {
     cors: {
-      origin: '*',
+      origin: allowedOrigins.length ? allowedOrigins : true,
     },
   });
 
@@ -104,4 +108,3 @@ export const emitGeofenceAlert = (data) => {
     }
   }
 };
-

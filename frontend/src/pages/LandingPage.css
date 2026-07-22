@@ -699,9 +699,27 @@
   }
 }
 
+.landing-mobile-toggle {
+  display: none;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.landing-mobile-menu {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .landing-header {
     padding: 1rem;
+    position: relative;
   }
   
   .landing-nav-actions {
@@ -710,6 +728,40 @@
   
   .landing-nav-link {
     display: none; /* Hide link lists, keep buttons on mobile */
+  }
+
+  .landing-mobile-toggle {
+    display: flex;
+  }
+
+  .landing-mobile-menu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 1.25rem 1.5rem;
+    gap: 1rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    z-index: 150;
+  }
+
+  .landing-mobile-nav-link {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .landing-mobile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
   }
   
   .landing-hero-title {

@@ -8,6 +8,7 @@ import { emitTripStatusUpdated } from '../sockets/socket.js';
 import { logger } from '../utils/logger.js';
 import sendEmail from '../utils/sendEmail.js';
 import PDFDocument from 'pdfkit';
+import generateOTP from '../utils/generateOTP.js';
 
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 const ORDER_STATUS_BY_TRIP = {
@@ -171,40 +172,47 @@ export const updateTripStatus = async (req, res) => {
   if (status === 'completed') {
     const { otp } = req.body;
     if (!otp) {
-      const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+      const generatedOtp = generateOTP();
+      const expiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+
       trip.deliveryOtp = generatedOtp;
-      trip.deliveryOtpExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours expiry
+      trip.deliveryOtpExpiry = expiry;
       await trip.save();
 
       const orderId = trip.order?._id || trip.order;
       const populatedOrder = await Order.findById(orderId).populate('customer');
-
-      // Print to terminal console for local debugging
-      console.log(`\n${'─'.repeat(48)}`);
-      console.log(`  🔑  Delivery Verification OTP : ${generatedOtp}`);
-      console.log(`  📧  For Customer             : ${populatedOrder?.customer?.email || 'Unknown'}`);
-      console.log(`${'─'.repeat(48)}\n`);
-
       if (populatedOrder && populatedOrder.customer?.email) {
-        const emailSubject = `SATC Delivery Verification OTP - Order #${populatedOrder._id.toString().slice(-6)}`;
-        const emailText = `Hello ${populatedOrder.customer.name || 'Customer'},\n\nYour delivery verification OTP code is: ${generatedOtp}.\n\nPlease provide this code to the driver to complete your delivery.\n\nThank you,\nSATC Team`;
-        
-        // Send email in background (non-blocking) to prevent blocking the driver's device response
-        sendEmail(populatedOrder.customer.email, emailSubject, emailText)
-          .catch((err) => logger.error('Failed to send delivery OTP email', err));
+        const customerEmail = populatedOrder.customer.email;
+
+        console.log(`\n${"─".repeat(48)}`);
+        console.log(`  🔑  Delivery OTP  : ${generatedOtp}`);
+        console.log(`  📧  For Customer   : ${customerEmail}`);
+        console.log(`  ✈️   Trip ID        : ${trip._id.toString()}`);
+        console.log(`${"─".repeat(48)}\n`);
+
+        sendEmail(
+          customerEmail,
+          "Delivery Verification OTP - SATC Logistics",
+          `Hello ${populatedOrder.customer.name || 'Customer'},\n\nYour driver is ready to complete your shipment delivery (Order ID: ${orderId.toString()}).\n\nPlease share the following One-Time Password (OTP) with the driver to verify and complete the delivery:\n\nOTP: ${generatedOtp}\n\nValid for 10 minutes.\n\nThank you for choosing SATC Logistics!`
+        ).catch((err) => logger.error("Failed to send delivery OTP email", err));
       }
 
-      return res.status(200).json({ 
-        otpSent: true, 
-        message: 'Verification OTP has been sent to customer\'s email. Please prompt the customer for the code.' 
+      return res.status(200).json({
+        otpRequired: true,
+        message: "An OTP has been sent to the customer's email. Please enter it to complete the trip."
       });
-    }
+    } else {
+      if (!trip.deliveryOtp || !trip.deliveryOtpExpiry || trip.deliveryOtpExpiry < new Date()) {
+        return res.status(400).json({ message: 'OTP expired or not requested. Please request a new OTP.' });
+      }
 
-    if (trip.deliveryOtp && trip.deliveryOtp !== otp.trim()) {
-      return res.status(400).json({ message: 'Invalid verification OTP' });
-    }
-    if (trip.deliveryOtpExpiry && new Date() > new Date(trip.deliveryOtpExpiry)) {
-      return res.status(400).json({ message: 'Verification OTP has expired' });
+      if (trip.deliveryOtp !== String(otp).trim()) {
+        return res.status(400).json({ message: 'Invalid OTP. Please check and try again.' });
+      }
+
+      // Valid OTP, clear it
+      trip.deliveryOtp = null;
+      trip.deliveryOtpExpiry = null;
     }
   }
 

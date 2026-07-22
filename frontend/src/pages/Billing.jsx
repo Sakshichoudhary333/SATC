@@ -3,6 +3,7 @@ import { getBills, payBill, deleteBill } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import { useLanguage } from '../context/LanguageContext';
+import { getApiBaseUrl } from '../services/api';
 
 const Billing = () => {
   const [bills, setBills] = useState([]);
@@ -18,11 +19,6 @@ const Billing = () => {
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
-
-  const refreshBills = async () => {
-    const data = await getBills();
-    setBills(Array.isArray(data) ? data : Array.isArray(data?.bills) ? data.bills : []);
-  };
 
   const inferBillType = (bill) => bill.billType || (bill.driverId ? 'driver_payout' : 'customer_advance');
 
@@ -113,7 +109,7 @@ const Billing = () => {
                       {t('admin.billing.deleteBtn')}
                     </button>
                     <a
-                      href={`http://localhost:5001/api/billing/${bill._id}/invoice`}
+                      href={`${getApiBaseUrl()}/billing/${bill._id}/invoice`}
                       download
                       className="approve-btn"
                       style={{

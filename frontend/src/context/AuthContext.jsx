@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useContext, useState } from 'react';
 import { loginUser, registerUser } from '../services/api';
 
 const AuthContext = createContext(null);
@@ -13,24 +14,23 @@ const decodeToken = (token) => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(() => {
+    if (typeof window === 'undefined') return null;
 
-  useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) {
-      const decoded = decodeToken(token);
-      if (decoded) {
-        setUser({
-          token,
-          id: decoded.id,
-          role: (decoded.role || '').toLowerCase(),
-          name: localStorage.getItem('name') || '',
-        });
-      }
-    }
-    setLoading(false);
-  }, []);
+    if (!token) return null;
+
+    const decoded = decodeToken(token);
+    if (!decoded) return null;
+
+    return {
+      token,
+      id: decoded.id,
+      role: (decoded.role || '').toLowerCase(),
+      name: localStorage.getItem('name') || '',
+    };
+  });
+  const [loading] = useState(false);
 
   const login = async (credentials) => {
     return loginUser(credentials);

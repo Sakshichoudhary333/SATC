@@ -20,11 +20,10 @@ const OrderDetails = () => {
   const [error, setError] = useState('');
   const socketRef = useRef(null);
   const { t } = useLanguage();
+  const invalidOrderId = !isValidMongoId(id);
 
   useEffect(() => {
-    if (!isValidMongoId(id)) {
-      setError(t('orderDetails.invalidOrderId'));
-      setLoading(false);
+    if (invalidOrderId) {
       return;
     }
 
@@ -32,7 +31,7 @@ const OrderDetails = () => {
       .then(setOrder)
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
-  }, [id, t]);
+  }, [id, invalidOrderId]);
 
   useEffect(() => {
     if (!order?._id) return undefined;
@@ -83,6 +82,7 @@ const OrderDetails = () => {
     };
   }, [order?._id, order?.trip?._id, order?.truck?._id]);
 
+  if (invalidOrderId) return <ErrorMessage message={t('orderDetails.invalidOrderId')} />;
   if (loading) return <LoadingSpinner />;
   if (error) return <ErrorMessage message={error} />;
   if (!order) return null;

@@ -1,9 +1,39 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { FaTruck } from 'react-icons/fa';
+import { scrollToElementById } from '../utils/helpers';
 
 const PublicFooter = () => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleTrackShipmentClick = (e) => {
+    e.preventDefault();
+    if (location.pathname === '/') {
+      scrollToElementById('tracking-simulator');
+    } else {
+      navigate('/#tracking-simulator');
+    }
+  };
+
+  const handleFeaturesClick = (e) => {
+    e.preventDefault();
+    if (location.pathname === '/') {
+      scrollToElementById('features');
+    } else {
+      navigate('/features');
+    }
+  };
+
+  const handleHowItWorksClick = (e) => {
+    e.preventDefault();
+    if (location.pathname === '/') {
+      scrollToElementById('how-it-works');
+    } else {
+      navigate('/how-it-works');
+    }
+  };
 
   return (
     <footer className="landing-footer">
@@ -21,9 +51,9 @@ const PublicFooter = () => {
         <div>
           <h4 className="landing-footer-title">{t('footer.platform')}</h4>
           <div className="landing-footer-links">
-            <Link to="/features">{t('landing.features') || 'Features'}</Link>
-            <Link to="/how-it-works">{t('landing.howItWorks') || 'How It Works'}</Link>
-            <Link to="/#tracking-simulator">{t('landing.trackShipment')}</Link>
+            <Link to="/features" onClick={handleFeaturesClick}>{t('landing.features') || 'Features'}</Link>
+            <Link to="/how-it-works" onClick={handleHowItWorksClick}>{t('landing.howItWorks') || 'How It Works'}</Link>
+            <Link to="/#tracking-simulator" onClick={handleTrackShipmentClick}>{t('landing.trackShipment')}</Link>
           </div>
         </div>
 

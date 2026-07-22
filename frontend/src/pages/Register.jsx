@@ -53,7 +53,7 @@ const Register = () => {
 
     setLoading(true);
     try {
-      const { confirmPassword, ...userData } = form;
+      const { confirmPassword: _confirmPassword, ...userData } = form;
       const data = await register({ ...userData, name, email });
       navigate('/verify-otp', {
         state: { email, emailFailed: data?.emailFailed }

@@ -53,7 +53,6 @@ const LiveTruckTrack = () => {
   const [location, setLocation] = useState(null);
   const [destinationCoords, setDestinationCoords] = useState(null);
   const [routeCoords, setRouteCoords] = useState([]);
-  const [lastUpdated, setLastUpdated] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
@@ -63,6 +62,7 @@ const LiveTruckTrack = () => {
 
   // Load truck details and active trip on mount
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
     Promise.all([
       getTruckById(truckId),
@@ -73,7 +73,6 @@ const LiveTruckTrack = () => {
         setActiveTrip(tripData);
         if (truckData?.location?.lat && truckData?.location?.lng) {
           setLocation({ lat: Number(truckData.location.lat), lng: Number(truckData.location.lng) });
-          setLastUpdated(truckData.lastUpdated);
         }
       })
       .catch((err) => setError(err.message))
@@ -83,6 +82,7 @@ const LiveTruckTrack = () => {
   // Geocode destination address
   useEffect(() => {
     if (!activeTrip?.order?.destination) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setDestinationCoords(null);
       return;
     }
@@ -115,6 +115,7 @@ const LiveTruckTrack = () => {
   // Fetch OSRM driving route polyline
   useEffect(() => {
     if (!location || !destinationCoords) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setRouteCoords([]);
       return;
     }
@@ -145,13 +146,12 @@ const LiveTruckTrack = () => {
       socket.emit('joinTruck', { truckId });
     }
 
-    const handleLocation = ({ truckId: tid, lat, lng, lastUpdated: ts }) => {
+    const handleLocation = ({ truckId: tid, lat, lng }) => {
       if (tid !== truckId) return;
       const parsedLat = Number(lat);
       const parsedLng = Number(lng);
       if (!Number.isFinite(parsedLat) || !Number.isFinite(parsedLng)) return;
       setLocation({ lat: parsedLat, lng: parsedLng });
-      setLastUpdated(ts || new Date().toISOString());
     };
 
     const handleGeofenceAlert = (data) => {

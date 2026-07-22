@@ -8,24 +8,9 @@ import './Faq.css';
 
 const Faq = () => {
   const { t } = useLanguage();
-  const { user } = useAuth();
-  const navigate = useNavigate();
 
   // Accordion state
   const [expandedIndex, setExpandedIndex] = useState(null);
-
-  const handleGetStarted = () => {
-    if (user) {
-      const routeMap = {
-        admin: '/admin',
-        driver: '/driver',
-        customer: '/dashboard',
-      };
-      navigate(routeMap[user.role] || '/dashboard');
-    } else {
-      navigate('/register');
-    }
-  };
 
   const toggleAccordion = (index) => {
     if (expandedIndex === index) {
@@ -101,7 +86,7 @@ const Faq = () => {
                 const isExpanded = expandedIndex === index;
                 return (
                   <div key={index} className={`faq-item ${isExpanded ? 'active' : ''}`}>
-                    <button className="faq-question-btn" onClick={() => toggleAccordion(index)}>
+                    <button type="button" className="faq-question-btn" onClick={() => toggleAccordion(index)}>
                       <span className="faq-question-num">{index + 1}.</span>
                       <span className="faq-question-text">{faq.q}</span>
                       <FaChevronDown className="faq-chevron-icon" />
