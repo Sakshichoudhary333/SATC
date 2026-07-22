@@ -151,16 +151,15 @@ if (isProduction) {
   const frontendBuildPath = path.join(__dirname, '../frontend/dist');
   app.use(express.static(frontendBuildPath));
 
-  app.get('*', (req, res, next) => {
-    if (req.path.startsWith('/api') || req.path.startsWith('/healthz')) {
-      return next();
-    }
-    res.sendFile(path.join(frontendBuildPath, 'index.html'));
-  });
-} else {
-  app.get('/', (_req, res) => {
-    res.send('🚚 Truck Management System API Running');
-  });
+
+
+app.get('/{*splat}', (req, res, next) => {
+  if (req.path.startsWith('/api') || req.path.startsWith('/healthz')) {
+    return next();
+  }
+
+  res.sendFile(path.join(frontendBuildPath, 'index.html'));
+});
 }
 
 // ========================

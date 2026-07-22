@@ -9506,3 +9506,106 @@
 {"timestamp":"2026-07-22T05:40:57.920Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":200,"durationMs":153}}
 {"timestamp":"2026-07-22T05:40:59.582Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882808393708945,"lng":75.79929062114351},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.86,"eta":{"hours":0,"minutes":4}}}
 {"timestamp":"2026-07-22T05:40:59.584Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":200,"durationMs":649}}
+{"timestamp":"2026-07-22T07:01:49.559Z","level":"info","message":"Server running","meta":{"port":"5001"}}
+{"timestamp":"2026-07-22T07:01:50.104Z","level":"info","message":"MongoDB connected"}
+{"timestamp":"2026-07-22T07:02:06.617Z","level":"info","message":"Socket connected","meta":{"socketId":"ZsS1muCJngOyphwQAAAC"}}
+{"timestamp":"2026-07-22T07:02:06.795Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":182}}
+{"timestamp":"2026-07-22T07:02:06.800Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/orders/my","statusCode":304,"durationMs":195}}
+{"timestamp":"2026-07-22T07:02:06.861Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bb8daad1a0cb43119789"}
+{"timestamp":"2026-07-22T07:02:06.871Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a6054bb30b9e021c4343aa2"}
+{"timestamp":"2026-07-22T07:02:06.871Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a5474ed26062b88e6da5438"}
+{"timestamp":"2026-07-22T07:02:06.872Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a5f00976916d433527de625"}
+{"timestamp":"2026-07-22T07:02:06.874Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bba2aad1a0cb4311978a"}
+{"timestamp":"2026-07-22T07:02:06.874Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a5f00656916d433527de623"}
+{"timestamp":"2026-07-22T07:02:06.874Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bb8daad1a0cb43119789"}
+{"timestamp":"2026-07-22T07:02:06.874Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a58b84c65bc1705530480ad"}
+{"timestamp":"2026-07-22T07:02:06.874Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bba2aad1a0cb4311978a"}
+{"timestamp":"2026-07-22T07:02:06.874Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a58b87565bc1705530480af"}
+{"timestamp":"2026-07-22T07:02:06.874Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bba2aad1a0cb4311978a"}
+{"timestamp":"2026-07-22T07:02:06.874Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a578157ae50e5151fa8eca8"}
+{"timestamp":"2026-07-22T07:02:06.874Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a5474ed26062b88e6da5438"}
+{"timestamp":"2026-07-22T07:02:06.874Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a57814aae50e5151fa8eca6"}
+{"timestamp":"2026-07-22T07:02:06.874Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bba2aad1a0cb4311978a"}
+{"timestamp":"2026-07-22T07:02:06.874Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a577e609dc2f5c693f57b02"}
+{"timestamp":"2026-07-22T07:02:06.874Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a5474ed26062b88e6da5438"}
+{"timestamp":"2026-07-22T07:02:06.874Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a577da9920988092f05185a"}
+{"timestamp":"2026-07-22T07:02:06.874Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bba2aad1a0cb4311978a"}
+{"timestamp":"2026-07-22T07:02:06.874Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a577c6c2d3f5eba7f19faba"}
+{"timestamp":"2026-07-22T07:02:06.874Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bb8daad1a0cb43119789"}
+{"timestamp":"2026-07-22T07:02:06.874Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a5779f4d389f47f63a59a8c"}
+{"timestamp":"2026-07-22T07:02:06.874Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a5474ed26062b88e6da5438"}
+{"timestamp":"2026-07-22T07:02:06.874Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a576ed047a79410ca092a4c"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bba2aad1a0cb4311978a"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a576b4273c139bd56572352"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bb8daad1a0cb43119789"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a5614d21ddf06dd4f7369f6"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bb8daad1a0cb43119789"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a560f511ddf06dd4f7369f0"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a54c11213aa9f876d7f25f5"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a54bf5e13aa9f876d7f25ed"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bba2aad1a0cb4311978a"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a54bddba0917b04470732f6"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bba2aad1a0cb4311978a"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a54bc21a0917b04470732f0"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a5474ed26062b88e6da5438"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a54ab9adee43a3f173db9ab"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a5474ed26062b88e6da5438"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a54ab19dee43a3f173db9a9"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bb8daad1a0cb43119789"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a549a0be344b1853b75e0ad"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a5472d5ff7824ae7bbb7d30"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bb8daad1a0cb43119789"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a6054bb30b9e021c4343aa2"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a5474ed26062b88e6da5438"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a5f00976916d433527de625"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bba2aad1a0cb4311978a"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a5f00656916d433527de623"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bb8daad1a0cb43119789"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a58b84c65bc1705530480ad"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bba2aad1a0cb4311978a"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a58b87565bc1705530480af"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bba2aad1a0cb4311978a"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a578157ae50e5151fa8eca8"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a5474ed26062b88e6da5438"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a57814aae50e5151fa8eca6"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bba2aad1a0cb4311978a"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a577e609dc2f5c693f57b02"}
+{"timestamp":"2026-07-22T07:02:06.875Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a5474ed26062b88e6da5438"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a577da9920988092f05185a"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bba2aad1a0cb4311978a"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a577c6c2d3f5eba7f19faba"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bb8daad1a0cb43119789"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a5779f4d389f47f63a59a8c"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a5474ed26062b88e6da5438"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a576ed047a79410ca092a4c"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bba2aad1a0cb4311978a"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a576b4273c139bd56572352"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bb8daad1a0cb43119789"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a5614d21ddf06dd4f7369f6"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bb8daad1a0cb43119789"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a560f511ddf06dd4f7369f0"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a54c11213aa9f876d7f25f5"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a54bf5e13aa9f876d7f25ed"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bba2aad1a0cb4311978a"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a54bddba0917b04470732f6"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bba2aad1a0cb4311978a"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a54bc21a0917b04470732f0"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a5474ed26062b88e6da5438"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a54ab9adee43a3f173db9ab"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a5474ed26062b88e6da5438"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a54ab19dee43a3f173db9a9"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room truck_6a02bb8daad1a0cb43119789"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a549a0be344b1853b75e0ad"}
+{"timestamp":"2026-07-22T07:02:06.876Z","level":"info","message":"Socket ZsS1muCJngOyphwQAAAC joined room trip_6a5472d5ff7824ae7bbb7d30"}
+{"timestamp":"2026-07-22T07:02:08.237Z","level":"info","message":"Calculated truck ETA","meta":{"truckId":"6a02bb8daad1a0cb43119789","truckLocation":{"lat":26.882808393708945,"lng":75.79929062114351},"destination":{"lat":26.9154576,"lng":75.8189817},"distanceKm":4.86,"eta":{"hours":0,"minutes":4}}}
+{"timestamp":"2026-07-22T07:02:08.239Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trucks/:id/eta","statusCode":304,"durationMs":690}}
+{"timestamp":"2026-07-22T07:02:08.502Z","level":"info","message":"Socket disconnected","meta":{"socketId":"ZsS1muCJngOyphwQAAAC"}}
+{"timestamp":"2026-07-22T07:02:11.443Z","level":"http","message":"HTTP request completed","meta":{"method":"POST","path":"/api/auth/login","statusCode":200,"durationMs":193}}
+{"timestamp":"2026-07-22T07:02:11.580Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/reviews/","statusCode":304,"durationMs":77}}
+{"timestamp":"2026-07-22T07:02:11.642Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/reviews/","statusCode":304,"durationMs":137}}
+{"timestamp":"2026-07-22T07:02:11.650Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":148}}
+{"timestamp":"2026-07-22T07:02:11.789Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/dashboard","statusCode":200,"durationMs":290}}
+{"timestamp":"2026-07-22T07:02:11.875Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/trips/","statusCode":200,"durationMs":367}}
+{"timestamp":"2026-07-22T07:02:11.927Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/admin/dashboard","statusCode":200,"durationMs":421}}
+{"timestamp":"2026-07-22T07:02:12.037Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/","statusCode":304,"durationMs":386}}
+{"timestamp":"2026-07-22T07:02:12.063Z","level":"http","message":"HTTP request completed","meta":{"method":"GET","path":"/api/expenses/","statusCode":304,"durationMs":482}}
